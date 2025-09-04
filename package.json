@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.2.0",
+    "@iconify-json/mdi": "^1.2.3",
     "@types/masonry-layout": "^4.2.8",
     "drizzle-kit": "^0.31.4",
     "tsx": "^4.20.5"

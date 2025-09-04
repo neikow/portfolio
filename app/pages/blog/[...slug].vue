@@ -48,6 +48,28 @@ if (!page.value) {
       v-if="page"
       :value="page"
     />
+    <div class="max-w-3xl mx-auto">
+      <ProseH2
+        id="references"
+        class="references"
+      >
+        References
+      </ProseH2>
+
+      <div
+        v-for="ref in page!.refs"
+        :key="ref.url"
+        class="text-sm"
+      >
+        <UButton
+          :href="ref.url"
+          target="_blank"
+          variant="link"
+        >
+          {{ ref.text || ref.url }}
+        </UButton>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,11 +78,11 @@ if (!page.value) {
   counter-reset: h2-counter;
 }
 
-.blog-post h2 {
+.blog-post h2:not(.references) {
   counter-increment: h2-counter;
 }
 
-.blog-post h2:before {
+.blog-post h2:not(.references):before {
   content: counter(h2-counter, upper-roman) ". "
 }
 </style>

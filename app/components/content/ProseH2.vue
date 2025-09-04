@@ -2,7 +2,7 @@
   <div class="flex max-w-xl mx-auto mt-20 mb-8">
     <h2
       :id="props.id"
-      class="text-start mx-0 wrap-normal text-4xl font-semibold"
+      :class="{ 'text-start mx-0 wrap-normal text-4xl font-semibold': true, [props.class ?? '']: !!props.class }"
     >
       <slot />
     </h2>
@@ -19,6 +19,7 @@
 <script lang="ts" setup>
 const props = defineProps<{
   id: string
+  class?: string
 }>()
 
 const toast = useToast()

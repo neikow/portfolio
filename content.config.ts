@@ -14,6 +14,10 @@ export default defineContentConfig({
         dateEdited: z.date().optional(),
         image: z.string(),
         tags: z.coerce.string().array(),
+        refs: z.object({
+          text: z.string().optional(),
+          url: z.string().url(),
+        }).array(),
       }),
     }),
   },

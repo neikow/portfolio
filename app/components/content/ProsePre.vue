@@ -1,46 +1,38 @@
 <template>
-  <div class="max-w-fit min-w-lg mx-auto rounded-lg bg-zinc-900 shadow-lg mb-8">
+  <div class="max-w-fit min-w-lg mx-auto rounded-lg bg-default shadow-lg dark:shadow-2xl mb-8">
     <div
       v-if="$props.filename"
-      class="font-mono text-sm border bg-inverted flex items-center justify-start
-             border-slate-300 py-2 px-12 rounded-t-md text-inverted"
+      class="font-mono text-sm border bg-default flex items-center justify-start
+             border-default py-2 px-12 rounded-t-md"
     >
       <div class="flex flex-1">
         <UIcon
-          class="mr-2 text-inverted"
+          class="mr-2"
           name="i-lucide-file"
           size="16"
         />
 
         {{ $props.filename }}
       </div>
-      <button
+      <UButton
+        :icon="copyIcon"
         aria-label="Copy code to clipboard"
-        class="flex items-center justify-center h-8 w-8 rounded hover:bg-default/10 transition-colors"
+        class="cursor-pointer"
+        variant="ghost"
         @click="copyCode"
-      >
-        <UIcon
-          :name="copyIcon"
-          class="text-inverted"
-          size="16"
-        />
-      </button>
+      />
     </div>
     <div
       v-else
       class="relative w-full"
     >
-      <button
+      <UButton
+        :icon="copyIcon"
         aria-label="Copy code to clipboard"
-        class="flex items-center right-12 top-2 absolute justify-center h-8 w-8 rounded hover:bg-inverted/10 transition-colors"
+        class="top-5 right-5 absolute cursor-pointer"
+        variant="ghost"
         @click="copyCode"
-      >
-        <UIcon
-          :name="copyIcon"
-          class="fill-inverted"
-          size="16"
-        />
-      </button>
+      />
     </div>
     <pre
       :class="{
@@ -108,6 +100,7 @@ function copyCode() {
       title: 'Code copied!',
       icon: 'i-lucide-check',
       description: 'The code has been copied to your clipboard.',
+      duration: 1000,
     })
   }).catch(() => {
     toast.add({
