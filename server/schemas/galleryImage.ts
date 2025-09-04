@@ -1,11 +1,7 @@
-import { sql } from 'drizzle-orm'
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
-export const galleryImagesTable = sqliteTable('gallery_images', {
-  id: integer('id').primaryKey(),
+export const galleryImagesTable = pgTable('gallery_images', {
+  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
   filename: text('filename').notNull(),
-  uploadedAt: integer('uploaded_at', { mode: 'timestamp' })
-    .notNull()
-    .default(sql`(unixepoch()
-                 )`),
+  uploadedAt: timestamp('uploaded_at').defaultNow().notNull(),
 })

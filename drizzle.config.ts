@@ -4,8 +4,8 @@ import { defineConfig } from 'drizzle-kit'
 export default defineConfig({
   out: './drizzle',
   schema: './server/schemas',
-  dialect: 'sqlite',
+  dialect: 'postgresql',
   dbCredentials: {
-    url: process.env.NUXT_DB_FILE_NAME!,
+    url: process.env.NUXT_DATABASE_URL!,
   },
 })
