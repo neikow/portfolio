@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@layer utilities {
+    .small-caps {
+        font-variant: all-small-caps;
+    }
+    
+}
