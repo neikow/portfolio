@@ -32,6 +32,14 @@ export default defineNuxtConfig({
       },
     },
   },
+  routeRules: {
+    '/': { prerender: true },
+    '/blog': { swr: true },
+    '/blog/**': { swr: true },
+    '/dashboard': { ssr: false },
+    '/dashboard/**': { ssr: false },
+    '/api/**': { cors: true },
+  },
   future: {
     compatibilityVersion: 4,
   },
