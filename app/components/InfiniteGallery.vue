@@ -71,6 +71,14 @@ useLoopingIntersectionObserver(moreLoader, () => {
   loadMore()
 })
 
+onMounted(() => {
+  window.addEventListener('resize', refresh)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', refresh)
+})
+
 async function deleteImage(filename: string) {
   const res = await fetch(`/api/gallery/photo/${filename}`, {
     method: 'DELETE',
