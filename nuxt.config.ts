@@ -4,9 +4,13 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui',
+    'nuxt-auth-utils',
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    authorizedEmail: '',
+  },
   routeRules: {
     '/': { prerender: true },
     '/blog': { swr: true },

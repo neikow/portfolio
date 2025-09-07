@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import InfiniteGallery from '~/components/InfiniteGallery.vue'
+import DashboardHeader from '~/components/DashboardHeader.vue'
 
 definePageMeta({
   layout: 'dashboard',
+  middleware: ['authenticated'],
 })
 
 const fileUpload = ref<File[] | null | undefined>(null)
@@ -45,53 +47,55 @@ function handleImagesUpload() {
 
 <template>
   <div>
-    <div class="w-full flex justify-between items-center mb-4 p-4 border-b border-b-default bg-default">
-      <h2 class="font-black text-2xl">
+    <DashboardHeader>
+      <template #title>
         Gallery
-      </h2>
+      </template>
 
-      <UModal
-        v-model:open="uploadModalOpen"
-      >
-        <UButton icon="i-mdi-plus">
-          Add images
-        </UButton>
+      <template #actions>
+        <UModal
+          v-model:open="uploadModalOpen"
+        >
+          <UButton icon="i-mdi-plus">
+            Add images
+          </UButton>
 
-        <template #title>
-          Upload images
-        </template>
+          <template #title>
+            Upload images
+          </template>
 
-        <template #body>
-          <UFileUpload
-            v-model="fileUpload"
-            accept="image/*"
-            class="w-full min-h-48 cursor-pointer"
-            description="PNG, JPG up to 10MB"
-            label="Drop your images here"
-            layout="list"
-            multiple
-          />
-        </template>
+          <template #body>
+            <UFileUpload
+              v-model="fileUpload"
+              accept="image/png, image/jpeg"
+              class="w-full min-h-48 cursor-pointer"
+              description="PNG, JPG up to 10MB"
+              label="Drop your images here"
+              layout="list"
+              multiple
+            />
+          </template>
 
-        <template #footer>
-          <div class="flex flex-row justify-end w-full gap-2">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              @click="uploadModalOpen = false"
-            >
-              Cancel
-            </UButton>
-            <UButton
-              color="primary"
-              @click="handleImagesUpload"
-            >
-              Upload
-            </UButton>
-          </div>
-        </template>
-      </UModal>
-    </div>
+          <template #footer>
+            <div class="flex flex-row justify-end w-full gap-2">
+              <UButton
+                color="neutral"
+                variant="ghost"
+                @click="uploadModalOpen = false"
+              >
+                Cancel
+              </UButton>
+              <UButton
+                color="primary"
+                @click="handleImagesUpload"
+              >
+                Upload
+              </UButton>
+            </div>
+          </template>
+        </UModal>
+      </template>
+    </DashboardHeader>
 
     <div class="p-5">
       <ClientOnly>

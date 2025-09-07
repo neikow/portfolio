@@ -9,6 +9,10 @@
     --font-sans: 'Space Grotesk', sans-serif;
 }
 
+button:hover {
+    @apply cursor-pointer;
+}
+
 .light .grid-bg {
     background-size: 50px 50px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
