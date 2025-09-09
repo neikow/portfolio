@@ -29,6 +29,10 @@ export default defineNuxtConfig({
         driver: 'fs',
         base: './uploads/gallery',
       },
+      blogUploads: {
+        driver: 'fs',
+        base: './uploads/blog',
+      },
     },
   },
   eslint: {

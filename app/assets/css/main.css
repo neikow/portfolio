@@ -3,6 +3,9 @@
 @import "./utilities.css";
 @import "./blog.css";
 
+@plugin "@tailwindcss/typography";
+
+
 @source "../../../content/**/*.md";
 
 @theme {

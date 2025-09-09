@@ -27,4 +27,4 @@ pnpm-lock.yaml
 
 local.db
 
-uploads
+/uploads

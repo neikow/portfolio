@@ -8,7 +8,7 @@
       <template #actions>
         <UButton
           icon="i-mdi-plus"
-          to="/dashboard/blog-posts/create"
+          to="/dashboard/blog-posts/new"
         >
           New Post
         </UButton>
