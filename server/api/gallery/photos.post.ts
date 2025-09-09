@@ -1,7 +1,7 @@
 import { H3Error } from 'h3'
 import { handleGalleryImageUpload } from '~~/server/handlers/handleImageUpload'
 import { useDatabase } from '~~/server/utils/useDatabase'
-import { galleryImagesTable } from '~~/server/schemas/galleryImage'
+import { galleryImagesTable } from '~~/server/schemas'
 
 export default defineEventHandler(async (event) => {
   try {

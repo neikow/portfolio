@@ -1,4 +1,4 @@
-import { galleryImagesTable } from '~~/server/schemas/galleryImage'
+import { galleryImagesTable } from '~~/server/schemas'
 import { eq } from 'drizzle-orm'
 import { deleteGalleryImage } from '~~/server/utils/gallery'
 

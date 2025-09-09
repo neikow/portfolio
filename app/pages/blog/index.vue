@@ -4,19 +4,25 @@ const { data: posts, error } = await useFetch('/api/blog/posts')
 
 <template>
   <div>
+    <h1
+      class="text-4xl font-black text-center my-8 slide-enter-content"
+    >
+      Blog Posts
+    </h1>
+
     <div v-if="error">
       Error: {{ error.statusMessage || 'An error occurred' }}
     </div>
     <nav
       v-else-if="posts"
-      class="max-w-2xl mx-auto p-4"
+      class="max-w-2xl mx-auto p-4 flex flex-col gap-4 slide-enter-content"
     >
-      <div
+      <BlogPostCard
         v-for="(post, index) in posts"
         :key="post.id"
-      >
-        {{ post.title }}
-      </div>
+        :lazy="index > 5"
+        :post="post"
+      />
     </nav>
     <div v-else>
       Loading...

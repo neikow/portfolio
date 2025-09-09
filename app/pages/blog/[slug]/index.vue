@@ -37,7 +37,7 @@
             :key="tag"
             variant="soft"
           >
-            {{ tag }}
+            @{{ tag }}
           </UBadge>
         </div>
 
