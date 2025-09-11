@@ -11,6 +11,8 @@ useHead({
   title: 'Manage Gallery - lysen.dev',
 })
 
+const gallery = useTemplateRef<InstanceType<typeof InfiniteGallery>>('gallery')
+
 const fileUpload = ref<File[] | null | undefined>(null)
 const uploadModalOpen = ref(false)
 
@@ -42,6 +44,7 @@ function handleImagesUpload() {
     })
     .then(() => {
       uploadModalOpen.value = false
+      gallery.value?.resetInfiniteGallery()
     })
     .catch((error) => {
       console.error('Error:', error)
@@ -103,7 +106,10 @@ function handleImagesUpload() {
 
     <div class="p-5">
       <ClientOnly>
-        <InfiniteGallery show-actions />
+        <InfiniteGallery
+          ref="gallery"
+          show-actions
+        />
       </ClientOnly>
     </div>
   </div>

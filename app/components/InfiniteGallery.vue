@@ -61,7 +61,15 @@ const PAGE_SIZE = 10
 
 const { refresh } = useMasonry()
 
-const { pictures, loadMore, hasMore, status, remove } = await useInfiniteGalleryScroll({ pageSize: PAGE_SIZE })
+function resetInfiniteGallery() {
+  reset()
+}
+
+defineExpose({
+  resetInfiniteGallery,
+})
+
+const { pictures, loadMore, hasMore, status, remove, reset } = await useInfiniteGalleryScroll({ pageSize: PAGE_SIZE })
 
 const moreLoader = useTemplateRef<HTMLDivElement>('moreLoader')
 
