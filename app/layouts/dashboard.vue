@@ -8,8 +8,8 @@
           Dashboard
         </h1>
         <UButton
+          :icon="Icons.ui.arrowBack"
           class="w-full"
-          icon="i-mdi-arrow-back"
           to="/"
           variant="ghost"
         >
@@ -20,24 +20,24 @@
 
         <nav class="flex flex-col">
           <UButton
+            :icon="Icons.home.icon"
             color="neutral"
-            icon="i-mdi-house"
             to="/dashboard"
             variant="ghost"
           >
             Home
           </UButton>
           <UButton
+            :icon="Icons.photography.dashboard"
             color="neutral"
-            icon="i-mdi-image-multiple"
             to="/dashboard/gallery"
             variant="ghost"
           >
             Gallery
           </UButton>
           <UButton
+            :icon="Icons.blog.dashboard"
             color="neutral"
-            icon="i-mdi-post"
             to="/dashboard/blog-posts"
             variant="ghost"
           >
@@ -47,8 +47,8 @@
       </div>
       <AuthState v-slot="{ clear }">
         <UButton
+          :icon="Icons.ui.logOut"
           color="error"
-          icon="i-mdi-logout"
           size="sm"
           variant="ghost"
           @click="() => {
@@ -66,4 +66,5 @@
 </template>
 
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
 </script>

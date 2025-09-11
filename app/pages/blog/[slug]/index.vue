@@ -1,13 +1,10 @@
 <template>
   <div class="relative">
-    <div v-if="error">
-      <h1 class="text-2xl font-bold">
-        Error: {{ error.message || 'Unknown Error' }}
-      </h1>
-      <p class="text-muted">
-        Status Code: {{ error.statusCode || 'N/A' }}
-      </p>
-    </div>
+    <ErrorState
+      v-if="false"
+      description="An error occurred while fetching the blog post. Please try again later."
+      title="Error loading blog post"
+    />
     <div v-else-if="!post">
       <h1 class="text-2xl font-bold">
         Loading...
@@ -19,14 +16,14 @@
     >
       <div class="relative mt-4">
         <img
-          :alt="post.title"
-          :src="post.coverImageUrl"
-          class="blur-xl w-full max-h-96 opacity-60"
-        >
-        <img
           :alt="`${post.title}-blurred`"
           :src="post.coverImageUrl"
-          class="rounded-md w-[90%] md:w-3xl lg:w-4xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border shadow-md"
+          class="blur-xl w-full max-h-96 object-cover opacity-60"
+        >
+        <img
+          :alt="post.title"
+          :src="post.coverImageUrl"
+          class="rounded-md w-[90%] max-h-96 object-cover md:w-3xl lg:w-4xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md"
         >
       </div>
       <div class="prose dark:prose-invert mx-auto mt-4">
@@ -91,15 +88,16 @@
     >
       <UBadge
         v-if="!post.published"
+        :icon="Icons.wip.icon"
         class="mr-2"
         color="warning"
-        icon="i-mdi-construction"
+        size="md"
       >
         WIP
       </UBadge>
       <UButton
+        :icon="Icons.actions.edit"
         :to="`/dashboard/blog-posts/${post.id}`"
-        icon="i-mdi-edit"
       />
     </div>
   </div>

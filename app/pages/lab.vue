@@ -12,7 +12,10 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="text-dimmed text-center flex items-center justify-center w-full mt-64">
-    There's nothing to show here, yet...
+  <div class="text-dimmed text-center flex flex-col items-center w-full">
+    <PageTitle title="Lab" />
+    <div class="mt-32">
+      <UnderConstruction />
+    </div>
   </div>
 </template>

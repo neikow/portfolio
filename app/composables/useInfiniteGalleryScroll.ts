@@ -5,6 +5,7 @@ export async function useInfiniteGalleryScroll(config: { pageSize: number }) {
   const currentPage = ref(0)
   const hasMore = ref(true)
   const status = ref<'idle' | 'loading' | 'error'>('idle')
+  const error = ref<Error | null>(null)
 
   function fetchPictures(page: number) {
     return $fetch('/api/gallery/photos', {
@@ -31,15 +32,21 @@ export async function useInfiniteGalleryScroll(config: { pageSize: number }) {
 
     status.value = 'loading'
     currentPage.value++
-    const newPictures = await fetchPictures(currentPage.value)
+    try {
+      error.value = null
+      const newPictures = await fetchPictures(currentPage.value)
 
-    if (newPictures.length < config.pageSize) {
-      hasMore.value = false
+      if (newPictures.length < config.pageSize) {
+        hasMore.value = false
+      }
+
+      pictures.value = [...pictures.value, ...newPictures]
+      status.value = 'idle'
     }
-
-    pictures.value = [...pictures.value, ...newPictures]
-
-    status.value = 'idle'
+    catch (err) {
+      error.value = err as Error
+      status.value = 'error'
+    }
   }
 
   return {
@@ -47,6 +54,7 @@ export async function useInfiniteGalleryScroll(config: { pageSize: number }) {
     loadMore,
     hasMore,
     status,
+    error,
     remove,
     reset,
   }

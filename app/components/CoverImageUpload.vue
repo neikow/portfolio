@@ -10,9 +10,9 @@
     >
 
     <UButton
+      :icon="Icons.actions.delete"
       class="absolute bottom-2 right-2"
       color="error"
-      icon="i-mdi-delete"
       @click="coverUrl = ''"
     />
   </div>
@@ -26,6 +26,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
+
 const coverUrl = defineModel<string>('url')
 
 const coverPictureFile = ref<File | null>(null)

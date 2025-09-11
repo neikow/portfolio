@@ -59,7 +59,7 @@ const navigation: {
   {
     name: 'Dashboard',
     href: '/dashboard',
-    icon: 'i-mdi-view-dashboard-outline',
+    icon: Icons.dashboard.icon,
     variantOverride: 'solid',
     adminOnly: true,
   },

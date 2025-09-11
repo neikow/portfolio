@@ -1,4 +1,17 @@
 <template>
+  <div v-if="error">
+    <ErrorState
+      description="There was an error loading the gallery. Please try again later."
+      title="Failed to load gallery"
+    />
+  </div>
+  <div v-else-if="pictures.length === 0">
+    <EmptyState
+      :icon="Icons.photography.dashboard"
+      description="Nothing to show here for the time being."
+      title="No pictures yet"
+    />
+  </div>
   <MasonryGrid>
     <div
       v-for="(picture, index) in pictures"
@@ -25,8 +38,8 @@
       >
         <UDropdownMenu :items="getDropdownMenuOptions(picture)">
           <UButton
+            :icon="Icons.ui.more"
             color="neutral"
-            icon="i-mdi-dots-vertical"
           />
         </UDropdownMenu>
       </div>
@@ -38,8 +51,8 @@
       class="w-full flex justify-center items-center p-4 masonry-grid-item"
     >
       <UIcon
+        :name="Icons.ui.loading"
         class="animate-spin scale-150"
-        name="i-mdi-loading"
         size="xl"
       />
     </div>
@@ -49,6 +62,7 @@
 <script lang="ts" setup>
 import { getGalleryImageUrl } from '#shared/utils/gallery'
 import type { DropdownMenuItem } from '#ui/components/DropdownMenu.vue'
+import { Icons } from '#shared/consts/icons'
 
 defineProps({
   showActions: {
@@ -69,7 +83,15 @@ defineExpose({
   resetInfiniteGallery,
 })
 
-const { pictures, loadMore, hasMore, status, remove, reset } = await useInfiniteGalleryScroll({ pageSize: PAGE_SIZE })
+const {
+  pictures,
+  loadMore,
+  hasMore,
+  error,
+  status,
+  remove,
+  reset,
+} = await useInfiniteGalleryScroll({ pageSize: PAGE_SIZE })
 
 const moreLoader = useTemplateRef<HTMLDivElement>('moreLoader')
 
@@ -96,6 +118,7 @@ async function deleteImage(filename: string) {
       title: 'Failed to delete image',
       description: 'There was an error deleting the image. Please try again.',
       color: 'error',
+      icon: Icons.ui.error,
     })
     return
   }
@@ -105,6 +128,7 @@ async function deleteImage(filename: string) {
     title: 'Image deleted',
     description: 'The image was successfully deleted.',
     color: 'success',
+    icon: Icons.ui.success,
   })
 }
 
@@ -112,7 +136,7 @@ function getDropdownMenuOptions(picture: { filename: string }): DropdownMenuItem
   return [
     {
       label: 'Delete',
-      icon: 'i-mdi-delete',
+      icon: Icons.actions.delete,
       color: 'error',
       onSelect: () => deleteImage(picture.filename),
     },

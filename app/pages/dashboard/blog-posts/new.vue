@@ -13,21 +13,9 @@
         </template>
 
         <template #actions>
-          <div
-            :class="{ 'flex gap-2 items-center text-dimmed transition-opacity': true, 'opacity-0': !saving, 'opacity-100': saving }"
-          >
-            <UIcon
-              class="animate-spin"
-              name="i-mdi-loading"
-            />
-            <p class="text-sm">
-              Saving...
-            </p>
-          </div>
-
           <UButton
+            :icon="Icons.actions.clear"
             color="error"
-            icon="i-mdi-eraser"
             variant="soft"
             @click="formData.content = DEFAULT_CONTENT"
           >
@@ -35,8 +23,8 @@
           </UButton>
 
           <UButton
+            :icon="Icons.actions.preview"
             color="primary"
-            icon="i-mdi-eye"
             type="submit"
           >
             Preview
@@ -122,6 +110,7 @@ import slugify from 'slugify'
 import CoverImageUpload from '~/components/CoverImageUpload.vue'
 import { z } from 'zod'
 import type { NewBlogPost } from '#shared/types/blog'
+import { Icons } from '#shared/consts/icons'
 
 useHead({
   title: 'New Blog Post - lysen.dev',
@@ -152,8 +141,6 @@ const newPost = useStorage<FormSchema>('new-post', {
 })
 
 const formData = reactive<FormSchema>(newPost.value)
-
-const saving = ref(false)
 
 const savePost = debounce((formData: FormSchema) => {
   newPost.value = formData

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import InfiniteGallery from '~/components/InfiniteGallery.vue'
 import DashboardHeader from '~/components/DashboardHeader.vue'
+import { Icons } from '#shared/consts/icons'
 
 definePageMeta({
   layout: 'dashboard',
@@ -63,7 +64,7 @@ function handleImagesUpload() {
         <UModal
           v-model:open="uploadModalOpen"
         >
-          <UButton icon="i-mdi-plus">
+          <UButton :icon="Icons.actions.add">
             Add images
           </UButton>
 

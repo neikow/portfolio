@@ -7,7 +7,7 @@
 
       <template #actions>
         <UButton
-          icon="i-mdi-plus"
+          :icon="Icons.actions.add"
           to="/dashboard/blog-posts/new"
         >
           New Post
@@ -15,7 +15,15 @@
       </template>
     </DashboardHeader>
 
-    <div>
+    <div v-if="posts && posts.length === 0">
+      <EmptyState
+        :icon="Icons.blog.dashboard"
+        description="You haven't created any blog posts yet. Click the button below to create your first post."
+        title="No blog posts yet"
+      />
+    </div>
+
+    <div v-else-if="posts && posts.length > 0">
       <NuxtLink
         v-for="post in posts"
         :key="post.id"
@@ -55,7 +63,7 @@
 
               <UBadge
                 :color="post.published ? 'success' : 'warning'"
-                :icon="post.published ? 'i-mdi-check-circle' : 'i-mdi-alert-circle'"
+                :icon="post.published ? Icons.blog.datePublished : Icons.wip.icon"
                 class="text-sm"
                 variant="soft"
               >
@@ -95,6 +103,9 @@
           </div>
         </div>
       </NuxtLink>
+    </div>
+    <div v-else>
+      Loading...
     </div>
   </div>
 </template>

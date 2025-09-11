@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { NuxtError } from '#app'
+import { Icons } from '#shared/consts/icons'
 
 const props = defineProps({
   error: Object as () => NuxtError,
@@ -17,7 +18,7 @@ const props = defineProps({
           {{ error?.message || 'An unexpected error occurred.' }}
         </p>
         <UButton
-          icon="i-mdi-arrow-back"
+          :icon="Icons.ui.arrowBack"
           to="/"
         >
           Go back home

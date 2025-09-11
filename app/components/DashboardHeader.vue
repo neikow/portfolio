@@ -4,9 +4,9 @@
       <div class="flex items-center gap-4">
         <UButton
           v-if="backButtonTo"
+          :icon="Icons.ui.arrowBack"
           :to="backButtonTo"
           class="p-2 rounded-full"
-          icon="i-mdi-arrow-back"
           variant="soft"
         />
 
@@ -31,6 +31,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
+
 defineProps<{
   backButtonTo?: string
 }>()

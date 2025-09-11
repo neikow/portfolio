@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
+import ErrorState from '~/components/ErrorState.vue'
+
 const { data: posts, error } = await useFetch('/api/blog/posts')
 
 useSeoMeta({
@@ -15,17 +18,26 @@ useSeoMeta({
 
 <template>
   <div>
-    <h1
-      class="text-4xl font-black text-center my-8"
-    >
-      Blog Posts
-    </h1>
+    <PageTitle title="Blog Posts" />
 
     <div v-if="error">
-      Error: {{ error.statusMessage || 'An error occurred' }}
+      <ErrorState
+        description="Error fetching blog posts. Please try again later."
+        title="An error occured"
+      />
+    </div>
+    <div
+      v-if="posts && posts.length === 0"
+      class="text-center text-dimmed"
+    >
+      <EmptyState
+        :icon="Icons.blog.icon"
+        description="No blog posts have been published yet. Please check back later."
+        title="No Blog Posts"
+      />
     </div>
     <nav
-      v-else-if="posts"
+      v-else-if="posts && posts.length > 0"
       class="max-w-2xl mx-auto p-4 flex flex-col gap-4 slide-enter-content"
     >
       <BlogPostCard

@@ -12,9 +12,9 @@
 
         <template #actions>
           <UButton
+            :icon="Icons.blog.link"
             :to="`/blog/${post?.slug}`"
             color="primary"
-            icon="i-mdi-web"
             rel="noopener noreferrer"
             target="_blank"
             variant="link"
@@ -24,7 +24,7 @@
           <UButton
             v-model="formData.published"
             :color="formData.published ? 'warning' : 'success'"
-            :icon="formData.published ? 'i-mdi-eye-off' : 'i-mdi-eye'"
+            :icon="formData.published ? Icons.actions.unpublish : Icons.actions.publish"
             loading-auto
             variant="soft"
             @click="handlePublishToggle"
@@ -33,8 +33,8 @@
           </UButton>
 
           <UButton
+            :icon="Icons.actions.save"
             color="primary"
-            icon="i-mdi-content-save"
             type="submit"
           >
             Save
@@ -112,8 +112,8 @@
     <div class="bg-default flex justify-center items-center p-4 border-t border-default mt-4">
       <UModal>
         <UButton
+          :icon="Icons.actions.delete"
           color="error"
-          icon="i-mdi-delete"
           variant="soft"
         >
           Delete Post
@@ -140,8 +140,8 @@
               Cancel
             </UButton>
             <UButton
+              :icon="Icons.actions.delete"
               color="error"
-              icon="i-mdi-delete"
               loading-auto
               @click="deletePost"
             >
@@ -162,6 +162,7 @@ import type { FormSubmitEvent } from '#ui/types'
 import { diff } from 'deep-object-diff'
 import { useOnBeforeUnload } from '~/composables/useOnBeforeUnload'
 import type { blogPostsTable } from '#shared/schemas/blogPost'
+import { Icons } from '#shared/consts/icons'
 
 useHead({
   title: 'Editing Blog Post - lysen.dev',
@@ -267,7 +268,7 @@ async function handleSave(data: FormData) {
       title: 'Error',
       description: 'Original post data not found. Cannot save changes.',
       color: 'error',
-      icon: 'i-mdi-alert-circle',
+      icon: Icons.ui.error,
     })
     return
   }
@@ -279,7 +280,7 @@ async function handleSave(data: FormData) {
       title: 'No changes',
       description: 'No changes to save.',
       color: 'info',
-      icon: 'i-mdi-information',
+      icon: Icons.ui.info,
     })
     return
   }
@@ -299,7 +300,7 @@ async function handleSave(data: FormData) {
       title: 'Success',
       description: 'Post updated successfully.',
       color: 'success',
-      icon: 'i-mdi-check-circle',
+      icon: Icons.ui.success,
     })
   }
   catch (error) {
@@ -308,7 +309,7 @@ async function handleSave(data: FormData) {
       title: 'Error',
       description: 'There was an error saving your changes. Please try again.',
       color: 'error',
-      icon: 'i-mdi-alert-circle',
+      icon: Icons.ui.error,
     })
   }
 }
@@ -324,7 +325,7 @@ async function handlePublishToggle() {
       title: 'Success',
       description: `Post has been ${newPublishValue ? 'published' : 'unpublished'}.`,
       color: 'success',
-      icon: newPublishValue ? 'i-mdi-eye' : 'i-mdi-eye-off',
+      icon: newPublishValue ? Icons.actions.publish : Icons.actions.unpublish,
     })
   }
   catch (error) {
@@ -334,7 +335,7 @@ async function handlePublishToggle() {
       title: 'Error',
       description: 'There was an error updating the post status. Please try again.',
       color: 'error',
-      icon: 'i-mdi-alert-circle',
+      icon: Icons.ui.error,
     })
   }
 }
@@ -367,7 +368,7 @@ async function deletePost() {
       title: 'Success',
       description: 'Post deleted successfully.',
       color: 'success',
-      icon: 'i-mdi-check-circle',
+      icon: Icons.ui.success,
     })
   }
   catch (error) {
@@ -376,7 +377,7 @@ async function deletePost() {
       title: 'Error',
       description: 'There was an error deleting the post. Please try again.',
       color: 'error',
-      icon: 'i-mdi-alert-circle',
+      icon: Icons.ui.error,
     })
   }
 }
