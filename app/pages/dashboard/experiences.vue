@@ -207,69 +207,13 @@
         v-else-if="experiences"
         class="flex flex-col gap-2"
       >
-        <div
+        <DashboardExperienceCard
           v-for="experience in experiences"
           :key="experience.id"
-          class="flex border border-default rounded-lg bg-default p-2 gap-4"
-        >
-          <img
-            :alt="experience.name"
-            :src="experience.logoUrl"
-            class="h-12 w-12"
-          >
-          <div class="w-sm">
-            <h3 class="font-bold text-lg text-balance">
-              {{ experience.name }}
-            </h3>
-            <p class="text-sm">
-              {{ experience.role }} at
-              <a
-                v-if="experience.companyUrl"
-                :href="experience.companyUrl"
-                class="underline-link"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {{ experience.company }}
-              </a>
-              <span v-else>
-                {{ experience.company }}
-              </span>
-            </p>
-          </div>
-          <div class="flex-1">
-            <div class="text-muted text-sm flex gap-2 items-center">
-              <UIcon :name="Icons.ui.calendar" />
-              <p>
-                {{
-                  df.format(
-                    new Date(experience.startDate),
-                  )
-                }}
-                -
-                {{
-                  experience.endDate
-                    ? df.format(new Date(experience.endDate))
-                    : 'Present'
-                }}
-              </p>
-            </div>
-            <p class="mt-2 text-sm">
-              {{ experience.description }}
-            </p>
-          </div>
-          <div class="flex flex-col gap-2">
-            <UButton
-              :icon="Icons.actions.edit"
-              @click="() => handleEdit(experience.id)"
-            />
-            <UButton
-              :icon="Icons.actions.delete"
-              color="error"
-              @click="() => handleDelete(experience.id)"
-            />
-          </div>
-        </div>
+          :experience="experience"
+          @delete="handleDelete"
+          @edit="handleEdit"
+        />
       </div>
     </div>
   </div>
@@ -278,6 +222,7 @@
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
 import DashboardHeader from '~/components/DashboardHeader.vue'
+import DashboardExperienceCard from '~/components/DashboardExperienceCard.vue'
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
