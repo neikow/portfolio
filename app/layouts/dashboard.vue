@@ -37,9 +37,7 @@
           color="error"
           size="sm"
           variant="ghost"
-          @click="() => {
-            clear();
-          }"
+          @click="clear()"
         >
           Logout
         </UButton>

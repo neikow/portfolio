@@ -42,8 +42,9 @@
         </p>
       </div>
     </div>
-
-    <div class="flex flex-row sm:flex-col gap-2 mt-2 sm:mt-0">
+    <div
+      class="flex flex-row sm:flex-col gap-2 mt-2 sm:mt-0"
+    >
       <UButton
         :icon="Icons.actions.edit"
         @click="emitEdit"
