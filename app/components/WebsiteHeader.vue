@@ -51,7 +51,7 @@ const navigation: {
   { name: 'Home', href: '/', icon: 'i-mdi-home-outline' },
   { name: 'Photography', href: '/photography', icon: 'i-mdi-camera-outline' },
   { name: 'Projects & Experience', href: '/projects', icon: 'i-mdi-code' },
-  { name: 'Experiments', href: '/experiments', icon: 'i-mdi-flask' },
+  { name: 'Lab', href: '/lab', icon: 'i-mdi-flask' },
   { name: 'Blog', href: '/blog', icon: 'i-mdi-blog-outline' },
   { name: 'GitHub', href: 'https://www.github.com/Neikow', icon: 'i-mdi-github', openInNewTab: true },
   {

@@ -1,5 +1,16 @@
 <script lang="ts" setup>
 const { data: posts, error } = await useFetch('/api/blog/posts')
+
+useSeoMeta({
+  title: 'Blog',
+  description: 'Read the latest articles and updates on my blog.',
+  ogType: 'website',
+  ogTitle: 'Blog - lysen.dev',
+  ogDescription: 'Read the latest articles and updates on my blog.',
+  ogUrl: 'https://lysen.dev/blog',
+  ogSiteName: 'lysen.dev',
+  ogLocale: 'en_US',
+})
 </script>
 
 <template>

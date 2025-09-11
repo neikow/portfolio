@@ -7,6 +7,10 @@ definePageMeta({
   middleware: ['authenticated'],
 })
 
+useHead({
+  title: 'Manage Gallery - lysen.dev',
+})
+
 const fileUpload = ref<File[] | null | undefined>(null)
 const uploadModalOpen = ref(false)
 

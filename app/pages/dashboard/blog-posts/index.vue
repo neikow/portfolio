@@ -106,6 +106,10 @@ const MAX_DISPLAYED_TAGS = 3
 
 const { data: posts } = await useFetch('/api/blog/posts')
 
+useHead({
+  title: 'Manage Blog Posts - lysen.dev',
+})
+
 definePageMeta({
   layout: 'dashboard',
   middleware: ['authenticated'],

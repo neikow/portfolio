@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 const { loggedIn } = useUserSession()
+
+useSeoMeta({
+  title: 'Login',
+  description: 'Login with GitHub to access the website dashboard.',
+})
 </script>
 
 <template>

@@ -11,4 +11,8 @@ definePageMeta({
   layout: 'dashboard',
   middleware: ['authenticated'],
 })
+
+useHead({
+  title: 'Dashboard - lysen.dev',
+})
 </script>

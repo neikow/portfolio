@@ -8,6 +8,17 @@ const connectLinks: {
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/vitaly-lysen/', icon: 'i-mdi-linkedin' },
   { name: 'Instagram', href: 'https://www.instagram.com/vitaly.lyn/', icon: 'i-mdi-instagram' },
 ]
+
+useSeoMeta({
+  title: 'Home',
+  description: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
+  ogTitle: 'Home - lysen.dev',
+  ogDescription: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
+  ogUrl: 'https://lysen.dev',
+  ogSiteName: 'lysen.dev',
+  ogLocale: 'en_US',
+  ogType: 'website',
+})
 </script>
 
 <template>
@@ -23,10 +34,11 @@ const connectLinks: {
     <p>I am currently in my last year of engineering studies in France.</p>
 
     <p>
-      I love music, fashion, wood-working and photography. You can view a selection of my photography work in <a
+      I love technology, music, fashion, wood-working and photography. You can view a selection of my photography work
+      in <a
         class="underline-link"
         href="/photography"
-      >the gallery</a>.
+      >the gallery</a>. I try to post new photos there every now and then.
     </p>
 
     <p>
@@ -37,7 +49,7 @@ const connectLinks: {
         projects
       </a>, occasional <a
         class="underline-link"
-        href="/experiments"
+        href="/lab"
       >
         experiments
       </a>, <a

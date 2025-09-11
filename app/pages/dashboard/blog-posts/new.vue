@@ -123,6 +123,10 @@ import CoverImageUpload from '~/components/CoverImageUpload.vue'
 import { z } from 'zod'
 import type { NewBlogPost } from '#shared/types/blog'
 
+useHead({
+  title: 'New Blog Post - lysen.dev',
+})
+
 const DEFAULT_CONTENT = `<h1>Hello World!</h1><p>This is a rich text editor using TipTap.</p>`
 const DESCRIPTION_MAX_LENGTH = 255
 

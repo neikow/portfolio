@@ -163,6 +163,10 @@ import { diff } from 'deep-object-diff'
 import { useOnBeforeUnload } from '~/composables/useOnBeforeUnload'
 import type { blogPostsTable } from '#shared/schemas/blogPost'
 
+useHead({
+  title: 'Editing Blog Post - lysen.dev',
+})
+
 const DESCRIPTION_MAX_LENGTH = 255
 
 const formSchema = z.object({
