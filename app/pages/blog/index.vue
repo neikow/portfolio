@@ -5,7 +5,7 @@ const { data: posts, error } = await useFetch('/api/blog/posts')
 <template>
   <div>
     <h1
-      class="text-4xl font-black text-center my-8 slide-enter-content"
+      class="text-4xl font-black text-center my-8"
     >
       Blog Posts
     </h1>

@@ -13,14 +13,17 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { prerender: true },
-    '/blog': { swr: true },
-    '/blog/**': { swr: true },
+    '/blog': { swr: process.env.NODE_ENV === 'production' },
+    '/blog/**': { swr: process.env.NODE_ENV === 'production' },
     '/dashboard': { ssr: false },
     '/dashboard/**': { ssr: false },
     '/api/**': { cors: true },
   },
   future: {
     compatibilityVersion: 4,
+  },
+  experimental: {
+    componentIslands: true,
   },
   compatibilityDate: '2024-04-03',
   nitro: {

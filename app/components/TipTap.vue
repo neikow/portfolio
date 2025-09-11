@@ -1,8 +1,7 @@
 <template>
-  <div />
   <EditorContent
     :editor="editor"
-    class="prose prose-neutral dark:prose-invert mx-auto active:outline-none"
+    class="prose prose-neutral dark:prose-invert mx-auto active:outline-none min-h-screen"
   />
 </template>
 

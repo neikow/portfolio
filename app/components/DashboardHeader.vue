@@ -1,11 +1,21 @@
 <template>
   <header class="relative">
     <div class="w-full flex justify-between items-center p-4 border-b border-b-default bg-default">
-      <h2 class="font-black text-2xl">
-        <slot name="title">
-          Blog Posts
-        </slot>
-      </h2>
+      <div class="flex items-center gap-4">
+        <UButton
+          v-if="backButtonTo"
+          :to="backButtonTo"
+          class="p-2 rounded-full"
+          icon="i-mdi-arrow-back"
+          variant="soft"
+        />
+
+        <h2 class="font-black text-2xl">
+          <slot name="title">
+            Dashboard Header
+          </slot>
+        </h2>
+      </div>
 
       <div class="flex gap-2">
         <slot name="actions" />
@@ -21,4 +31,7 @@
 </template>
 
 <script lang="ts" setup>
+defineProps<{
+  backButtonTo?: string
+}>()
 </script>

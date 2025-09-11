@@ -1,7 +1,11 @@
 <template>
   <NuxtLink
+    :class="{
+      'bg-default rounded-lg transition duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 active:scale-95': true,
+      'border-2 border-warning border-dashed': !post.published,
+      'border border-default': post.published,
+    }"
     :to="`/blog/${post.slug}`"
-    class="border border-default bg-default rounded-lg"
   >
     <img
       :alt="post.title"

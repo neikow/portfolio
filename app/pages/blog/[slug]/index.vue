@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <div v-if="error">
       <h1 class="text-2xl font-bold">
         Error: {{ error.message || 'Unknown Error' }}
@@ -13,7 +13,10 @@
         Loading...
       </h1>
     </div>
-    <div v-else>
+    <div
+      v-else
+      class="px-4"
+    >
       <div class="relative mt-4">
         <img
           :alt="post.title"
@@ -27,14 +30,15 @@
         >
       </div>
       <div class="prose dark:prose-invert mx-auto mt-4">
-        <h1 class="text-5xl font-bold mb-4 text-center">
+        <h1 class="text-5xl font-bold mb-4 text-center break-words">
           {{ post.title }}
         </h1>
 
-        <div class="flex items-center justify-center gap-2 mt-2 mb-4">
+        <div class="flex items-center justify-center gap-1 mt-2 mb-4">
           <UBadge
             v-for="tag in post.tags"
             :key="tag"
+            class="font-bold"
             variant="soft"
           >
             @{{ tag }}
@@ -42,28 +46,24 @@
         </div>
 
         <div class="flex items-center justify-center gap-4">
-          <div class="flex items-center">
-            <UIcon
-              class="text-muted"
-              name="i-mdi-calendar"
-            />
-            <span class="text-muted text-xs ml-1">{{
-              (post.publishedAt ? new Date(post.publishedAt) : new Date())?.toLocaleDateString()
-            }}</span>
-          </div>
-
-          <div
-            v-if="post.editedAt"
-            class="flex items-center"
+          <UBadge
+            icon="i-mdi-rocket-launch"
+            variant="ghost"
           >
-            <UIcon
-              class="text-muted"
-              name="i-mdi-edit"
-            />
-            <span class="text-muted text-xs ml-1">{{
+            {{
+              (post.publishedAt ? new Date(post.publishedAt) : new Date())?.toLocaleDateString()
+            }}
+          </UBadge>
+
+          <UBadge
+            v-if="post.editedAt && post.publishedAt && isSameDay(new Date(post.editedAt), new Date(post.publishedAt))"
+            icon="i-mdi-edit"
+            variant="ghost"
+          >
+            {{
               (post.editedAt ? new Date(post.editedAt) : new Date())?.toLocaleDateString()
-            }}</span>
-          </div>
+            }}
+          </UBadge>
         </div>
 
         <p class="text-center">
@@ -73,11 +73,34 @@
       <div
         class="prose dark:prose-invert mx-auto mt-5"
       >
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div
+        <article
+          class="slide-enter-content
+          prose-h2:text-5xl prose-h2:mt-12 prose-h2:mb-6
+          prose-h3:text-4xl prose-h3:mt-10 prose-h3:mb-6
+          prose-h4:text-3xl prose-h4:mt-8 prose-h4:mb-6
+          prose-h5:text-2xl prose-h5:mt-6 prose-h5:mb-4
+          prose-h6:text-xl prose-h6:mt-4 prose-h6:mb-4
+          pb-32"
           v-html="post.content"
         />
       </div>
+    </div>
+    <div
+      v-if="loggedIn && post"
+      class="fixed bottom-4 right-4 flex items-center"
+    >
+      <UBadge
+        v-if="!post.published"
+        class="mr-2"
+        color="warning"
+        icon="i-mdi-construction"
+      >
+        WIP
+      </UBadge>
+      <UButton
+        :to="`/dashboard/blog-posts/${post.id}`"
+        icon="i-mdi-edit"
+      />
     </div>
   </div>
 </template>
@@ -85,11 +108,29 @@
 <script lang="ts" setup>
 const { params } = useRoute()
 const { slug } = params
+const { loggedIn } = useUserSession()
 
 if (!slug) {
   throw createError({ statusCode: 400, statusMessage: 'Bad Request' })
 }
 const { data: post, error } = await useFetch(`/api/blog/posts/${slug}`, {
   method: 'GET',
+})
+
+useSeoMeta({
+  title: post.value ? post.value.title : 'Loading...',
+  description: post.value ? post.value.description : 'Loading blog post...',
+  author: 'Vitaly Lysen',
+  articleTag: post.value ? post.value.tags : [],
+  articleAuthor: ['Vitaly Lysen'],
+  articleModifiedTime: post.value && post.value.editedAt ? new Date(post.value.editedAt).toISOString() : undefined,
+  articlePublishedTime: post.value && post.value.publishedAt ? new Date(post.value.publishedAt).toISOString() : undefined,
+  ogUrl: post.value ? `https://lysen.dev/blog/${post.value.slug}` : undefined,
+  ogSiteName: 'lysen.dev Blog',
+  ogLocale: 'en_US',
+  ogType: 'article',
+  ogTitle: post.value ? post.value.title : 'Loading...',
+  ogDescription: post.value ? post.value.description : 'Loading blog post...',
+  ogImage: post.value ? post.value.coverImageUrl : undefined,
 })
 </script>

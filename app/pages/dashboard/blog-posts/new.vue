@@ -7,7 +7,7 @@
       @error="console.log($event)"
       @submit="publishPost"
     >
-      <DashboardHeader>
+      <DashboardHeader back-button-to="/dashboard/blog-posts">
         <template #title>
           New Post
         </template>
@@ -118,6 +118,7 @@
 import DashboardHeader from '~/components/DashboardHeader.vue'
 import { useStorage } from '@vueuse/core'
 import debounce from 'debounce'
+import slugify from 'slugify'
 import CoverImageUpload from '~/components/CoverImageUpload.vue'
 import { z } from 'zod'
 import type { NewBlogPost } from '#shared/types/blog'
@@ -177,18 +178,6 @@ function validate() {
   }
 
   return errors
-}
-
-function slugify(text: string) {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '')
 }
 
 async function publishPost() {

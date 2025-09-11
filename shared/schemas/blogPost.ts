@@ -9,7 +9,7 @@ export const blogPostsTable = pgTable('blog_posts', {
   coverImageUrl: text('cover_image_url').notNull(),
   slug: text('slug').notNull().unique(),
   published: boolean('published').notNull().default(false),
-  publishedAt: timestamp('time_published', { withTimezone: true, mode: 'string' }),
+  publishedAt: timestamp('time_published', { withTimezone: true }),
   editedAt: timestamp('edited_at').$onUpdate(() => new Date()),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

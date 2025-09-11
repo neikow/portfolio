@@ -17,6 +17,7 @@ const { loggedIn } = useUserSession()
         </p>
         <UButton
           v-if="!loggedIn"
+          autofocus
           color="neutral"
           external
           icon="i-simple-icons-github"
