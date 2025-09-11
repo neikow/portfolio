@@ -28,3 +28,5 @@ pnpm-lock.yaml
 local.db
 
 /uploads
+# Sentry Config File
+.env.sentry-build-plugin

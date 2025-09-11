@@ -17,6 +17,7 @@
     "@nuxt/eslint": "1.8.0",
     "@nuxt/image": "1.11.0",
     "@nuxt/ui": "3.3.0",
+    "@sentry/nuxt": "^10",
     "@tiptap/extension-code-block-lowlight": "^3.4.1",
     "@tiptap/extension-file-handler": "^3.4.1",
     "@tiptap/extension-focus": "^3.4.1",
@@ -47,5 +48,8 @@
     "@types/pg": "^8.15.5",
     "drizzle-kit": "^0.31.4",
     "tsx": "^4.20.5"
+  },
+  "resolutions": {
+    "@vercel/nft": "^0.27.4"
   }
 }

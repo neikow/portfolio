@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/ui',
     'nuxt-auth-utils',
+    '@sentry/nuxt/module',
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
@@ -18,6 +19,9 @@ export default defineNuxtConfig({
     '/dashboard': { ssr: false },
     '/dashboard/**': { ssr: false },
     '/api/**': { cors: true },
+  },
+  sourcemap: {
+    client: 'hidden',
   },
   future: {
     compatibilityVersion: 4,
@@ -38,6 +42,12 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: true,
+    },
+  },
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: 'lysendev',
+      project: 'portfolio',
     },
   },
 })
