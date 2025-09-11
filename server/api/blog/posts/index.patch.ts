@@ -1,4 +1,4 @@
-import { blogPostsTable } from '~~/server/schemas'
+import { blogPostsTable } from '#shared/schemas/blogPost'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {

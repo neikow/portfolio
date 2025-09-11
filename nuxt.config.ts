@@ -22,9 +22,6 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  experimental: {
-    componentIslands: true,
-  },
   compatibilityDate: '2024-04-03',
   nitro: {
     storage: {

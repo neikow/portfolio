@@ -6,7 +6,12 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "db:push": "drizzle-kit push",
+    "db:pull": "drizzle-kit pull",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "lint": "eslint --ext .js,.ts,.vue ."
   },
   "dependencies": {
     "@nuxt/eslint": "1.8.0",
@@ -24,6 +29,7 @@
     "deep-object-diff": "^1.1.9",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.5",
+    "drizzle-zod": "^0.8.3",
     "eslint": "^9.0.0",
     "lowlight": "^3.3.0",
     "masonry-layout": "^4.2.2",

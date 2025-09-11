@@ -1,4 +1,4 @@
-import { blogPostsTable } from '~~/server/schemas'
+import { blogPostsTable } from '#shared/schemas/blogPost'
 import { eq } from 'drizzle-orm'
 import { contentConverter } from '#shared/utils/blog/contentConverter'
 

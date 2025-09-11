@@ -18,30 +18,16 @@
 
         <div class="border-b border-b-default my-2" />
 
-        <nav class="flex flex-col">
+        <nav class="flex flex-col gap-2">
           <UButton
-            :icon="Icons.home.icon"
+            v-for="item in navigation"
+            :key="item.name"
+            :icon="item.icon"
+            :to="item.href"
             color="neutral"
-            to="/dashboard"
             variant="ghost"
           >
-            Home
-          </UButton>
-          <UButton
-            :icon="Icons.photography.dashboard"
-            color="neutral"
-            to="/dashboard/gallery"
-            variant="ghost"
-          >
-            Gallery
-          </UButton>
-          <UButton
-            :icon="Icons.blog.dashboard"
-            color="neutral"
-            to="/dashboard/blog-posts"
-            variant="ghost"
-          >
-            Blog Posts
+            {{ item.name }}
           </UButton>
         </nav>
       </div>
@@ -67,4 +53,11 @@
 
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
+
+const navigation: { name: string, href: string, icon: string }[] = [
+  { name: 'Home', href: '/dashboard', icon: Icons.home.icon },
+  { name: 'Gallery', href: '/dashboard/gallery', icon: Icons.photography.dashboard },
+  { name: 'Blog Posts', href: '/dashboard/blog-posts', icon: Icons.blog.dashboard },
+  { name: 'Experiences', href: '/dashboard/experiences', icon: Icons.experiences.dashboard },
+]
 </script>

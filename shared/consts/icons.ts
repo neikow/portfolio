@@ -28,6 +28,9 @@ export const Icons = {
     linkedin: 'i-mdi-linkedin',
     instagram: 'i-mdi-instagram',
   },
+  experiences: {
+    dashboard: 'i-mdi-briefcase-outline',
+  },
   theme: {
     dark: 'i-mdi-weather-night',
     light: 'i-mdi-white-balance-sunny',
@@ -54,6 +57,7 @@ export const Icons = {
     info: 'i-mdi-information',
     success: 'i-mdi-check-circle',
     error: 'i-mdi-close-circle',
+    calendar: 'i-mdi-calendar',
   },
 
 } as const

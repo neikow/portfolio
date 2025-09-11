@@ -1,5 +1,5 @@
 import { newBlogPostSchema } from '#shared/types/blog'
-import { blogPostsTable } from '~~/server/schemas'
+import { blogPostsTable } from '#shared/schemas/blogPost'
 
 export default defineEventHandler(async (event) => {
   const { data, success, error } = await readValidatedBody(event, newBlogPostSchema.safeParse)
