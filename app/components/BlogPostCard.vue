@@ -1,18 +1,42 @@
 <template>
   <NuxtLink
     :class="{
-      'bg-default rounded-lg transition duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 active:scale-95': true,
+      'bg-default rounded-lg transition duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 active:scale-95 shadow-md': true,
       'border-2 border-warning border-dashed': !post.published,
       'border border-default': post.published,
     }"
     :to="`/blog/${post.slug}`"
   >
-    <img
-      :alt="post.title"
-      :loading="lazy ? 'lazy' : 'eager'"
-      :src="post.coverImageUrl"
-      class="w-full h-48 object-cover mb-4 rounded-t-lg"
-    >
+    <div class="w-full h-48 mb-4 relative">
+      <img
+        :alt="post.title"
+        :loading="lazy ? 'lazy' : 'eager'"
+        :src="post.coverImageUrl"
+        class="w-full h-48 object-cover rounded-t-lg"
+      >
+      <div class="absolute bottom-2 right-2 gap-4">
+        <UBadge
+          :icon="Icons.blog.datePublished"
+          color="neutral"
+          variant="soft"
+        >
+          {{
+            (post.publishedAt ? new Date(post.publishedAt) : new Date())?.toLocaleDateString()
+          }}
+        </UBadge>
+
+        <UBadge
+          v-if="post.editedAt && post.publishedAt && isSameDay(new Date(post.editedAt), new Date(post.publishedAt))"
+          :icon="Icons.blog.dateEdited"
+          color="neutral"
+          variant="soft"
+        >
+          {{
+            (post.editedAt ? new Date(post.editedAt) : new Date())?.toLocaleDateString()
+          }}
+        </UBadge>
+      </div>
+    </div>
     <div class="px-4">
       <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mb-1 text-balance">
         {{ post.title }}
@@ -31,33 +55,12 @@
         {{ post.description }}
       </p>
     </div>
-
-    <div class="flex items-center justify-end gap-4 py-2 px-4 text-dimmed text-xs border-t border-default">
-      <div class=" flex items-center">
-        <UIcon
-          class="w-4 h-4 mr-2"
-          name="i-mdi-calendar"
-        />
-        <span>{{ (post.publishedAt ? new Date(post.publishedAt) : new Date()).toLocaleDateString() }}</span>
-      </div>
-      <div
-        v-if="post.editedAt && !isSameDay(post.editedAt!, post.publishedAt ? new Date(post.publishedAt) : new Date())"
-        class="flex items-center"
-      >
-        <UIcon
-          class="w-4 h-4 mr-2"
-          name="i-mdi-edit"
-        />
-        <span>{{ new Date(post.editedAt).toLocaleDateString() }}</span>
-      </div>
-    </div>
-
   </NuxtLink>
 </template>
 
 <script lang="ts" setup>
 import type { blogPostsTable } from '#shared/schemas/blogPost'
-import { isSameDay } from '#shared/utils/dateUtils'
+import { Icons } from '#shared/consts/icons'
 
 const props = defineProps<{
   post: typeof blogPostsTable.$inferSelect

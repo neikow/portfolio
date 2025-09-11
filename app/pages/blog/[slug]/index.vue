@@ -47,7 +47,7 @@
 
         <div class="flex items-center justify-center gap-4">
           <UBadge
-            icon="i-mdi-rocket-launch"
+            :icon="Icons.blog.datePublished"
             variant="ghost"
           >
             {{
@@ -57,7 +57,7 @@
 
           <UBadge
             v-if="post.editedAt && post.publishedAt && isSameDay(new Date(post.editedAt), new Date(post.publishedAt))"
-            icon="i-mdi-edit"
+            :icon="Icons.blog.dateEdited"
             variant="ghost"
           >
             {{
@@ -106,6 +106,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
+
 const { params } = useRoute()
 const { slug } = params
 const { loggedIn } = useUserSession()

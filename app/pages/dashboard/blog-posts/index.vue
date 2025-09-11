@@ -70,7 +70,7 @@
           <div class="flex gap-2">
             <UBadge
               v-if="post.createdAt"
-              icon="i-mdi-sprout"
+              :icon="Icons.blog.dateCreated"
               size="sm"
               variant="soft"
             >
@@ -78,7 +78,7 @@
             </UBadge>
             <UBadge
               v-if="post.editedAt"
-              icon="i-mdi-edit"
+              :icon="Icons.blog.dateEdited"
               size="sm"
               variant="soft"
             >
@@ -86,7 +86,7 @@
             </UBadge>
             <UBadge
               v-if="post.publishedAt"
-              icon="i-mdi-rocket-launch"
+              :icon="Icons.blog.datePublished"
               size="sm"
               variant="soft"
             >
@@ -101,6 +101,7 @@
 
 <script lang="ts" setup>
 import DashboardHeader from '~/components/DashboardHeader.vue'
+import { Icons } from '#shared/consts/icons'
 
 const MAX_DISPLAYED_TAGS = 3
 

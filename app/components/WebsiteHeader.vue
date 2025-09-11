@@ -27,7 +27,7 @@
         text="Toggle dark mode"
       >
         <UButton
-          :icon="$colorMode.preference === 'dark' ? 'i-mdi-white-balance-sunny' : 'i-mdi-weather-night'"
+          :icon="$colorMode.preference === 'dark' ? Icons.theme.dark : Icons.theme.light"
           class="aspect-square justify-center m-2"
           variant="ghost"
           @click="$colorMode.preference = $colorMode.preference === 'dark' ? 'light' : 'dark'"
@@ -38,6 +38,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
+
 const { loggedIn } = useUserSession()
 
 const navigation: {
@@ -48,12 +50,12 @@ const navigation: {
   openInNewTab?: boolean
   adminOnly?: boolean
 }[] = [
-  { name: 'Home', href: '/', icon: 'i-mdi-home-outline' },
-  { name: 'Photography', href: '/photography', icon: 'i-mdi-camera-outline' },
-  { name: 'Projects & Experience', href: '/projects', icon: 'i-mdi-code' },
-  { name: 'Lab', href: '/lab', icon: 'i-mdi-flask' },
-  { name: 'Blog', href: '/blog', icon: 'i-mdi-blog-outline' },
-  { name: 'GitHub', href: 'https://www.github.com/Neikow', icon: 'i-mdi-github', openInNewTab: true },
+  { name: 'Home', href: '/', icon: Icons.home.icon },
+  { name: 'Photography', href: '/photography', icon: Icons.photography.icon },
+  { name: 'Projects & Experience', href: '/projects', icon: Icons.projects.icon },
+  { name: 'Lab', href: '/lab', icon: Icons.lab.icon },
+  { name: 'Blog', href: '/blog', icon: Icons.blog.icon },
+  { name: 'GitHub', href: 'https://www.github.com/Neikow', icon: Icons.socials.github, openInNewTab: true },
   {
     name: 'Dashboard',
     href: '/dashboard',

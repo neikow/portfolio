@@ -1,12 +1,14 @@
 <script lang='ts' setup>
+import { Icons } from '#shared/consts/icons'
+
 const connectLinks: {
-  name: string
+  label: string
   href: string
   icon: string
 }[] = [
-  { name: 'GitHub', href: 'https://github.com/Neikow', icon: 'i-mdi-github' },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/vitaly-lysen/', icon: 'i-mdi-linkedin' },
-  { name: 'Instagram', href: 'https://www.instagram.com/vitaly.lyn/', icon: 'i-mdi-instagram' },
+  { label: 'GitHub', href: 'https://github.com/Neikow', icon: Icons.socials.github },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/vitaly-lysen/', icon: Icons.socials.linkedin },
+  { label: 'Instagram', href: 'https://www.instagram.com/vitaly.lyn/', icon: Icons.socials.instagram },
 ]
 
 useSeoMeta({
@@ -71,20 +73,15 @@ useSeoMeta({
     </p>
 
     <div class="flex gap-4 justify-center">
-      <a
+      <UButton
         v-for="link in connectLinks"
-        :key="link.name"
-        :href="link.href"
-        class="underline-link"
+        :key="link.label"
+        :icon="link.icon"
+        :to="link.href"
+        variant="link"
       >
-        <UIcon
-          :name="link.icon"
-          class="mr-1 translate-y-0.5"
-        />
-        <span>
-          {{ link.name }}
-        </span>
-      </a>
+        {{ link.label }}
+      </UButton>
     </div>
 
     <p>
