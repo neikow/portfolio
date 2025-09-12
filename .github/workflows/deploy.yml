@@ -42,14 +42,14 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build & Push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/portfolio:latest
           secrets: |
-            sentry_token=${{ secrets.SENTRY_AUTH_TOKEN }}
+            "sentry_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
 
   deploy:
     name: Deploy to Server via SSH
