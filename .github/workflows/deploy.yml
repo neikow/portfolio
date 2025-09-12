@@ -48,6 +48,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/portfolio:latest
+          secrets: |
+            sentry_token=${{ secrets.SENTRY_AUTH_TOKEN }}
 
   deploy:
     name: Deploy to Server via SSH
@@ -67,6 +69,15 @@ jobs:
           script: |
             cd ~/deployments/portfolio
             git pull origin main
+            if [ ! -d ~/deployments ]; then
+              mkdir ~/deployments
+            fi
+            if [ ! -d ~/deployments/portfolio ]; then
+              git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
+            elif [ ! -d ~/deployments/portfolio/.git ]; then
+              rm -rf ~/deployments/portfolio
+              git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
+            fi
             rm -f .env
             touch .env
             echo APP_PORT=${{ vars.APP_PORT }} > .env
@@ -78,7 +89,6 @@ jobs:
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
-            echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             docker compose pull
             docker compose down

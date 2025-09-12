@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM node:24-alpine AS base
 
 FROM base AS deps
@@ -17,7 +18,10 @@ COPY . .
 ENV NUXT_TELEMETRY_DISABLED=1
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable yarn
-RUN yarn build
+
+RUN --mount=type=secret,id=sentry_token \
+    SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token) \
+    yarn build
 
 FROM base AS runner
 WORKDIR /app
