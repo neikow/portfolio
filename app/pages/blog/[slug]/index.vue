@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <ErrorState
-      v-if="false"
+      v-if="error"
       description="An error occurred while fetching the blog post. Please try again later."
       title="Error loading blog post"
     />

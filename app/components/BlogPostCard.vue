@@ -62,7 +62,7 @@
 import type { blogPostsTable } from '#shared/schemas/blogPost'
 import { Icons } from '#shared/consts/icons'
 
-const props = defineProps<{
+defineProps<{
   post: typeof blogPostsTable.$inferSelect
   lazy?: boolean
 }>()

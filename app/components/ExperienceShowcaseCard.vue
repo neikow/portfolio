@@ -37,9 +37,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Experience } from '~/shared/schemas/experience'
+import type { Experience } from '#shared/schemas/experience'
 
-const props = defineProps<{ experience: Experience }>()
+defineProps<{ experience: Experience }>()
 
 function formatDate(date: string) {
   const d = new Date(date)

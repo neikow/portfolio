@@ -2,7 +2,7 @@
 import type { NuxtError } from '#app'
 import { Icons } from '#shared/consts/icons'
 
-const props = defineProps({
+defineProps({
   error: Object as () => NuxtError,
 })
 </script>
