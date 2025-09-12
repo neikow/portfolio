@@ -74,14 +74,16 @@ jobs:
             fi
             if [ ! -d ~/deployments/portfolio ]; then
               git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
+              cd ~/deployments/portfolio
             elif [ ! -d ~/deployments/portfolio/.git ]; then
               rm -rf ~/deployments/portfolio
               git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
+              cd ~/deployments/portfolio
             else
+              cd ~/deployments/portfolio
               git pull origin main
               git reset --hard origin/main
             fi
-            cd ~/deployments/portfolio
             rm -f .env
             touch .env
             echo NUXT_SITE_URL=${{ vars.SITE_URL }} > .env
