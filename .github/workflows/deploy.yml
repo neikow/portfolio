@@ -67,7 +67,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/deployments/portfolio
             git pull origin main
             if [ ! -d ~/deployments ]; then
               mkdir ~/deployments
@@ -78,6 +77,7 @@ jobs:
               rm -rf ~/deployments/portfolio
               git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
             fi
+            cd ~/deployments/portfolio
             rm -f .env
             touch .env
             echo APP_PORT=${{ vars.APP_PORT }} > .env
