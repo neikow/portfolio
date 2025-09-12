@@ -19,8 +19,6 @@ ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable yarn
 RUN yarn build
 
-ENTRYPOINT ["/bin/sh", "-c", "sh"]
-
 FROM base AS runner
 WORKDIR /app
 
