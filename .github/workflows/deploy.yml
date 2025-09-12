@@ -90,13 +90,14 @@ jobs:
             echo NUXT_SITE_NAME=${{ vars.SITE_NAME }} >> .env
             echo NUXT_OAUTH_GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }} >> .env
             echo NUXT_OAUTH_GITHUB_CLIENT_SECRET=${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }} >> .env
+            echo POSTGRES_DB=portfolio >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             docker compose pull
-            docker compose exec -it web yarn db:migrate
             docker compose down
             docker compose up -d --remove-orphans
+            docker compose exec -it web yarn db:migrate
             docker system prune -f
