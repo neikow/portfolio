@@ -67,7 +67,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            git pull origin main
             if [ ! -d ~/deployments ]; then
               mkdir ~/deployments
             fi
@@ -76,6 +75,9 @@ jobs:
             elif [ ! -d ~/deployments/portfolio/.git ]; then
               rm -rf ~/deployments/portfolio
               git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
+            else
+              git pull origin main
+              git reset --hard origin/main
             fi
             cd ~/deployments/portfolio
             rm -f .env
