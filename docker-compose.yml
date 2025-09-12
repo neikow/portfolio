@@ -16,10 +16,14 @@ services:
     depends_on:
       - db
     container_name: portfolio-web
-    env_file:
-      - .env
     environment:
       NUXT_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/portfolio
+      NUXT_SITE_URL: ${NUXT_SITE_URL}
+      NUXT_SITE_NAME: ${NUXT_SITE_NAME}
+      NUXT_OAUTH_GITHUB_CLIENT_ID: ${NUXT_OAUTH_GITHUB_CLIENT_ID}
+      NUXT_OAUTH_GITHUB_CLIENT_SECRET: ${NUXT_OAUTH_GITHUB_CLIENT_SECRET}
+      NUXT_AUTHORIZED_EMAIL: ${NUXT_AUTHORIZED_EMAIL}
+      NUXT_SESSION_PASSWORD: ${NUXT_SESSION_PASSWORD}
 
     restart: unless-stopped
 
