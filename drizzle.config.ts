@@ -6,6 +6,6 @@ export default defineConfig({
   schema: './shared/schemas',
   dialect: 'postgresql',
   dbCredentials: {
-    url: process.env.NUXT_DATABASE_URL!,
+    url: process.env.NUXT_DB_URL!,
   },
 })
