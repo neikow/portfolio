@@ -15,11 +15,12 @@ services:
     image: ghcr.io/neikow/portfolio:latest
     depends_on:
       - db
-    ports:
-      - "${APP_PORT}:80"
     container_name: portfolio-web
+    env_file:
+      - .env
     environment:
       NUXT_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/portfolio
+
     restart: unless-stopped
 
 volumes:

@@ -82,7 +82,6 @@ jobs:
             cd ~/deployments/portfolio
             rm -f .env
             touch .env
-            echo APP_PORT=${{ vars.APP_PORT }} > .env
             echo NUXT_SITE_URL=${{ vars.SITE_URL }} > .env
             echo NUXT_SITE_NAME=${{ vars.SITE_NAME }} >> .env
             echo NUXT_OAUTH_GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }} >> .env
