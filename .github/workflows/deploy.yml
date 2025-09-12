@@ -94,6 +94,7 @@ jobs:
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             docker compose pull
+            docker compose run --rm web yarn db:migrate 
             docker compose down
             docker compose up -d --remove-orphans
             docker system prune -f

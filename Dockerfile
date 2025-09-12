@@ -25,6 +25,12 @@ RUN --mount=type=secret,id=sentry_token,env=SENTRY_AUTH_TOKEN \
 FROM base AS runner
 WORKDIR /app
 
+# Drizzle data & dependencies
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY drizzle.config.ts ./
+COPY drizzle ./drizzle
+COPY --from=deps /app/node_modules ./node_modules
+
 COPY --from=build /app/.output/ ./
 
 ENV NODE_ENV=production
