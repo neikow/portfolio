@@ -100,5 +100,5 @@ jobs:
             docker compose pull
             docker compose down
             docker compose up -d --remove-orphans
-            docker compose exec -it web yarn db:migrate
+            docker compose exec -it web drizzle-kit migrate
             docker system prune -f

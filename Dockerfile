@@ -29,9 +29,12 @@ WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 COPY drizzle.config.ts ./
 COPY drizzle ./drizzle
-COPY --from=deps /app/node_modules ./node_modules
 
 COPY --from=build /app/.output/ ./
+
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable yarn
+RUN yarn add drizzle-kit
 
 ENV NODE_ENV=production
 ENV PORT=80
