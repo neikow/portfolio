@@ -44,7 +44,7 @@
                   size="xl"
                 />
                 <span class="text-xs text-muted">
-                  .../blog/{{ slugify(formData.title) }}
+                  .../blog/{{ slugify(formData.title).toLowerCase() }}
                 </span>
               </UFormField>
               <UFormField
@@ -176,7 +176,7 @@ async function publishPost() {
     method: 'POST',
     body: {
       ...formData,
-      slug: slugify(formData.title),
+      slug: slugify(formData.title).toLowerCase(),
     } satisfies NewBlogPost,
   })
 
