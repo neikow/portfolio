@@ -90,6 +90,7 @@ jobs:
             echo NUXT_SITE_NAME=${{ vars.SITE_NAME }} >> .env
             echo NUXT_OAUTH_GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }} >> .env
             echo NUXT_OAUTH_GITHUB_CLIENT_SECRET=${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }} >> .env
+            echo NUXT_OAUTH_GITHUB_REDIRECT_URL=https://lysen.dev/api/auth/github >> .env
             echo POSTGRES_DB=portfolio >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env

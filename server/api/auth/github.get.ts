@@ -1,6 +1,5 @@
 export default defineOAuthGitHubEventHandler({
   config: {
-    redirectURL: 'http://localhost:3000/api/auth/github',
     emailRequired: true,
   },
   async onSuccess(event, { user }) {

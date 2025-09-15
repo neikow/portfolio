@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     authorizedEmail: '',
+    dbUrl: '',
   },
   routeRules: {
     '/': { prerender: true },
