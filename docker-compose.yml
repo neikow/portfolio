@@ -1,7 +1,10 @@
 services:
   db:
     image: postgres:latest
-    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: portfolio
     volumes:
       - db_data:/var/lib/postgresql/data
     restart: unless-stopped
