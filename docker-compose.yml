@@ -25,7 +25,8 @@ services:
         - sentry_auth_token
 
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     container_name: portfolio-web
     env_file: .env
     environment:

@@ -19,7 +19,8 @@ ENV NUXT_TELEMETRY_DISABLED=1
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable yarn
 
-RUN --mount=type=secret,id=sentry_auth_token,env=SENTRY_AUTH_TOKEN \
+RUN --mount=type=secret,id=sentry_auth_token \
+    export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_auth_token) && \
     yarn build
 
 FROM base AS migration

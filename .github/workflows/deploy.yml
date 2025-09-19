@@ -70,9 +70,10 @@ jobs:
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
+            echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
             
             docker compose down
             
-            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} docker compose up -d --remove-orphans --build
+            docker compose up -d --remove-orphans --build
             
             docker system prune -f
