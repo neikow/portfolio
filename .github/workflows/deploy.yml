@@ -30,6 +30,7 @@ jobs:
     name: Deploy to Server via SSH
     runs-on: ubuntu-latest
     environment: Production
+    needs: ci
     permissions:
       packages: read
     steps:
