@@ -5,9 +5,22 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d portfolio" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
-    image: ghcr.io/neikow/portfolio:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: runner
+      secrets:
+        - sentry_auth_token
+
     depends_on:
       - db
     container_name: portfolio-web
@@ -15,12 +28,42 @@ services:
     environment:
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/portfolio
 
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: portfolio
+
     restart: unless-stopped
+    networks:
+      - default
+      - app-network
+
+  migration:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: migration
+    env_file: .env
+    environment:
+      NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/portfolio
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
 
 volumes:
   db_data:
 
+secrets:
+  sentry_auth_token:
+    environment: SENTRY_AUTH_TOKEN
+
 networks:
+  app-network:
+    driver: bridge
+
   default:
     external: true
     name: nginx

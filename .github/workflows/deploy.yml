@@ -26,37 +26,9 @@ jobs:
       - name: Run ESLint
         run: yarn lint
 
-  create-image:
-    name: Create & Push Docker Image
-    runs-on: ubuntu-latest
-    needs: ci
-    environment: Deploy
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build & Push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/portfolio:latest
-          secrets: |
-            "sentry_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
-
   deploy:
     name: Deploy to Server via SSH
     runs-on: ubuntu-latest
-    needs: create-image
     environment: Production
     permissions:
       packages: read
@@ -86,6 +58,7 @@ jobs:
             fi
             rm -f .env
             touch .env
+            
             echo NUXT_SITE_URL=${{ vars.SITE_URL }} > .env
             echo NUXT_SITE_NAME=${{ vars.SITE_NAME }} >> .env
             echo NUXT_OAUTH_GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }} >> .env
@@ -96,9 +69,10 @@ jobs:
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-            docker compose pull
+            
             docker compose down
+            
+            export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             docker compose up -d --remove-orphans
-            docker compose exec -it web drizzle-kit migrate
+            
             docker system prune -f
