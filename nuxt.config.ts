@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     },
   },
   sentry: {
+    telemetry: false,
     sourceMapsUploadOptions: {
       org: 'lysendev',
       project: 'portfolio',

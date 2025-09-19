@@ -73,7 +73,6 @@ jobs:
             
             docker compose down
             
-            export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-            docker compose up -d --remove-orphans --build
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} docker compose up -d --remove-orphans --build
             
             docker system prune -f
