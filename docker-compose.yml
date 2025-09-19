@@ -56,7 +56,7 @@ volumes:
 
 secrets:
   sentry_auth_token:
-    file: .env.sentry-auth-token
+    environment: SENTRY_AUTH_TOKEN
 
 networks:
   app-network:

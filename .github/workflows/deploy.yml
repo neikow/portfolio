@@ -1,7 +1,7 @@
 name: Deploy Website
 on:
   # push:
-  #   branches: [ main ]
+  #  branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -70,8 +70,7 @@ jobs:
             echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
-            
-            echo ${{ secrets.SENTRY_AUTH_TOKEN }} >> .env.sentry-auth-token
+            echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
             
             docker compose down
             
