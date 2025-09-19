@@ -1,5 +1,5 @@
 {
-  "id": "eae6de1a-5f47-4ce0-a1d1-48ad6cf394c4",
+  "id": "593384d9-5fba-4596-9995-2cb7d02a4715",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -146,13 +146,13 @@
         },
         "start_date": {
           "name": "start_date",
-          "type": "text",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },
         "end_date": {
           "name": "end_date",
-          "type": "text",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
@@ -173,6 +173,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "edited_at": {
+          "name": "edited_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},

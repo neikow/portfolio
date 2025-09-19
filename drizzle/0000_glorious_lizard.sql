@@ -18,11 +18,12 @@ CREATE TABLE "experiences" (
 	"name" text NOT NULL,
 	"role" text NOT NULL,
 	"description" text NOT NULL,
-	"start_date" text NOT NULL,
-	"end_date" text,
+	"start_date" timestamp NOT NULL,
+	"end_date" timestamp,
 	"company" text NOT NULL,
 	"company_url" text,
-	"logo_url" text NOT NULL
+	"logo_url" text NOT NULL,
+	"edited_at" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE "gallery_images" (
