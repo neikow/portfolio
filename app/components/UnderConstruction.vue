@@ -14,5 +14,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Icons } from '#shared/consts/icons.js'
+import { Icons } from '#shared/consts/icons'
 </script>
