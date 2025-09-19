@@ -1,0 +1,9 @@
+.env
+.env.example
+
+node_modules
+.output
+.idea
+.nuxt
+uploads
+local.db
