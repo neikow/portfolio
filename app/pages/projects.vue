@@ -2,11 +2,11 @@
 import ExperienceShowcaseCard from '~/components/ExperienceShowcaseCard.vue'
 
 useSeoMeta({
-  title: 'Projects & Experiences',
-  description: 'A collection of my projects & experiences.',
+  title: 'Projects & Experience',
+  description: 'A collection of my projects & work experience.',
   ogType: 'website',
-  ogTitle: 'Projects & Experiences - lysen.dev',
-  ogDescription: 'A collection of my projects & experiences.',
+  ogTitle: 'Projects & Experience - lysen.dev',
+  ogDescription: 'A collection of my projects & work experience.',
   ogUrl: 'https://lysen.dev/projects',
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
@@ -19,7 +19,7 @@ const { data: experiences, status } = await useFetch('/api/experiences', {
 
 <template>
   <div class="text-center flex flex-col items-center w-full">
-    <PageTitle title="Projects & Experiences" />
+    <PageTitle title="Projects & Experience" />
     <section class="w-full max-w-2xl mx-auto mt-12 mb-16 px-4">
       <h2 class="text-2xl font-bold mb-6 text-left text-toned">
         Work Experience
@@ -34,7 +34,11 @@ const { data: experiences, status } = await useFetch('/api/experiences', {
         v-else-if="experiences && experiences.length === 0"
         class="text-muted text-center py-8"
       >
-        No work experiences to show yet.
+        <EmptyState
+          description="There is nothing to display at the moment."
+          icon="mdi-briefcase-off-outline"
+          title="No Experiences Found"
+        />
       </div>
       <div
         v-else
@@ -47,8 +51,5 @@ const { data: experiences, status } = await useFetch('/api/experiences', {
         />
       </div>
     </section>
-    <div class="mt-32">
-      <UnderConstruction />
-    </div>
   </div>
 </template>

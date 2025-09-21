@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="text-dimmed text-center flex flex-col items-center justify-center w-full mt-32">
+  <div class="text-dimmed text-center flex flex-col items-center justify-center w-full mt-32 px-12">
     <div
       v-if="icon"
       class="mb-4 text-6xl"

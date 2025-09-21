@@ -1,6 +1,6 @@
 <template>
   <h1
-    class="text-4xl font-black text-highlighted text-center my-8"
+    class="text-4xl font-black text-highlighted text-center my-8 px-4"
   >
     {{ title }}
   </h1>

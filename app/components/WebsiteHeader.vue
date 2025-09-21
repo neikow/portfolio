@@ -1,13 +1,19 @@
 <template>
   <header class="flex container mx-auto z-50">
-    <div class="flex-1" />
-    <a href="/">
+    <div class="flex-1 hidden sm:block" />
+    <a
+      class="mx-2"
+      href="/"
+    >
       <WebsiteLogo />
     </a>
     <nav class="flex-1 flex justify-end">
       <div
         v-for="nav in navigation"
         :key="nav.name"
+        :class="{
+          'hidden sm:block': nav.mobileHidden,
+        }"
       >
         <UTooltip
           v-if="!nav.adminOnly || (nav.adminOnly && loggedIn)"
@@ -46,16 +52,23 @@ const navigation: {
   name: string
   href: string
   icon: string
-  variantOverride?: string
+  variantOverride?: 'solid'
   openInNewTab?: boolean
   adminOnly?: boolean
+  mobileHidden?: boolean
 }[] = [
-  { name: 'Home', href: '/', icon: Icons.home.icon },
+  { name: 'Home', href: '/', icon: Icons.home.icon, mobileHidden: true },
   { name: 'Photography', href: '/photography', icon: Icons.photography.icon },
   { name: 'Projects & Experience', href: '/projects', icon: Icons.projects.icon },
   { name: 'Lab', href: '/lab', icon: Icons.lab.icon },
   { name: 'Blog', href: '/blog', icon: Icons.blog.icon },
-  { name: 'GitHub', href: 'https://www.github.com/Neikow', icon: Icons.socials.github, openInNewTab: true },
+  {
+    name: 'GitHub',
+    href: 'https://www.github.com/Neikow',
+    icon: Icons.socials.github,
+    openInNewTab: true,
+    mobileHidden: true,
+  },
   {
     name: 'Dashboard',
     href: '/dashboard',
