@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui',
@@ -17,8 +19,12 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/blog': { swr: process.env.NODE_ENV === 'production' },
     '/blog/**': { swr: process.env.NODE_ENV === 'production' },
-    '/dashboard': { ssr: false },
-    '/dashboard/**': { ssr: false },
+    // @ts-expect-error robots is not recognized by nuxt for some reason
+    '/dashboard': { ssr: false, robots: false },
+    // @ts-expect-error robots is not recognized by nuxt for some reason
+    '/dashboard/**': { ssr: false, robots: false },
+    // @ts-expect-error robots is not recognized by nuxt for some reason
+    '/login': { ssr: false, robots: false },
     '/api/**': { cors: true },
   },
   sourcemap: {
@@ -51,5 +57,20 @@ export default defineNuxtConfig({
       org: 'lysendev',
       project: 'portfolio',
     },
+  },
+  sitemap: {
+    defaults: {
+      changefreq: 'daily',
+      priority: 0.7,
+      lastmod: new Date().toISOString(),
+    },
+    exclude: [
+      '/dashboard',
+      '/dashboard/**',
+      '/login',
+    ],
+    sources: [
+      '/api/__sitemaps__/blog',
+    ],
   },
 })
