@@ -45,6 +45,7 @@
 
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
+import { GITHUB_PROFILE } from '#shared/consts/urls'
 
 const { loggedIn } = useUserSession()
 
@@ -64,7 +65,7 @@ const navigation: {
   { name: 'Blog', href: '/blog', icon: Icons.blog.icon },
   {
     name: 'GitHub',
-    href: 'https://www.github.com/Neikow',
+    href: GITHUB_PROFILE,
     icon: Icons.socials.github,
     openInNewTab: true,
     mobileHidden: true,

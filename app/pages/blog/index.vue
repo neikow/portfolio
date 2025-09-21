@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
 import ErrorState from '~/components/ErrorState.vue'
+import { SITE_URL } from '#shared/consts/urls'
 
 const { data: posts, error } = await useFetch('/api/blog/posts')
 
@@ -10,7 +11,7 @@ useSeoMeta({
   ogType: 'website',
   ogTitle: 'Blog - lysen.dev',
   ogDescription: 'Read the latest articles and updates on my blog.',
-  ogUrl: 'https://lysen.dev/blog',
+  ogUrl: `${SITE_URL}/blog`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
 })

@@ -45,7 +45,7 @@
         <div class="flex items-center justify-center gap-4">
           <UBadge
             :icon="Icons.blog.datePublished"
-            variant="ghost"
+            variant="subtle"
           >
             {{
               (post.publishedAt ? new Date(post.publishedAt) : new Date())?.toLocaleDateString()
@@ -55,7 +55,7 @@
           <UBadge
             v-if="post.editedAt && post.publishedAt && isSameDay(new Date(post.editedAt), new Date(post.publishedAt))"
             :icon="Icons.blog.dateEdited"
-            variant="ghost"
+            variant="subtle"
           >
             {{
               (post.editedAt ? new Date(post.editedAt) : new Date())?.toLocaleDateString()
@@ -105,6 +105,7 @@
 
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
+import { SITE_URL } from '#shared/consts/urls'
 
 const { params } = useRoute()
 const { slug } = params
@@ -125,7 +126,7 @@ useSeoMeta({
   articleAuthor: ['Vitaly Lysen'],
   articleModifiedTime: post.value && post.value.editedAt ? new Date(post.value.editedAt).toISOString() : undefined,
   articlePublishedTime: post.value && post.value.publishedAt ? new Date(post.value.publishedAt).toISOString() : undefined,
-  ogUrl: post.value ? `https://lysen.dev/blog/${post.value.slug}` : undefined,
+  ogUrl: post.value ? `${SITE_URL}/blog/${post.value.slug}` : undefined,
   ogSiteName: 'lysen.dev Blog',
   ogLocale: 'en_US',
   ogType: 'article',

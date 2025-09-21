@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import ExperienceShowcaseCard from '~/components/ExperienceShowcaseCard.vue'
+import { SITE_URL } from '#shared/consts/urls'
 
 useSeoMeta({
   title: 'Projects & Experience',
@@ -7,7 +8,7 @@ useSeoMeta({
   ogType: 'website',
   ogTitle: 'Projects & Experience - lysen.dev',
   ogDescription: 'A collection of my projects & work experience.',
-  ogUrl: 'https://lysen.dev/projects',
+  ogUrl: `${SITE_URL}/projects`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
 })

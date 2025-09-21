@@ -1,14 +1,15 @@
 <script lang='ts' setup>
 import { Icons } from '#shared/consts/icons'
+import { GITHUB_PROFILE, INSTAGRAM_PROFILE, LINKEDIN_PROFILE, SITE_URL } from '#shared/consts/urls'
 
 const connectLinks: {
   label: string
   href: string
   icon: string
 }[] = [
-  { label: 'GitHub', href: 'https://github.com/Neikow', icon: Icons.socials.github },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/vitaly-lysen/', icon: Icons.socials.linkedin },
-  { label: 'Instagram', href: 'https://www.instagram.com/vitaly.lyn/', icon: Icons.socials.instagram },
+  { label: 'GitHub', href: GITHUB_PROFILE, icon: Icons.socials.github },
+  { label: 'LinkedIn', href: LINKEDIN_PROFILE, icon: Icons.socials.linkedin },
+  { label: 'Instagram', href: INSTAGRAM_PROFILE, icon: Icons.socials.instagram },
 ]
 
 useSeoMeta({
@@ -16,7 +17,7 @@ useSeoMeta({
   description: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
   ogTitle: 'Home - lysen.dev',
   ogDescription: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
-  ogUrl: 'https://lysen.dev',
+  ogUrl: SITE_URL,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
   ogType: 'website',

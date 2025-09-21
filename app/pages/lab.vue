@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { SITE_URL } from '#shared/consts/urls'
+
 useSeoMeta({
   title: 'Lab',
   description: 'The place where I experiment with new ideas and web technologies.',
   ogType: 'website',
   ogTitle: 'Lab - lysen.dev',
   ogDescription: 'The place where I experiment with new ideas and web technologies.',
-  ogUrl: 'https://lysen.dev/lab',
+  ogUrl: `${SITE_URL}/lab`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
 })

@@ -14,8 +14,8 @@
           {{ experience.role }}
         </h3>
         <UButton
-          :to="experience.companyUrl"
-          class="text-center w-min"
+          :to="experience.companyUrl || '#'"
+          class="text-center w-min text-nowrap"
           rel="noopener noreferrer"
           size="xl"
           target="_blank"
