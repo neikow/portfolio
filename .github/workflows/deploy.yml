@@ -73,8 +73,8 @@ jobs:
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
             echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
             
+            docker compose build
             docker compose down
-            
-            docker compose up -d --remove-orphans --build
+            docker compose up -d --remove-orphans
             
             docker system prune -f
