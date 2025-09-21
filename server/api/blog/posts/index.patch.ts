@@ -28,8 +28,6 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  console.log(body)
-
   const [post] = await db.update(blogPostsTable)
     .set(body)
     .where(eq(blogPostsTable.id, Number(id)))
