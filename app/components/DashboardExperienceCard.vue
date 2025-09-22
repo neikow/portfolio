@@ -3,10 +3,17 @@
     class="flex flex-col sm:flex-row border border-default rounded-lg bg-default p-4 gap-4 items-start"
   >
     <img
+      v-if="experience.logoUrl"
       :alt="experience.name"
       :src="experience.logoUrl"
       class="h-12 w-12 sm:h-16 sm:w-16 object-contain flex-shrink-0"
     >
+    <div
+      v-else
+      class="h-12 w-12 sm:h-16 sm:w-16 bg-inverted rounded-lg flex items-center justify-center text-inverted text-xl sm:text-2xl flex-shrink-0"
+    >
+      <UIcon :name="Icons.experiences.dashboard" />
+    </div>
     <div class="flex flex-col md:flex-row w-full gap-2">
       <div class="w-full sm:w-48 flex flex-col gap-1">
         <h3 class="font-bold text-base md:text-lg text-balance">

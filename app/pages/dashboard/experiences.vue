@@ -101,7 +101,6 @@
                     v-model="experienceFormState.logoUrl"
                     class="w-full"
                     placeholder="https://cdn.company.com/favicon.svg"
-                    required
                   />
                 </UFormField>
 
@@ -244,7 +243,7 @@ const experienceSchema = z.object({
   startDate: z.string().min(1, 'Start date is required'),
   endDate: z.string().nullable().optional(),
   description: z.string().min(1, 'Description is required'),
-  logoUrl: z.string().min(1, 'Logo URL is required'),
+  logoUrl: z.string(),
 })
 
 const today = new Date()
@@ -337,7 +336,7 @@ async function handleCreateExperience(data: NewExperienceFormData) {
     console.error(e)
     toast.add({
       title: 'Error',
-      description: 'Failed to create experience. Please try aga‡in.',
+      description: 'Failed to create experience. Please try again.',
       color: 'error',
       icon: Icons.ui.error,
     })

@@ -8,6 +8,16 @@
       :src="experience.logoUrl"
       class="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-lg flex-shrink-0"
     >
+    <div
+      v-else
+      class="h-12 w-12"
+    >
+      <div
+        class="h-12 w-12 sm:h-16 sm:w-16 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 text-xl sm:text-2xl"
+      >
+        <UIcon :name="Icons.experiences.dashboard" />
+      </div>
+    </div>
     <div class="flex-1 flex flex-col items-center sm:items-start">
       <div class="flex flex-col sm:flex-row w-full justify-between items-center">
         <h3 class="font-semibold text-lg sm:text-xl text-highlighted">
@@ -38,6 +48,7 @@
 
 <script lang="ts" setup>
 import type { Experience } from '#shared/schemas/experience'
+import { Icons } from '#shared/consts/icons'
 
 defineProps<{ experience: Experience }>()
 
