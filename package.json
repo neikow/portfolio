@@ -11,7 +11,8 @@
     "db:pull": "drizzle-kit pull",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "lint": "eslint --ext .js,.ts,.vue ."
+    "lint": "eslint --ext .js,.ts,.vue . --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nuxt/eslint": "1.8.0",
@@ -49,6 +50,7 @@
     "@types/masonry-layout": "^4.2.8",
     "@types/pg": "^8.15.5",
     "drizzle-kit": "^0.31.4",
+    "husky": "^9.1.7",
     "tsx": "^4.20.5"
   },
   "resolutions": {
