@@ -16,6 +16,10 @@
     "typecheck": "nuxt typecheck",
     "prepare": "husky"
   },
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">=1.0.0"
+  },
   "dependencies": {
     "@nuxt/eslint": "1.8.0",
     "@nuxt/image": "1.11.0",
