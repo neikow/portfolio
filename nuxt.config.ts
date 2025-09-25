@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'nuxt-auth-utils',
     '@sentry/nuxt/module',
+    '@nuxt/test-utils/module',
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],

@@ -12,6 +12,7 @@ export const experiencesTable = pgTable('experiences', {
   companyUrl: text('company_url'),
   logoUrl: text('logo_url').notNull(),
   editedAt: timestamp('edited_at', { mode: 'string' }).$onUpdate(() => new Date().toISOString()),
+  technologies: text('technologies').array().notNull().default([]),
 })
 
 export type ExperienceInsert = typeof experiencesTable.$inferInsert
