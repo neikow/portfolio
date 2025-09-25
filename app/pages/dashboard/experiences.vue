@@ -168,8 +168,6 @@
                   </UFormField>
                 </div>
 
-                {{ selectedTechnologies }}
-
                 <UFormField
                   label="Technologies"
                   name="technologies"
@@ -448,7 +446,7 @@ function handleEdit(id: number) {
 
   experienceFormState.id = id
   experienceModalOpen.value = true
-  selectedTechnologies.value = experience.technologies
+  selectedTechnologies.value = experience.technologies as TechnologyWithVersion[]
   Object.assign(
     experienceFormState,
     experience,

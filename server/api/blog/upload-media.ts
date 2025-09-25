@@ -17,6 +17,12 @@ export default defineEventHandler(async (event) => {
 
   const file = formData[0]
 
+  if (!file || !file.data || !file.filename) {
+    throw createError({
+      statusCode: 400, statusMessage: 'Invalid file upload',
+    })
+  }
+
   const storage = useStorage('blogUploads')
 
   const fileName = `${Date.now()}-${(file.filename ?? '').toLowerCase().replaceAll(' ', '_')}`

@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
       slug: data.slug,
     }).returning()
 
-    return { success: true, slug: result.slug }
+    return { success: true, slug: result!.slug }
   }
   catch (e) {
     if (e instanceof Error && e.message.includes('duplicate key value')) {
