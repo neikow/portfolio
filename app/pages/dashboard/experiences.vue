@@ -168,6 +168,22 @@
                   </UFormField>
                 </div>
 
+                <UFormField
+                  label="Technologies"
+                  name="technologies"
+                >
+                  <USelectMenu
+                    v-model="selectedTechnologies"
+                    v-model:search-term="technologySearchQuery"
+                    :items="technologies"
+                    :loading="technologiesPending"
+                    class="w-full"
+                    ignore-filter
+                    multiple
+                    value-key="value"
+                  />
+                </UFormField>
+
                 <div class="flex flex-row justify-end w-full gap-2 mt-8">
                   <UButton
                     color="neutral"
@@ -226,6 +242,9 @@ import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
 import type { ExperienceInsert } from '#shared/schemas/experience'
+import { refDebounced } from '@vueuse/core'
+import { watch } from 'vue'
+import { getTechnologyWithVersion, type TechnologyWithVersion } from '#shared/utils/technologies'
 
 useHead({
   title: 'Manage Experiences - lysen.dev',
@@ -233,6 +252,10 @@ useHead({
 
 const toast = useToast()
 const experienceModalOpen = ref(false)
+
+const technologySearchQuery = ref('')
+const technologySearchQueryDebounced = refDebounced(technologySearchQuery, 300)
+const selectedTechnologies = ref<TechnologyWithVersion[]>([])
 
 const experienceSchema = z.object({
   id: z.number().optional(),
@@ -284,11 +307,34 @@ type NewExperienceFormData = z.infer<typeof experienceSchema>
 
 const experienceFormState = reactive<NewExperienceFormData>({ ...EMPTY_EXPERIENCE })
 
+const selectedTechnologiesString = computed(() => selectedTechnologies.value.join(','))
+
+const { data: technologies, pending: technologiesPending } = await useLazyFetch('/api/technologies', {
+  method: 'GET',
+  query: {
+    limit: 10,
+    search: technologySearchQueryDebounced,
+    selected: selectedTechnologiesString,
+  },
+  transform: data => data.map(tech => ({
+    label: tech.name,
+    value: getTechnologyWithVersion(tech.name, tech.version),
+    avatar: {
+      src: tech.src,
+      alt: tech.name,
+      ui: {
+        root: 'bg-white',
+      },
+    },
+  })),
+})
+
 function resetExperienceForm() {
   Object.assign(
     experienceFormState,
     EMPTY_EXPERIENCE,
   )
+  selectedTechnologies.value = []
   startDate.value = new CalendarDate(
     today.getFullYear(),
     today.getMonth() + 1,
@@ -316,6 +362,9 @@ function postNewExperience(data: ExperienceInsert) {
     method: 'POST',
     body: {
       ...data,
+      technologies: selectedTechnologies.value.filter((tech) => {
+        return tech && tech.includes(':')
+      }),
     },
   })
 }
@@ -349,6 +398,9 @@ async function handleUpdateExperience(id: number, data: NewExperienceFormData) {
       method: 'PATCH',
       body: {
         ...data,
+        technologies: selectedTechnologies.value.filter((tech) => {
+          return tech && tech.includes(':')
+        }),
       },
     })
     toast.add({
@@ -394,6 +446,7 @@ function handleEdit(id: number) {
 
   experienceFormState.id = id
   experienceModalOpen.value = true
+  selectedTechnologies.value = experience.technologies as TechnologyWithVersion[]
   Object.assign(
     experienceFormState,
     experience,

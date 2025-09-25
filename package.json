@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "test": "vitest",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "db:push": "drizzle-kit push",
@@ -12,6 +13,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "lint": "eslint --ext .js,.ts,.vue . --fix",
+    "typecheck": "nuxt typecheck",
     "prepare": "husky"
   },
   "dependencies": {
@@ -46,12 +48,16 @@
   "devDependencies": {
     "@antfu/eslint-config": "^5.2.0",
     "@iconify-json/mdi": "^1.2.3",
+    "@nuxt/test-utils": "^3.19.2",
     "@tailwindcss/typography": "^0.5.16",
     "@types/masonry-layout": "^4.2.8",
     "@types/pg": "^8.15.5",
     "drizzle-kit": "^0.31.4",
+    "happy-dom": "^18.0.1",
     "husky": "^9.1.7",
-    "tsx": "^4.20.5"
+    "tsx": "^4.20.5",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.0.8"
   },
   "resolutions": {
     "@vercel/nft": "^0.27.4"
