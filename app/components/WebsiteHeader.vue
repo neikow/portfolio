@@ -59,7 +59,7 @@ const navigation: {
   mobileHidden?: boolean
 }[] = [
   { name: 'Home', href: '/', icon: Icons.home.icon, mobileHidden: true },
-  { name: 'Photography', href: '/photography', icon: Icons.photography.icon },
+  { name: 'Photography', href: 'https://photography.lysen.dev', icon: Icons.photography.icon },
   { name: 'Projects & Experience', href: '/projects', icon: Icons.projects.icon },
   { name: 'Lab', href: '/lab', icon: Icons.lab.icon },
   { name: 'Blog', href: '/blog', icon: Icons.blog.icon },
