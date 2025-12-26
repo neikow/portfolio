@@ -40,7 +40,7 @@ useSeoMeta({
       I love technology, music, fashion, wood-working and photography. You can view a selection of my photography work
       in <a
         class="underline-link"
-        href="/photography"
+        href="https://photography.lysen.dev"
       >the gallery</a>. I try to post new photos there every now and then.
     </p>
 
