@@ -51,6 +51,6 @@ ENV NUXT_TELEMETRY_DISABLED=1
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-  CMD curl -f "http://$HOST:$PORT/health" || exit 1
+  CMD curl -f "http://$HOST:$PORT/api/health" || exit 1
 
 ENTRYPOINT ["node", "./server/index.mjs"]
