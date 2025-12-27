@@ -33,6 +33,7 @@ jobs:
   build-and-push:
     needs: ci
     runs-on: ubuntu-latest
+    environment: Production
     permissions:
       contents: read
       packages: write
