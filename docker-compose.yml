@@ -20,7 +20,7 @@ services:
   web:
     image: ${REGISTRY}/${IMAGE_NAME}:latest
     healthcheck:
-      test: curl -f http://localhost:80/api/health || exit 1
+      test: curl -f http://portfolio-web:80/api/health || exit 1
       interval: 30s
       timeout: 10s
       retries: 5
