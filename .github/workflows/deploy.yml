@@ -105,8 +105,9 @@ jobs:
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
             echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
+            
             echo REGISTRY=${{ env.REGISTRY }} >> .env
-            echo IMAGE_NAME=${{ env.IMAGE_NAME }} >> .env
+            echo DOCKER_IMAGE=${{ env.DOCKER_IMAGE }} >> .env
             
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             

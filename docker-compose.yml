@@ -18,7 +18,7 @@ services:
       retries: 5
 
   web:
-    image: ${REGISTRY}/${IMAGE_NAME}:latest
+    image: ${REGISTRY}/${DOCKER_IMAGE}:latest
     healthcheck:
       test: curl -f http://portfolio-web:80/api/health || exit 1
       interval: 30s
