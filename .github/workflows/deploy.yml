@@ -31,6 +31,7 @@ jobs:
         run: yarn lint
 
   build-and-push:
+    needs: ci
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -60,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     timeout-minutes: 30
-    needs: ci
+    needs: build-and-push
     permissions:
       packages: read
     steps:
