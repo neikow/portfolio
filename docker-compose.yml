@@ -18,12 +18,7 @@ services:
       retries: 5
 
   web:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      target: runner
-      secrets:
-        - sentry_auth_token
+    image: ${REGISTRY}/${IMAGE_NAME}:latest
     healthcheck:
       test: curl -f http://localhost:80/api/health || exit 1
       interval: 30s

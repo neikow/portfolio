@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: neikow/${{ github.repository }}
+
 jobs:
   ci:
     name: CI
@@ -25,6 +29,31 @@ jobs:
         run: yarn build
       - name: Run ESLint
         run: yarn lint
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          secrets: |
+            "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"  
 
   deploy:
     name: Deploy to Server via SSH
@@ -73,9 +102,12 @@ jobs:
             echo NUXT_SESSION_PASSWORD=${{ secrets.SESSION_PASSWORD }} >> .env
             echo NUXT_AUTHORIZED_EMAIL=${{ secrets.AUTHORIZED_EMAIL }} >> .env
             echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
+            echo REGISTRY=${{ env.REGISTRY }} >> .env
+            echo IMAGE_NAME=${{ env.IMAGE_NAME }} >> .env
             
-            docker compose build
-            docker compose down
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            docker compose pull
             docker compose up -d --remove-orphans
             
             docker system prune -f
