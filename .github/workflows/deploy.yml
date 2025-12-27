@@ -9,7 +9,8 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: neikow/${{ github.repository }}
+  CONTAINER_NAME: portfolio
+  DOCKER_IMAGE: neikow/${{ github.repository }}
 
 jobs:
   ci:
@@ -78,15 +79,15 @@ jobs:
             if [ ! -d ~/deployments ]; then
               mkdir ~/deployments
             fi
-            if [ ! -d ~/deployments/portfolio ]; then
+            if [ ! -d ~/deployments/${{ env.CONTAINER_NAME }} ]; then
               git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
-              cd ~/deployments/portfolio
+              cd ~/deployments/${{ env.CONTAINER_NAME }}
             elif [ ! -d ~/deployments/portfolio/.git ]; then
-              rm -rf ~/deployments/portfolio
+              rm -rf ~/deployments/${{ env.CONTAINER_NAME }}
               git clone https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git ~/deployments/portfolio
-              cd ~/deployments/portfolio
+              cd ~/deployments/${{ env.CONTAINER_NAME }}
             else
-              cd ~/deployments/portfolio
+              cd ~/deployments/${{ env.CONTAINER_NAME }}
               git pull origin main
               git reset --hard origin/main
             fi
