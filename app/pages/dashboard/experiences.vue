@@ -462,10 +462,10 @@ function handleEdit(id: number) {
   const rawEndDate = experience.endDate ? new Date(experience.endDate) : null
   endDate.value = rawEndDate
     ? new CalendarDate(
-      rawEndDate.getFullYear(),
-      rawEndDate.getMonth() + 1,
-      rawEndDate.getDate(),
-    )
+        rawEndDate.getFullYear(),
+        rawEndDate.getMonth() + 1,
+        rawEndDate.getDate(),
+      )
     : null
 }
 
