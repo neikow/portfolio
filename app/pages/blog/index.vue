@@ -18,7 +18,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div>
+  <div class="slide-enter-content">
     <PageTitle title="Blog Posts" />
 
     <div v-if="error">

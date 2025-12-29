@@ -251,10 +251,13 @@ useHead({
 })
 
 const toast = useToast()
-const experienceModalOpen = ref(false)
+const experienceModalOpen = ref<boolean>(
+  new URL(window.location.href).searchParams.has('new') || false,
+)
 
+const MS_DEBOUNCE = 300
 const technologySearchQuery = ref('')
-const technologySearchQueryDebounced = refDebounced(technologySearchQuery, 300)
+const technologySearchQueryDebounced = refDebounced(technologySearchQuery, MS_DEBOUNCE)
 const selectedTechnologies = ref<TechnologyWithVersion[]>([])
 
 const experienceSchema = z.object({
@@ -462,10 +465,10 @@ function handleEdit(id: number) {
   const rawEndDate = experience.endDate ? new Date(experience.endDate) : null
   endDate.value = rawEndDate
     ? new CalendarDate(
-        rawEndDate.getFullYear(),
-        rawEndDate.getMonth() + 1,
-        rawEndDate.getDate(),
-      )
+      rawEndDate.getFullYear(),
+      rawEndDate.getMonth() + 1,
+      rawEndDate.getDate(),
+    )
     : null
 }
 

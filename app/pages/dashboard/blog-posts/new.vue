@@ -17,7 +17,13 @@
             :icon="Icons.actions.clear"
             color="error"
             variant="soft"
-            @click="formData.content = DEFAULT_CONTENT"
+            @click="() => {
+              formData.title = ''
+              formData.description = ''
+              formData.content = DEFAULT_CONTENT
+              formData.tags = []
+              formData.coverImageUrl = ''
+            }"
           >
             Clear
           </UButton>

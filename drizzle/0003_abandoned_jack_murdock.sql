@@ -1,0 +1,1 @@
+ALTER TABLE "lab_experiments" ADD COLUMN "repo_url" text;

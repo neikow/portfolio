@@ -19,7 +19,7 @@ const { data: experiences, status } = await useFetch('/api/experiences', {
 </script>
 
 <template>
-  <div class="text-center flex flex-col items-center w-full">
+  <div class="text-center flex flex-col items-center w-full slide-enter-content">
     <PageTitle title="Projects & Experience" />
     <section class="w-full max-w-2xl mx-auto mt-12 mb-16 px-4">
       <h2 class="text-2xl font-bold mb-6 text-left text-toned">

@@ -11,6 +11,7 @@ export const Icons = {
   },
   lab: {
     icon: 'i-mdi-flask',
+    dashboard: 'i-mdi-flask-outline',
   },
   dashboard: {
     icon: 'i-mdi-view-dashboard-outline',
@@ -49,6 +50,8 @@ export const Icons = {
     unpublish: 'i-mdi-eye-off',
   },
   ui: {
+    settings: 'i-mdi-cog-outline',
+    externalLink: 'i-mdi-open-in-new',
     arrowBack: 'i-mdi-arrow-back',
     logOut: 'i-mdi-logout',
     more: 'i-mdi-dots-vertical',
