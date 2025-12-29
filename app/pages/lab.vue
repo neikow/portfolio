@@ -63,7 +63,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
         <h3 class="text-xl font-bold">
           {{ experiment.name }}
         </h3>
-        <div class="mb-2">
+        <div class="mb-2 flex items-center justify-center gap-2 flex-wrap">
           <UBadge
             v-for="tag in experiment.tags"
             :key="tag"
