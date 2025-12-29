@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import ExperienceShowcaseCard from '~/components/ExperienceShowcaseCard.vue'
 import { SITE_URL } from '#shared/consts/urls'
 
 const { data: experiences, status } = await useFetch('/api/experiences', {

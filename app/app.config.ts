@@ -1,4 +1,9 @@
 export default defineAppConfig({
+  head: {
+    htmlAttrs: {
+      lang: 'en',
+    },
+  },
   ui: {
     colors: {
       neutral: 'neutral',

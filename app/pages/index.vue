@@ -36,7 +36,7 @@ useHead({
 </script>
 
 <template>
-  <div class="px-4 mx-auto max-w-prose space-y-4 slide-enter-content">
+  <main class="px-4 mx-auto max-w-prose space-y-4 slide-enter-content">
     <h1 class="text-2xl font-semibold mb-8 mt-24 before:content-['>'] before:inline-block before:h-1 before:mb-4">
       lysen.dev
     </h1>
@@ -109,5 +109,5 @@ useHead({
       />
       lysen.dev
     </p>
-  </div>
+  </main>
 </template>
