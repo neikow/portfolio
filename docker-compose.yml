@@ -45,6 +45,8 @@ services:
       target: migration
     env_file: .env
     environment:
+      DB_HOST: database
+      DB_PORT: 5432
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
     depends_on:
       database:

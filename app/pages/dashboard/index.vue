@@ -114,6 +114,9 @@
         description="An error occurred while fetching the statistics"
         title="Failed to load statistics."
       />
+      <pre>
+        {{ error }}
+      </pre>
     </div>
   </div>
 </template>
@@ -152,7 +155,7 @@ const greetings = [
 const userName = 'Vitaly'
 const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)]!.replace('###', userName)
 
-const { data: stats, status } = await useFetch('/api/stats', {
+const { data: stats, status, error } = await useFetch('/api/stats', {
   method: 'GET',
   server: true,
 })
