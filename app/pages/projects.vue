@@ -2,6 +2,10 @@
 import ExperienceShowcaseCard from '~/components/ExperienceShowcaseCard.vue'
 import { SITE_URL } from '#shared/consts/urls'
 
+const { data: experiences, status } = await useFetch('/api/experiences', {
+  method: 'GET',
+})
+
 const description = computed(() => {
   if (experiences.value && experiences.value.length > 0) {
     const roles = experiences.value.slice(0, 3).map(e => e.role).join(', ')
@@ -19,10 +23,6 @@ useSeoMeta({
   ogUrl: `${SITE_URL}/projects`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
-})
-
-const { data: experiences, status } = await useFetch('/api/experiences', {
-  method: 'GET',
 })
 
 useHead({
