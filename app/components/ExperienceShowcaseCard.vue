@@ -23,6 +23,7 @@
           {{ experience.role }}
         </h3>
         <UButton
+          v-if="experience.companyUrl"
           :to="experience.companyUrl || '#'"
           class="text-center w-min text-nowrap"
           rel="noopener noreferrer"
@@ -32,6 +33,10 @@
         >
           @{{ experience.company }}
         </UButton>
+        <span
+          v-else
+          class="text-center w-min text-nowrap font-xl text-primary"
+        >@{{ experience.company }}</span>
       </header>
       <div class="text-sm text-dimmed flex items-center gap-1">
         <time :datetime="experience.startDate">
