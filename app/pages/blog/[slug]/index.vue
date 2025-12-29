@@ -1,16 +1,20 @@
 <template>
-  <div class="relative">
+  <main class="relative">
     <ErrorState
       v-if="error"
       description="An error occurred while fetching the blog post. Please try again later."
       title="Error loading blog post"
     />
-    <div v-else-if="!post">
-      <h1 class="text-2xl font-bold">
-        Loading...
-      </h1>
-    </div>
     <div
+      v-else-if="!post"
+      class="flex justify-center py-20"
+    >
+      <span class="text-2xl font-bold animate-pulse">
+        Loading...
+      </span>
+    </div>
+
+    <article
       v-else
       class="px-4"
     >
@@ -18,6 +22,7 @@
         <img
           :alt="`${post.title}-blurred`"
           :src="post.coverImageUrl"
+          aria-hidden="true"
           class="blur-xl w-full max-h-96 object-cover opacity-60"
         >
         <img
@@ -38,7 +43,7 @@
             class="font-bold"
             variant="soft"
           >
-            @{{ tag }}
+            #{{ tag }}
           </UBadge>
         </div>
 
@@ -47,9 +52,9 @@
             :icon="Icons.blog.datePublished"
             variant="subtle"
           >
-            {{
-              (post.publishedAt ? new Date(post.publishedAt) : new Date())?.toLocaleDateString()
-            }}
+            <time :datetime="post.publishedAt || new Date().toISOString()">
+              {{ formatDate(post.publishedAt ?? new Date()) }}
+            </time>
           </UBadge>
 
           <UBadge
@@ -57,31 +62,31 @@
             :icon="Icons.blog.dateEdited"
             variant="subtle"
           >
-            {{
-              (post.editedAt ? new Date(post.editedAt) : new Date())?.toLocaleDateString()
-            }}
+            <time :datetime="post.editedAt">
+              Updated {{ formatDate(post.editedAt) }}
+            </time>
           </UBadge>
         </div>
 
-        <p class="text-center">
+        <p class="text-center text-xl text-muted leading-relaxed">
           {{ post.description }}
         </p>
       </div>
       <div
-        class="prose dark:prose-invert mx-auto mt-5"
+        class="prose dark:prose-invert mx-auto mt-10"
       >
-        <article
+        <section
           class="slide-enter-content
-          prose-h2:text-5xl prose-h2:mt-12 prose-h2:mb-6
-          prose-h3:text-4xl prose-h3:mt-10 prose-h3:mb-6
-          prose-h4:text-3xl prose-h4:mt-8 prose-h4:mb-6
-          prose-h5:text-2xl prose-h5:mt-6 prose-h5:mb-4
-          prose-h6:text-xl prose-h6:mt-4 prose-h6:mb-4
+          prose-headings:text-highlighted
+          prose-h2:text-4xl prose-h2:mt-12 prose-h2:mb-4
+          prose-h3:text-2xl prose-h3:mt-8
+          prose-a:text-primary prose-a:underline
+          prose-img:rounded-xl
           pb-32"
           v-html="post.content"
         />
       </div>
-    </div>
+    </article>
     <div
       v-if="loggedIn && post"
       class="fixed bottom-4 right-4 flex items-center"
@@ -100,12 +105,13 @@
         :to="`/dashboard/blog-posts/${post.id}`"
       />
     </div>
-  </div>
+  </main>
 </template>
 
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
 import { SITE_URL } from '#shared/consts/urls'
+import { formatDate } from '#shared/utils/dateUtils'
 
 const { params } = useRoute()
 const { slug } = params
@@ -118,8 +124,34 @@ const { data: post, error } = await useFetch(`/api/blog/posts/${slug}`, {
   method: 'GET',
 })
 
+watchEffect(() => {
+  if (post.value) {
+    useHead({
+      script: [
+        {
+          type: 'application/ld+json',
+          value: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            'headline': post.value.title,
+            'image': [post.value.coverImageUrl],
+            'datePublished': post.value.publishedAt || post.value.createdAt,
+            'dateModified': post.value.editedAt || post.value.publishedAt || post.value.createdAt,
+            'author': [{
+              '@type': 'Person',
+              'name': 'Vitaly Lysen',
+              'url': SITE_URL,
+            }],
+            'description': post.value.description,
+          }),
+        },
+      ],
+    })
+  }
+})
+
 useSeoMeta({
-  title: post.value ? post.value.title : 'Loading...',
+  title: post.value ? post.value.title : 'Loading... | Vitaly Lysen',
   description: post.value ? post.value.description : 'Loading blog post...',
   author: 'Vitaly Lysen',
   articleTag: post.value ? post.value.tags : [],
@@ -132,6 +164,6 @@ useSeoMeta({
   ogType: 'article',
   ogTitle: post.value ? post.value.title : 'Loading...',
   ogDescription: post.value ? post.value.description : 'Loading blog post...',
-  ogImage: post.value ? post.value.coverImageUrl : undefined,
+  ogImage: post.value ? `${SITE_URL}/${post.value.coverImageUrl}` : undefined,
 })
 </script>

@@ -2,12 +2,20 @@
 import ExperienceShowcaseCard from '~/components/ExperienceShowcaseCard.vue'
 import { SITE_URL } from '#shared/consts/urls'
 
+const description = computed(() => {
+  if (experiences.value && experiences.value.length > 0) {
+    const roles = experiences.value.slice(0, 3).map(e => e.role).join(', ')
+    return `Professional experience including roles as ${roles}. Explore the portfolio and career journey of Vitaly Lysen.`
+  }
+  return 'Explore the professional work experience and software development projects of Vitaly Lysen.'
+})
+
 useSeoMeta({
-  title: 'Projects & Experience',
-  description: 'A collection of my projects & work experience.',
+  title: 'Work Experience & Software Projects | Vitaly Lysen',
+  description: description,
   ogType: 'website',
-  ogTitle: 'Projects & Experience - lysen.dev',
-  ogDescription: 'A collection of my projects & work experience.',
+  ogTitle: 'Vitaly Lysen - Professional Experience',
+  ogDescription: description,
   ogUrl: `${SITE_URL}/projects`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
@@ -15,6 +23,29 @@ useSeoMeta({
 
 const { data: experiences, status } = await useFetch('/api/experiences', {
   method: 'GET',
+})
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      value: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        'name': 'Work Experience of Vitaly Lysen',
+        'itemListElement': experiences.value?.map((exp, index) => ({
+          '@type': 'ListItem',
+          'position': index + 1,
+          'item': {
+            '@type': 'Organization',
+            'name': exp.company,
+            'description': exp.description,
+            'jobTitle': exp.role,
+          },
+        })),
+      }),
+    },
+  ],
 })
 </script>
 

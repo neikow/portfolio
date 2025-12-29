@@ -1,40 +1,54 @@
 <script lang='ts' setup>
-import { Icons } from '#shared/consts/icons'
 import { GITHUB_PROFILE, INSTAGRAM_PROFILE, LINKEDIN_PROFILE, SITE_URL } from '#shared/consts/urls'
-
-const connectLinks: {
-  label: string
-  href: string
-  icon: string
-}[] = [
-  { label: 'GitHub', href: GITHUB_PROFILE, icon: Icons.socials.github },
-  { label: 'LinkedIn', href: LINKEDIN_PROFILE, icon: Icons.socials.linkedin },
-  { label: 'Instagram', href: INSTAGRAM_PROFILE, icon: Icons.socials.instagram },
-]
+import { Socials } from '#shared/consts/socials'
 
 useSeoMeta({
-  title: 'Home',
+  title: 'Software Enginereer | Vitaly Lysen',
   description: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
-  ogTitle: 'Home - lysen.dev',
+  ogTitle: 'Vitaly Lysen - Software Engineer',
   ogDescription: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
   ogUrl: SITE_URL,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
   ogType: 'website',
 })
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      value: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        'name': 'Vitaly',
+        'url': SITE_URL,
+        'jobTitle': 'Software Engineer',
+        'sameAs': [
+          GITHUB_PROFILE,
+          LINKEDIN_PROFILE,
+          INSTAGRAM_PROFILE,
+        ],
+        'description': 'Software engineer and engineering and computer graphics student in France.',
+      }),
+    },
+  ],
+})
 </script>
 
 <template>
   <div class="px-4 mx-auto max-w-prose space-y-4 slide-enter-content">
-    <h1 class="text-2xl font-semibold mb-8 mt-24">
-      > lysen.dev
+    <h1 class="text-2xl font-semibold mb-8 mt-24 before:content-['>'] before:inline-block before:h-1 before:mb-4">
+      lysen.dev
     </h1>
     <p>
-      Hi, I'm Vitaly, a software developer passionate about building web applications and exploring new
-      technologies.
+      Hi, I'm <strong>Vitaly</strong>, a software engineer passionate about building web applications, graphics and
+      exploring new technologies.
     </p>
 
-    <p>I am currently in my last year of engineering studies in France.</p>
+    <p>
+      I am currently in my last year of engineering studies in France.
+      I'm also following a master's degree in computer graphics.
+    </p>
 
     <p>
       I love technology, music, fashion, wood-working and photography. You can view a selection of my photography work
@@ -75,10 +89,12 @@ useSeoMeta({
 
     <div class="flex gap-4 justify-center">
       <UButton
-        v-for="link in connectLinks"
+        v-for="link in Socials"
         :key="link.label"
         :icon="link.icon"
+        :title="link.title"
         :to="link.href"
+        rel="me"
         variant="link"
       >
         {{ link.label }}

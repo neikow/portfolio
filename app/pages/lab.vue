@@ -3,10 +3,10 @@ import { SITE_URL } from '#shared/consts/urls'
 import { Icons } from '#shared/consts/icons'
 
 useSeoMeta({
-  title: 'Lab',
+  title: 'Lab | Vitaly Lysen',
   description: 'The place where I experiment with new ideas and web technologies.',
   ogType: 'website',
-  ogTitle: 'Lab - lysen.dev',
+  ogTitle: 'Vitaly Lysen - Lab',
   ogDescription: 'The place where I experiment with new ideas and web technologies.',
   ogUrl: `${SITE_URL}/lab`,
   ogSiteName: 'lysen.dev',
@@ -23,7 +23,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
     <PageTitle
       title="Lab"
     />
-    <p class="text-white max-w-md">
+    <p class="text-default max-w-md">
       My interactive web-dev experiments and small projects, that can run directly in your browser.
     </p>
     <div

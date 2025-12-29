@@ -1,44 +1,55 @@
 <template>
   <header class="flex container mx-auto z-50">
     <div class="flex-1 hidden sm:block" />
-    <a
+    <NuxtLink
       class="mx-2"
-      href="/"
+      to="/"
     >
       <WebsiteLogo />
-    </a>
-    <nav class="flex-1 flex justify-end">
-      <div
-        v-for="nav in navigation"
-        :key="nav.name"
-        :class="{
-          'hidden sm:block': nav.mobileHidden,
-        }"
-      >
-        <UTooltip
-          v-if="!nav.adminOnly || (nav.adminOnly && loggedIn)"
-          :text="nav.name"
+      <span class="sr-only">lysen.dev</span>
+    </NuxtLink>
+    <nav
+      aria-label="Main Navigation"
+      class="flex-1"
+    >
+      <ul class="flex justify-end items-center">
+        <li
+          v-for="nav in navigation"
+          :key="nav.name"
+          :class="{
+            'hidden sm:block': nav.mobileHidden,
+          }"
         >
-          <UButton
-            :icon="nav.icon"
-            :target="nav.openInNewTab ? '_blank' : undefined"
-            :to="nav.href"
-            :variant="nav.variantOverride || 'ghost'"
-            class="aspect-square justify-center m-2"
-          />
-        </UTooltip>
-      </div>
+          <UTooltip
+            v-if="!nav.adminOnly || (nav.adminOnly && loggedIn)"
+            :text="nav.name"
+          >
+            <UButton
+              :icon="nav.icon"
+              :target="nav.openInNewTab ? '_blank' : undefined"
+              :to="nav.href"
+              :variant="nav.variantOverride || 'ghost'"
+              class="aspect-square justify-center m-2"
+            >
+              <span class="sr-only">{{ nav.name }}</span>
+            </UButton>
+          </UTooltip>
+        </li>
 
-      <UTooltip
-        text="Toggle dark mode"
-      >
-        <UButton
-          :icon="$colorMode.preference === 'dark' ? Icons.theme.dark : Icons.theme.light"
-          class="aspect-square justify-center m-2"
-          variant="ghost"
-          @click="$colorMode.preference = $colorMode.preference === 'dark' ? 'light' : 'dark'"
-        />
-      </UTooltip>
+        <li>
+          <UTooltip
+            text="Toggle dark mode"
+          >
+            <UButton
+              :icon="$colorMode.preference === 'dark' ? Icons.theme.dark : Icons.theme.light"
+              aria-label="Toggle dark mode"
+              class="aspect-square justify-center m-2"
+              variant="ghost"
+              @click="$colorMode.preference = $colorMode.preference === 'dark' ? 'light' : 'dark'"
+            />
+          </UTooltip>
+        </li>
+      </ul>
     </nav>
   </header>
 </template>
