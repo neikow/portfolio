@@ -37,9 +37,9 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
       class="text-muted text-center py-8"
     >
       <EmptyState
+        :icon="Icons.lab.empty"
         description="There is nothing to display at the moment."
-        icon="mdi-briefcase-off-outline"
-        title="No Experiences Found"
+        title="No Experiments Found"
       />
     </div>
     <div
@@ -49,7 +49,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
       <div
         v-for="experiment in experiments"
         :key="experiment.id"
-        class="m-4 p-6 border border-default bg-default rounded-lg hover:shadow-lg transition-shadow"
+        class="m-4 p-4 border border-default bg-default rounded-lg hover:shadow-lg transition-shadow"
       >
         <div>
           <img
@@ -60,7 +60,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
           >
         </div>
 
-        <h3 class="text-xl font-bold">
+        <h3 class="text-2xl font-bold mb-2">
           {{ experiment.name }}
         </h3>
         <div class="mb-2 flex items-center justify-center gap-2 flex-wrap">

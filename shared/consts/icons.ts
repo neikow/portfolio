@@ -12,6 +12,7 @@ export const Icons = {
   lab: {
     icon: 'i-mdi-flask',
     dashboard: 'i-mdi-flask-outline',
+    empty: 'i-mdi-flask-off-outline',
   },
   dashboard: {
     icon: 'i-mdi-view-dashboard-outline',
@@ -31,6 +32,7 @@ export const Icons = {
   },
   experiences: {
     dashboard: 'i-mdi-briefcase-outline',
+    empty: 'mdi-briefcase-off-outline',
   },
   theme: {
     dark: 'i-mdi-weather-night',

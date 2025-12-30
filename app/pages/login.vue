@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Icons } from '#shared/consts/icons'
+
 const { loggedIn } = useUserSession()
 
 useSeoMeta({
@@ -22,10 +24,10 @@ useSeoMeta({
         </p>
         <UButton
           v-if="!loggedIn"
+          :icon="Icons.socials.github"
           autofocus
           color="neutral"
           external
-          icon="i-simple-icons-github"
           label="Login with GitHub"
           size="md"
           to="/api/auth/github"

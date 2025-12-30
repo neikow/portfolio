@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { SITE_URL } from '#shared/consts/urls'
+import { Icons } from '#shared/consts/icons'
 
 const { data: experiences, status } = await useFetch('/api/experiences', {
   method: 'GET',
@@ -66,8 +67,8 @@ useHead({
         class="text-muted text-center py-8"
       >
         <EmptyState
+          :icon="Icons.experiences.empty"
           description="There is nothing to display at the moment."
-          icon="mdi-briefcase-off-outline"
           title="No Experiences Found"
         />
       </div>
