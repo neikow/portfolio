@@ -1,75 +1,57 @@
-# Nuxt Content Starter
+# Portfolio
 
-Look at the [Nuxt Content documentation](https://content.nuxt.com) to learn more.
+Personal portfolio website created using Nuxt.js to showcase my projects, skills, and experience.
 
-## Setup
+## Tech Stack
 
-Make sure to install dependencies:
+- **Framework**: `nuxt>=4`
+- **Language**: `typescript`
+- **Styling**: `tailwindcss` + `nuxt-ui`
+- **Database**: `postgresql`
+- **ORM**: `drizzle-orm`
+- **Deployment**: `docker`
+- **Version Control**: `git` + `github`
 
-```bash
-# npm
-npm install
+## Development
 
-# pnpm
-pnpm install
+To run the project locally, follow these steps:
 
-# yarn
-yarn install
+1. Clone the repository and navigate to the project directory:
+    ```bash
+    git clone https://github.com/neikow/porfolio.git porfolio && cd porfolio
+    ```
 
-# bun
-bun install
-```
+2. Install the dependencies:
+    ```bash
+    yarn install
+    ```
 
-## Development Server
+3. Create a `.env` file in the root directory and add any necessary environment variables.
+    ```env
+    cp .env.example .env
+    ```
 
-Start the development server on `http://localhost:3000`:
+4. Run the development database
+    ```bash
+    docker compose -f docker-compose.dev.yml up -d
+    ```
 
-```bash
-# npm
-npm run dev
+5. Apply database migrations:
+    ```bash
+    yarn run db:migrate
+    ```
 
-# pnpm
-pnpm dev
+6. Start the development server:
+    ```bash
+    yarn dev
+    ```
 
-# yarn
-yarn dev
+7. Profit!
 
-# bun
-bun run dev
-```
+## Deployment
 
-## Production
+The project is configured for deployment on my personal server using Docker.
 
-Build the application for production:
+## License
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+The code is open-source and available under the MIT License. See the [LICENSE](LICENSE) file for more information.
