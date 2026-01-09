@@ -11,6 +11,17 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
   ],
   devtools: { enabled: true },
+  app: {
+    head: {
+      script: [
+        {
+          'src': 'https://analytics.lysen.dev/script.js',
+          'data-website-id': '34162bc8-a1b2-4140-a341-58ce504a13eb',
+          'defer': 'true',
+        },
+      ],
+    },
+  },
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     authorizedEmail: '',
