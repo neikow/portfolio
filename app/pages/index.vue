@@ -1,6 +1,9 @@
 <script lang='ts' setup>
 import { GITHUB_PROFILE, INSTAGRAM_PROFILE, LINKEDIN_PROFILE, SITE_URL } from '#shared/consts/urls'
 import { Socials } from '#shared/consts/socials'
+import { getOgImageUrl } from '#shared/utils/og'
+
+const ogImage = getOgImageUrl('home')
 
 useSeoMeta({
   title: 'Software Enginereer | Vitaly Lysen',
@@ -11,6 +14,9 @@ useSeoMeta({
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
   ogType: 'website',
+  ogImage,
+  twitterCard: 'summary_large_image',
+  twitterImage: ogImage,
 })
 
 useHead({

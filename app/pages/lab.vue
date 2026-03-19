@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { SITE_URL } from '#shared/consts/urls'
 import { Icons } from '#shared/consts/icons'
+import { getOgImageUrl } from '#shared/utils/og'
+
+const ogImage = getOgImageUrl('lab')
 
 useSeoMeta({
   title: 'Lab | Vitaly Lysen',
@@ -11,6 +14,9 @@ useSeoMeta({
   ogUrl: `${SITE_URL}/lab`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
+  ogImage,
+  twitterCard: 'summary_large_image',
+  twitterImage: ogImage,
 })
 
 const { data: experiments, status } = await useFetch('/api/lab/', {
