@@ -1,6 +1,10 @@
 name: ci.yml
 on:
   push:
+    branches:
+      - "**"
+      - "!main"
+  workflow_call:
 
 jobs:
   ci:
@@ -17,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build project
-        run: yarn build
+        run: yarn generate:types
       - name: Run ESLint
         run: yarn lint
       - name: Run type checking
