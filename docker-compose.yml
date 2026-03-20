@@ -31,6 +31,8 @@ services:
       database:
         condition: service_healthy
     environment:
+      NITRO_HOST: "0.0.0.0"
+
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
       NUXT_SITE_NAME: ${NUXT_SITE_NAME}
       NUXT_SITE_URL: ${NUXT_SITE_URL}
