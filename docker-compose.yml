@@ -32,6 +32,20 @@ services:
         condition: service_healthy
     environment:
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
+      NUXT_SITE_NAME: ${NUXT_SITE_NAME}
+      NUXT_SITE_URL: ${NUXT_SITE_URL}
+
+      NUXT_OAUTH_GITHUB_CLIENT_ID: ${NUXT_OAUTH_GITHUB_CLIENT_ID}
+      NUXT_OAUTH_GITHUB_CLIENT_SECRET: ${NUXT_OAUTH_GITHUB_CLIENT_SECRET}
+      NUXT_OAUTH_GITHUB_REDIRECT_URL: ${NUXT_OAUTH_GITHUB_REDIRECT_URL}
+
+      NUXT_SESSION_PASSWORD: ${NUXT_SESSION_PASSWORD}
+      NUXT_AUTHORIZED_EMAIL: ${NUXT_AUTHORIZED_EMAIL}
+
+      SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
+
+      NUXT_OG_API_TOKEN: ${NUXT_OG_API_TOKEN}
+      NUXT_OG_TEMPLATE_URL: ${NUXT_OG_TEMPLATE_URL}
 
     restart: unless-stopped
     networks:
@@ -43,6 +57,7 @@ services:
     environment:
       DB_HOST: database
       DB_PORT: 5432
+      SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
     depends_on:
       database:
