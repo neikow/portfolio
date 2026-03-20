@@ -112,6 +112,7 @@
 import { Icons } from '#shared/consts/icons'
 import { SITE_URL } from '#shared/consts/urls'
 import { formatDate } from '#shared/utils/dateUtils'
+import { getOgImageUrl } from '#shared/utils/og'
 
 const { params } = useRoute()
 const { slug } = params
@@ -164,6 +165,8 @@ useSeoMeta({
   ogType: 'article',
   ogTitle: post.value ? post.value.title : 'Loading...',
   ogDescription: post.value ? post.value.description : 'Loading blog post...',
-  ogImage: post.value ? `${SITE_URL}/${post.value.coverImageUrl}` : undefined,
+  ogImage: post.value ? getOgImageUrl(`blog/${post.value.slug}`) : undefined,
+  twitterCard: 'summary_large_image',
+  twitterImage: post.value ? getOgImageUrl(`blog/${post.value.slug}`) : undefined,
 })
 </script>

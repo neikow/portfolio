@@ -26,6 +26,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     authorizedEmail: '',
     dbUrl: '',
+    ogApiToken: '',
+    ogTemplateUrl: '',
   },
   routeRules: {
     '/': { prerender: true },
@@ -59,6 +61,10 @@ export default defineNuxtConfig({
       commonUploads: {
         driver: 'fs',
         base: './uploads/common',
+      },
+      ogImagesCache: {
+        driver: 'fs',
+        base: './cache/og-images',
       },
     },
   },

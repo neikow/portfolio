@@ -2,6 +2,9 @@
 import { Icons } from '#shared/consts/icons'
 import ErrorState from '~/components/ErrorState.vue'
 import { SITE_URL } from '#shared/consts/urls'
+import { getOgImageUrl } from '#shared/utils/og'
+
+const ogImage = getOgImageUrl('blog')
 
 const { data: posts, error } = await useFetch('/api/blog/posts')
 
@@ -21,6 +24,9 @@ useSeoMeta({
   ogUrl: `${SITE_URL}/blog`,
   ogSiteName: 'lysen.dev',
   ogLocale: 'en_US',
+  ogImage,
+  twitterCard: 'summary_large_image',
+  twitterImage: ogImage,
 })
 
 useHead({
