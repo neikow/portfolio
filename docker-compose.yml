@@ -20,7 +20,7 @@ services:
   web:
     image: ${REGISTRY}/${DOCKER_IMAGE}:latest
     healthcheck:
-      test: curl -f http://localhost:80/api/health || exit 1
+      test: [ "CMD-SHELL", "curl -f http://localhost:80/api/health || exit 1" ]
       interval: 30s
       timeout: 10s
       retries: 5
