@@ -20,7 +20,7 @@ services:
   web:
     image: ${REGISTRY}/${DOCKER_IMAGE}:latest
     healthcheck:
-      test: curl -f http://portfolio-web:80/api/health || exit 1
+      test: curl -f http://localhost:80/api/health || exit 1
       interval: 30s
       timeout: 10s
       retries: 5
@@ -30,7 +30,6 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    container_name: portfolio-web
     environment:
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
 
