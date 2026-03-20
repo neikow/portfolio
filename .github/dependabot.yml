@@ -1,0 +1,47 @@
+version: 2
+updates:
+  # Update JavaScript dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "javascript"
+    groups:
+      # Safe, non-breaking updates grouped together
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      # Breaking updates grouped together
+      npm-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+
+  # Update GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "actions"
+    groups:
+      # Safe action updates grouped together
+      actions-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      # Major action version changes grouped together
+      actions-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
