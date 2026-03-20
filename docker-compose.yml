@@ -41,10 +41,7 @@ services:
       - app-network
 
   migration:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      target: migration
+    image: ${REGISTRY}/${DOCKER_IMAGE}-migration:latest
     env_file: .env
     environment:
       DB_HOST: database

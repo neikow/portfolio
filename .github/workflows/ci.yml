@@ -1,6 +1,10 @@
 name: ci.yml
 on:
   push:
+    branches:
+      - "**"
+      - "!main"
+  workflow_call:
 
 jobs:
   ci:
