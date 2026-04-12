@@ -40,7 +40,15 @@ CMD ["./migrate.sh"]
 FROM base AS runner
 WORKDIR /app
 
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    font-noto \
+    font-noto-cjk
 
 COPY --from=build /app/.output/ ./
 

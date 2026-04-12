@@ -5,12 +5,22 @@
         Acquisitions
       </template>
       <template #actions>
-        <UButton
-          :icon="Icons.acquisitions.generate"
-          @click="openNewGenerationModal"
-        >
-          New Generation
-        </UButton>
+        <div class="flex gap-2">
+          <UButton
+            :icon="Icons.acquisitions.template"
+            color="neutral"
+            variant="subtle"
+            @click="openTemplateEditor"
+          >
+            Templates
+          </UButton>
+          <UButton
+            :icon="Icons.acquisitions.generate"
+            @click="openNewGenerationModal"
+          >
+            New Generation
+          </UButton>
+        </div>
       </template>
     </DashboardHeader>
 
@@ -349,6 +359,7 @@
     <UModal
       v-model:open="detailOpen"
       :ui="{ content: 'max-w-3xl' }"
+      @update:open="(v) => { if (!v) stopPolling() }"
     >
       <template #title>
         <div class="flex items-center gap-3">
@@ -500,6 +511,133 @@
             />
             <span>Waiting to start…</span>
           </div>
+
+          <!-- PDF Generation (CV only, done status) -->
+          <div
+            v-if="selectedItem.type === 'cv' && selectedItem.status === 'done'"
+            class="border-t border-default pt-4 mt-2"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-semibold uppercase tracking-wide text-muted">
+                PDF Export
+              </p>
+              <div v-if="selectedItem.pdfUrl && selectedItem.pdfStatus === 'done'">
+                <UButton
+                  :icon="Icons.acquisitions.download"
+                  :to="selectedItem.pdfUrl"
+                  color="success"
+                  size="xs"
+                  target="_blank"
+                  variant="subtle"
+                >
+                  Download PDF
+                </UButton>
+              </div>
+            </div>
+
+            <div
+              v-if="selectedItem.pdfStatus === 'processing' || isPdfGenerating"
+              class="flex items-center gap-2 text-sm text-primary"
+            >
+              <UIcon
+                :name="Icons.ui.loading"
+                class="animate-spin"
+              />
+              <span>Generating PDF…</span>
+            </div>
+            <div
+              v-else-if="selectedItem.pdfStatus === 'error'"
+              class="text-xs text-error mb-2"
+            >
+              PDF generation failed. Try again.
+            </div>
+
+            <div class="flex gap-2 flex-wrap">
+              <UButton
+                :disabled="selectedItem.pdfStatus === 'processing' || isPdfGenerating"
+                :loading="selectedItem.pdfStatus === 'processing' || isPdfGenerating"
+                color="neutral"
+                size="sm"
+                variant="subtle"
+                @click="triggerPdfGeneration('eu')"
+              >
+                <UIcon
+                  class="text-error"
+                  name="i-mdi-file-pdf-box"
+                />
+                EU Standard
+              </UButton>
+              <UButton
+                :disabled="selectedItem.pdfStatus === 'processing' || isPdfGenerating"
+                :loading="selectedItem.pdfStatus === 'processing' || isPdfGenerating"
+                color="neutral"
+                size="sm"
+                variant="subtle"
+                @click="triggerPdfGeneration('us')"
+              >
+                <UIcon
+                  class="text-error"
+                  name="i-mdi-file-pdf-box"
+                />
+                US Standard
+              </UButton>
+            </div>
+          </div>
+        </div>
+      </template>
+    </UModal>
+
+    <!-- Template Editor Modal -->
+    <UModal
+      v-model:open="templateEditorOpen"
+      :ui="{ content: 'max-w-4xl' }"
+    >
+      <template #title>
+        <h2 class="font-black text-2xl">
+          CV Templates
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col gap-4">
+          <div class="flex gap-2">
+            <UButton
+              v-for="t in ['eu', 'us']"
+              :key="t"
+              :color="activeTemplate === t ? 'primary' : 'neutral'"
+              :variant="activeTemplate === t ? 'solid' : 'ghost'"
+              size="sm"
+              @click="activeTemplate = t as 'eu' | 'us'"
+            >
+              {{ t.toUpperCase() }} Standard
+            </UButton>
+          </div>
+
+          <p class="text-xs text-muted">
+            Full HTML template. Use <code class="bg-elevated px-1 rounded">&#123;&#123;content&#125;&#125;</code> where the markdown-rendered CV content should appear.
+          </p>
+
+          <textarea
+            v-model="templateHtml[activeTemplate]"
+            class="w-full h-96 font-mono text-xs bg-elevated border border-default rounded-lg p-3 outline-none resize-none focus:border-primary"
+            spellcheck="false"
+          />
+
+          <div class="flex justify-end gap-2">
+            <UButton
+              color="neutral"
+              variant="ghost"
+              @click="templateEditorOpen = false"
+            >
+              Cancel
+            </UButton>
+            <UButton
+              :icon="Icons.actions.save"
+              :loading="savingTemplate"
+              @click="saveTemplate"
+            >
+              Save Template
+            </UButton>
+          </div>
         </div>
       </template>
     </UModal>
@@ -646,6 +784,47 @@ function openNewGenerationModal() {
 const activeGenerationId = ref<number | null>(null)
 const isStreaming = ref(false)
 const streamingContent = ref('')
+const isPdfGenerating = ref(false)
+
+// ---- Polling fallback ----
+let _pollTimer: ReturnType<typeof setInterval> | null = null
+
+function stopPolling() {
+  if (_pollTimer) {
+    clearInterval(_pollTimer)
+    _pollTimer = null
+  }
+}
+
+function startPolling(id: number) {
+  stopPolling()
+  _pollTimer = setInterval(async () => {
+    try {
+      const item = await $fetch(`/api/acquisitions/${id}`) as import('#shared/schemas/acquisition').Acquisition
+      if (item.status === 'done' || item.status === 'error') {
+        stopPolling()
+        isStreaming.value = false
+        streamingContent.value = ''
+        if (selectedItem.value?.id === id) {
+          selectedItem.value = item
+          inputCollapsed.value = true
+        }
+        if (activeGenerationId.value === id) activeGenerationId.value = null
+        if (item.status === 'error') {
+          toast.add({ title: 'Generation failed', description: item.errorMessage || '', color: 'error', icon: Icons.ui.error })
+        }
+        await refresh()
+      }
+      else if (item.status === 'processing' && selectedItem.value?.id === id && !isStreaming.value) {
+        // WS streaming active — polling handles status badge only
+        selectedItem.value = { ...selectedItem.value, status: item.status }
+      }
+    }
+    catch { /* ignore */ }
+  }, 3000)
+}
+
+onUnmounted(() => stopPolling())
 
 useGenerationWs(activeGenerationId, (event) => {
   if (event.type === 'status' && event.status === 'processing') {
@@ -658,17 +837,41 @@ useGenerationWs(activeGenerationId, (event) => {
     }
   }
   if (event.type === 'done') {
+    stopPolling()
     isStreaming.value = false
     activeGenerationId.value = null
     streamingContent.value = ''
+    if (selectedItem.value) inputCollapsed.value = true
     refresh()
   }
   if (event.type === 'error') {
+    stopPolling()
     isStreaming.value = false
     activeGenerationId.value = null
     streamingContent.value = ''
     toast.add({ title: 'Generation failed', description: event.message, color: 'error', icon: Icons.ui.error })
     refresh()
+  }
+  if (event.type === 'pdf-status') {
+    isPdfGenerating.value = event.status === 'processing'
+    if (selectedItem.value) {
+      selectedItem.value = { ...selectedItem.value, pdfStatus: event.status }
+    }
+  }
+  if (event.type === 'pdf-done') {
+    isPdfGenerating.value = false
+    if (selectedItem.value) {
+      selectedItem.value = { ...selectedItem.value, pdfStatus: 'done', pdfUrl: event.pdfUrl }
+    }
+    toast.add({ title: 'PDF ready', color: 'success', icon: Icons.ui.success })
+    refresh()
+  }
+  if (event.type === 'pdf-error') {
+    isPdfGenerating.value = false
+    if (selectedItem.value) {
+      selectedItem.value = { ...selectedItem.value, pdfStatus: 'error' }
+    }
+    toast.add({ title: 'PDF failed', description: event.message, color: 'error', icon: Icons.ui.error })
   }
 })
 
@@ -696,6 +899,7 @@ async function handleSubmit() {
     selectedItem.value = result.acquisition
     inputCollapsed.value = false
     detailOpen.value = true
+    startPolling(result.acquisition.id)
 
     await refresh()
   }
@@ -718,13 +922,69 @@ function openDetail(item: Acquisition) {
   selectedItem.value = item
   streamingContent.value = ''
   inputCollapsed.value = !!item.generatedContent
+  isPdfGenerating.value = item.pdfStatus === 'processing'
 
   if (item.status === 'processing' || item.status === 'pending') {
     activeGenerationId.value = item.id
     isStreaming.value = item.status === 'processing'
+    startPolling(item.id)
   }
 
   detailOpen.value = true
+}
+
+// ---- PDF generation ----
+async function triggerPdfGeneration(templateType: 'eu' | 'us') {
+  if (!selectedItem.value) return
+  isPdfGenerating.value = true
+  activeGenerationId.value = selectedItem.value.id
+  try {
+    await $fetch(`/api/acquisitions/${selectedItem.value.id}/generate-pdf`, {
+      method: 'POST',
+      body: { templateType },
+    })
+  }
+  catch (e) {
+    console.error(e)
+    isPdfGenerating.value = false
+    toast.add({ title: 'Error', description: 'Failed to start PDF generation.', color: 'error', icon: Icons.ui.error })
+  }
+}
+
+// ---- Template editor ----
+const templateEditorOpen = ref(false)
+const activeTemplate = ref<'eu' | 'us'>('eu')
+const savingTemplate = ref(false)
+const templateHtml = reactive<{ eu: string, us: string }>({ eu: '', us: '' })
+
+async function openTemplateEditor() {
+  try {
+    const templates = await $fetch('/api/cv-templates', { method: 'GET' })
+    templateHtml.eu = templates.eu
+    templateHtml.us = templates.us
+  }
+  catch {
+    toast.add({ title: 'Failed to load templates', color: 'error', icon: Icons.ui.error })
+    return
+  }
+  templateEditorOpen.value = true
+}
+
+async function saveTemplate() {
+  savingTemplate.value = true
+  try {
+    await $fetch(`/api/cv-templates/${activeTemplate.value}`, {
+      method: 'PATCH',
+      body: { html: templateHtml[activeTemplate.value] },
+    })
+    toast.add({ title: 'Template saved', color: 'success', icon: Icons.ui.success })
+  }
+  catch {
+    toast.add({ title: 'Failed to save template', color: 'error', icon: Icons.ui.error })
+  }
+  finally {
+    savingTemplate.value = false
+  }
 }
 
 async function copyContent() {

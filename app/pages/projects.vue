@@ -135,7 +135,7 @@ useHead({
           </div>
           <div class="flex-1 flex flex-col items-center sm:items-start">
             <header class="flex flex-col sm:flex-row w-full justify-between items-center">
-              <h3 class="font-semibold text-lg sm:text-xl text-highlighted">
+              <h3 class="font-semibold text-lg sm:text-xl text-highlighted text-start">
                 {{ edu.degree }} in {{ edu.field }}
               </h3>
               <UButton
@@ -217,8 +217,8 @@ useHead({
                       variant="ghost"
                     >
                       <UIcon
-                        name="i-mdi-file-pdf-box"
                         class="text-error"
+                        name="i-mdi-file-pdf-box"
                       />
                       Report
                     </UButton>

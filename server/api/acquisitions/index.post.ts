@@ -48,9 +48,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: 'Failed to create acquisition' })
   }
 
-  generateAcquisition(acquisition.id).catch(err =>
-    console.error('[generation] error for id', acquisition.id, err),
-  )
+  await useGenerationQueue().add('generate', { acquisitionId: acquisition.id }, {
+    delay: 2000, // give client time to establish WS subscription before worker starts
+    attempts: 2,
+    backoff: { type: 'exponential', delay: 2000 },
+  })
 
   return { success: true, acquisition }
 })

@@ -4,6 +4,9 @@ export type WsEvent
     | { type: 'chunk', text: string }
     | { type: 'done', generatedContent: string }
     | { type: 'error', message: string }
+    | { type: 'pdf-status', status: string }
+    | { type: 'pdf-done', pdfUrl: string }
+    | { type: 'pdf-error', message: string }
 
 export function useGenerationWs(
   id: Ref<number | null>,

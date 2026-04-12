@@ -30,8 +30,12 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       NITRO_HOST: "0.0.0.0"
+      NUXT_REDIS_URL: redis://redis:6379
+      PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: /usr/bin/chromium-browser
 
       NUXT_DB_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
       NUXT_SITE_NAME: ${NUXT_SITE_NAME}
@@ -56,6 +60,19 @@ services:
       - nginx
       - app-network
 
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   migration:
     image: ${REGISTRY}/${DOCKER_IMAGE}-migration:latest
     environment:
@@ -71,6 +88,7 @@ services:
 
 volumes:
   db_data:
+  redis_data:
 
 secrets:
   sentry_auth_token:

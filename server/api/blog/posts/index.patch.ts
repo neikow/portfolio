@@ -21,7 +21,9 @@ export default defineEventHandler(async (event) => {
 
   if (body.published !== undefined) {
     if (body.published) {
-      body.publishedAt = new Date().toISOString()
+      if (!body.publishedAt) {
+        body.publishedAt = new Date().toISOString()
+      }
     }
     else {
       body.publishedAt = null

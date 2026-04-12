@@ -69,6 +69,8 @@ export const Icons = {
     generate: 'i-mdi-creation',
     copy: 'i-mdi-content-copy',
     copied: 'i-mdi-check',
+    template: 'i-mdi-file-code-outline',
+    download: 'i-mdi-download',
   },
   ui: {
     settings: 'i-mdi-cog-outline',

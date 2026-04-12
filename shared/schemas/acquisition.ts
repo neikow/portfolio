@@ -16,6 +16,9 @@ export const acquisitionsTable = pgTable('acquisitions', {
   inputBlocks: json('input_blocks').$type<InputBlock[]>(),
   generatedContent: text('generated_content'),
   errorMessage: text('error_message'),
+  pdfUrl: text('pdf_url'),
+  pdfStatus: text('pdf_status').notNull().default('idle'),
+  pdfTemplateType: text('pdf_template_type'),
   createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(() => new Date().toISOString()),
 })

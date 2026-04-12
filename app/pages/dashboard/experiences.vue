@@ -135,8 +135,8 @@
 
                   <UFormField
                     class="flex-1"
-                    label="Start Date"
-                    name="startDate"
+                    label="End Date"
+                    name="endDate"
                   >
                     <UPopover>
                       <div class="flex gap-1">
