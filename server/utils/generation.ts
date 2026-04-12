@@ -32,7 +32,7 @@ const TONE_DESCRIPTIONS: Record<string, string> = {
   concise: 'brief, direct, and to the point',
 }
 
-function buildUserMessage(acquisition: Acquisition, experiences: string): string {
+function buildUserMessage(acquisition: Acquisition, experiences: string, education: string, certifications: string): string {
   const toneDescription = TONE_DESCRIPTIONS[acquisition.tone] || 'professional'
   const typeLabel = acquisition.type === 'cv' ? 'CV/Resume' : 'Cold Email'
 
@@ -41,10 +41,56 @@ function buildUserMessage(acquisition: Acquisition, experiences: string): string
 ## My Background & Experiences
 ${experiences}
 
+## My Education
+${education}
+
+## My Certifications
+${certifications}
+
 ## Input (Job Description / Recruiter Message)
 ${acquisition.inputContent}
 
 Remember to detect and use the language of the input above.`
+}
+
+function formatEducation(educations: Array<{
+  school: string
+  degree: string
+  field: string
+  description: string
+  startDate: string
+  endDate: string | null
+  schoolProjects: Array<{ name: string, description: string, tags: string[] }>
+}>): string {
+  if (!educations.length) return 'No education listed.'
+
+  return educations.map((edu) => {
+    const period = edu.endDate
+      ? `${new Date(edu.startDate).getFullYear()} - ${new Date(edu.endDate).getFullYear()}`
+      : `${new Date(edu.startDate).getFullYear()} - Present`
+    const projects = edu.schoolProjects.length
+      ? `\n  Notable projects: ${edu.schoolProjects.map(p => p.name).join(', ')}`
+      : ''
+    return `### ${edu.degree} in ${edu.field} at ${edu.school} (${period})
+  ${edu.description}${projects}`
+  }).join('\n\n')
+}
+
+function formatCertifications(certifications: Array<{
+  name: string
+  issuer: string
+  issuedAt: string
+  expiresAt: string | null
+  description: string | null
+}>): string {
+  if (!certifications.length) return 'No certifications listed.'
+
+  return certifications.map((cert) => {
+    const year = new Date(cert.issuedAt).getFullYear()
+    const expiry = cert.expiresAt ? ` (expires ${new Date(cert.expiresAt).getFullYear()})` : ''
+    const desc = cert.description ? `\n  ${cert.description}` : ''
+    return `- ${cert.name} — ${cert.issuer} (${year})${expiry}${desc}`
+  }).join('\n')
 }
 
 function formatExperiences(experiences: Array<{
@@ -86,13 +132,22 @@ export async function generateAcquisition(id: number): Promise<void> {
   }
 
   try {
-    // Fetch experiences from DB for context
     const { experiencesTable } = await import('#shared/schemas/experience')
-    const experiences = await db.select().from(experiencesTable).orderBy(experiencesTable.startDate)
+    const { educationsTable } = await import('#shared/schemas/education')
+    const { certificationsTable } = await import('#shared/schemas/certification')
+
+    const [experiences, educations, certifications] = await Promise.all([
+      db.select().from(experiencesTable).orderBy(experiencesTable.startDate),
+      db.select().from(educationsTable).orderBy(educationsTable.startDate),
+      db.select().from(certificationsTable).orderBy(certificationsTable.issuedAt),
+    ])
+
     const experiencesText = formatExperiences(experiences)
+    const educationText = formatEducation(educations)
+    const certificationsText = formatCertifications(certifications)
 
     const systemPrompt = acquisition.type === 'cv' ? CV_SYSTEM_PROMPT : COLD_EMAIL_SYSTEM_PROMPT
-    const userMessage = buildUserMessage(acquisition, experiencesText)
+    const userMessage = buildUserMessage(acquisition, experiencesText, educationText, certificationsText)
 
     let generatedContent = ''
 

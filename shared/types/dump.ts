@@ -37,6 +37,37 @@ export type GalleryImageDump = {
   uploadedAt: string
 }
 
+export type SchoolProjectDump = {
+  name: string
+  description: string
+  url: string | null
+  repoUrl: string | null
+  tags: string[]
+}
+
+export type EducationDump = {
+  school: string
+  degree: string
+  field: string
+  description: string
+  startDate: string
+  endDate: string | null
+  logoUrl: string
+  websiteUrl: string | null
+  schoolProjects: SchoolProjectDump[]
+}
+
+export type CertificationDump = {
+  name: string
+  issuer: string
+  issuerUrl: string | null
+  logoUrl: string | null
+  issuedAt: string
+  expiresAt: string | null
+  credentialUrl: string | null
+  description: string | null
+}
+
 export type DataDump = {
   version: 1
   exportedAt: string
@@ -44,4 +75,6 @@ export type DataDump = {
   experiences: ExperienceDump[]
   labExperiments: LabExperimentDump[]
   galleryImages: GalleryImageDump[]
+  educations: EducationDump[]
+  certifications: CertificationDump[]
 }

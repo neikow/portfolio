@@ -55,6 +55,7 @@ import { Icons } from '#shared/consts/icons'
 const navigation: { name: string, href: string, icon: string }[] = [
   { name: 'Home', href: '/dashboard', icon: Icons.home.icon },
   { name: 'Experiences', href: '/dashboard/experiences', icon: Icons.experiences.dashboard },
+  { name: 'Education', href: '/dashboard/education', icon: Icons.education.dashboard },
   { name: 'Lab', href: '/dashboard/lab', icon: Icons.lab.dashboard },
   { name: 'Blog Posts', href: '/dashboard/blog-posts', icon: Icons.blog.dashboard },
   { name: 'Acquisitions', href: '/dashboard/acquisitions', icon: Icons.acquisitions.dashboard },

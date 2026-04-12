@@ -1,4 +1,6 @@
 import { blogPostsTable } from '#shared/schemas/blogPost'
+import { certificationsTable } from '#shared/schemas/certification'
+import { educationsTable } from '#shared/schemas/education'
 import { experiencesTable } from '#shared/schemas/experience'
 import { galleryImagesTable } from '#shared/schemas/galleryImage'
 import { labExperimentsTable } from '#shared/schemas/labExperiment'
@@ -22,11 +24,13 @@ export default defineEventHandler(async (event): Promise<DataDump> => {
 
   const db = useDatabase()
 
-  const [blogPosts, experiences, labExperiments, galleryImages] = await Promise.all([
+  const [blogPosts, experiences, labExperiments, galleryImages, educations, certifications] = await Promise.all([
     db.select().from(blogPostsTable),
     db.select().from(experiencesTable),
     db.select().from(labExperimentsTable),
     db.select().from(galleryImagesTable),
+    db.select().from(educationsTable),
+    db.select().from(certificationsTable),
   ])
 
   return {
@@ -66,6 +70,27 @@ export default defineEventHandler(async (event): Promise<DataDump> => {
     galleryImages: galleryImages.map(g => ({
       filename: g.filename,
       uploadedAt: g.uploadedAt,
+    })),
+    educations: educations.map(e => ({
+      school: e.school,
+      degree: e.degree,
+      field: e.field,
+      description: e.description,
+      startDate: e.startDate,
+      endDate: e.endDate ?? null,
+      logoUrl: e.logoUrl,
+      websiteUrl: e.websiteUrl ?? null,
+      schoolProjects: e.schoolProjects,
+    })),
+    certifications: certifications.map(c => ({
+      name: c.name,
+      issuer: c.issuer,
+      issuerUrl: c.issuerUrl ?? null,
+      logoUrl: c.logoUrl ?? null,
+      issuedAt: c.issuedAt,
+      expiresAt: c.expiresAt ?? null,
+      credentialUrl: c.credentialUrl ?? null,
+      description: c.description ?? null,
     })),
   }
 })

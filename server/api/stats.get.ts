@@ -1,4 +1,6 @@
 import { blogPostsTable } from '#shared/schemas/blogPost'
+import { certificationsTable } from '#shared/schemas/certification'
+import { educationsTable } from '#shared/schemas/education'
 import { experiencesTable } from '#shared/schemas/experience'
 import { desc, eq } from 'drizzle-orm'
 import type { DashboardStats } from '#shared/types/stats'
@@ -40,6 +42,8 @@ export default defineEventHandler(async (event): Promise<DashboardStats> => {
 
   const labExperimentsCount = await db.$count(labExperimentsTable)
   const projectsCount = 0
+  const educationsCount = await db.$count(educationsTable)
+  const certificationsCount = await db.$count(certificationsTable)
 
   return {
     blogPostsCount,
@@ -49,5 +53,7 @@ export default defineEventHandler(async (event): Promise<DashboardStats> => {
     blogDraftsCount,
     experiencesYears: totalExperienceYears,
     experiencesCount,
+    educationsCount,
+    certificationsCount,
   }
 })

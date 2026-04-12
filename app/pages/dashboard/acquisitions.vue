@@ -15,7 +15,6 @@
     </DashboardHeader>
 
     <div class="p-4">
-      <!-- Empty state -->
       <div v-if="!pending && (!acquisitions || acquisitions.length === 0)">
         <EmptyState
           :icon="Icons.acquisitions.dashboard"
@@ -24,7 +23,6 @@
         />
       </div>
 
-      <!-- Loading -->
       <div
         v-else-if="pending"
         class="flex items-center justify-center py-12"
@@ -35,7 +33,6 @@
         />
       </div>
 
-      <!-- Acquisitions grid -->
       <div
         v-else
         class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
@@ -46,23 +43,20 @@
           class="border border-default rounded-lg bg-default flex flex-col gap-3 p-4 hover:shadow-md transition duration-200 cursor-pointer"
           @click="openDetail(item)"
         >
-          <!-- Header -->
           <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
               <UIcon
                 :name="item.type === 'cv' ? Icons.acquisitions.cv : Icons.acquisitions.email"
                 class="text-lg shrink-0"
               />
-              <span class="font-semibold capitalize">
-                {{ item.type === 'cv' ? 'CV / Resume' : 'Cold Email' }}
-              </span>
+              <span class="font-semibold capitalize">{{ item.type === 'cv' ? 'CV / Resume' : 'Cold Email' }}</span>
             </div>
             <div class="flex items-center gap-2">
               <UBadge
                 :color="statusColor(item.status)"
                 :label="item.status"
-                variant="soft"
                 size="sm"
+                variant="soft"
               />
               <UButton
                 :icon="Icons.actions.delete"
@@ -74,24 +68,26 @@
             </div>
           </div>
 
-          <!-- Tone & Date -->
           <div class="flex items-center gap-2 text-muted text-sm">
             <UBadge
               :label="item.tone"
               color="neutral"
-              variant="outline"
               size="xs"
+              variant="outline"
             />
             <span>·</span>
             <span>{{ formatDate(item.createdAt) }}</span>
+            <span v-if="item.inputBlocks">·</span>
+            <span
+              v-if="item.inputBlocks"
+              class="text-xs"
+            >{{ item.inputBlocks.length }} block{{ item.inputBlocks.length !== 1 ? 's' : '' }}</span>
           </div>
 
-          <!-- Input preview -->
           <p class="text-sm text-muted line-clamp-2 border-l-2 border-default pl-2">
-            {{ item.inputContent }}
+            {{ firstBlockPreview(item) }}
           </p>
 
-          <!-- Content preview or processing state -->
           <div
             v-if="item.status === 'processing' || (item.status === 'pending' && activeGenerationId === item.id)"
             class="flex items-center gap-2 text-sm text-primary"
@@ -131,7 +127,7 @@
 
       <template #body>
         <div class="flex flex-col gap-4">
-          <!-- Type selector -->
+          <!-- Type -->
           <div>
             <label class="text-sm font-medium mb-2 block">Type</label>
             <div class="flex gap-3">
@@ -155,7 +151,7 @@
             </div>
           </div>
 
-          <!-- Tone selector -->
+          <!-- Tone -->
           <div>
             <label class="text-sm font-medium mb-2 block">Tone</label>
             <div class="flex flex-wrap gap-2">
@@ -175,20 +171,156 @@
             </div>
           </div>
 
-          <!-- Input -->
+          <!-- Blocks -->
           <div>
-            <label class="text-sm font-medium mb-2 block">
-              Job Description / Recruiter Message
-            </label>
-            <UTextarea
-              v-model="formState.inputContent"
-              :rows="8"
-              class="w-full font-mono text-sm"
-              placeholder="Paste a job description, a message from a recruiter, or describe the opportunity…"
-            />
-            <p class="text-xs text-muted mt-1">
-              Language will be automatically detected from your input.
-            </p>
+            <label class="text-sm font-medium mb-2 block">Context Blocks</label>
+            <div class="flex flex-col gap-2">
+              <div
+                v-for="(block, i) in formBlocks"
+                :key="block._id"
+                class="border border-default rounded-lg overflow-hidden"
+              >
+                <!-- Block header -->
+                <div class="flex items-center gap-2 px-3 py-2 bg-elevated border-b border-default">
+                  <UIcon
+                    :name="blockIcon(block.type)"
+                    class="text-muted shrink-0"
+                  />
+                  <input
+                    v-model="block.label"
+                    class="flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-muted"
+                    placeholder="Label…"
+                  >
+                  <UButton
+                    :icon="Icons.actions.delete"
+                    color="error"
+                    size="xs"
+                    variant="ghost"
+                    @click="removeBlock(i)"
+                  />
+                </div>
+
+                <!-- Text block -->
+                <template v-if="block.type === 'text'">
+                  <UTextarea
+                    v-model="block.content"
+                    :rows="5"
+                    class="w-full rounded-none border-0"
+                    placeholder="Paste recruiter message, job description, etc."
+                  />
+                </template>
+
+                <!-- URL block -->
+                <template v-else-if="block.type === 'url'">
+                  <div class="p-3 flex flex-col gap-2">
+                    <div class="flex gap-2">
+                      <UInput
+                        v-model="block.url"
+                        class="flex-1"
+                        placeholder="https://..."
+                        @keydown.enter.prevent="fetchBlockUrl(i)"
+                      />
+                      <UButton
+                        :disabled="!block.url || block.fetching"
+                        :loading="block.fetching"
+                        color="neutral"
+                        variant="subtle"
+                        @click="fetchBlockUrl(i)"
+                      >
+                        Fetch
+                      </UButton>
+                    </div>
+                    <div
+                      v-if="block.fetchedContent"
+                      class="text-xs bg-elevated rounded p-2 max-h-28 overflow-y-auto text-muted font-mono leading-relaxed"
+                    >
+                      {{ block.fetchedContent.slice(0, 400) }}<span
+                        v-if="block.fetchedContent.length > 400"
+                        class="text-dimmed"
+                      >… ({{ block.fetchedContent.length.toLocaleString() }} chars total)</span>
+                    </div>
+                    <p
+                      v-else-if="block.fetchError"
+                      class="text-xs text-error"
+                    >
+                      {{ block.fetchError }}
+                    </p>
+                  </div>
+                </template>
+
+                <!-- File block -->
+                <template v-else-if="block.type === 'file'">
+                  <div class="p-3">
+                    <div
+                      v-if="block.fileUrl"
+                      class="flex items-center gap-2 text-sm"
+                    >
+                      <UIcon
+                        class="text-muted"
+                        name="i-mdi-paperclip"
+                      />
+                      <span class="flex-1 truncate">{{ block.fileName }}</span>
+                      <UButton
+                        :icon="Icons.actions.delete"
+                        color="error"
+                        size="xs"
+                        variant="ghost"
+                        @click="block.fileUrl = ''; block.fileName = ''"
+                      />
+                    </div>
+                    <div
+                      v-else
+                      class="flex items-center gap-2"
+                    >
+                      <UFileUpload
+                        :disabled="block.uploading"
+                        :model-value="null"
+                        accept="image/*,.pdf"
+                        class="flex-1"
+                        size="sm"
+                        @update:model-value="(f) => f && handleFileBlockUpload(i, f as File)"
+                      />
+                      <UIcon
+                        v-if="block.uploading"
+                        :name="Icons.ui.loading"
+                        class="animate-spin text-muted"
+                      />
+                    </div>
+                  </div>
+                </template>
+              </div>
+
+              <!-- Add block buttons -->
+              <div class="flex gap-2 mt-1">
+                <UButton
+                  color="neutral"
+                  size="sm"
+                  variant="ghost"
+                  @click="addBlock('text')"
+                >
+                  <UIcon name="i-mdi-text" />
+                  Text
+                </UButton>
+                <UButton
+                  color="neutral"
+                  size="sm"
+                  variant="ghost"
+                  @click="addBlock('url')"
+                >
+                  <UIcon name="i-mdi-link" />
+                  URL
+                </UButton>
+                <UButton
+                  color="neutral"
+                  size="sm"
+                  variant="ghost"
+                  @click="addBlock('file')"
+                >
+                  <UIcon name="i-mdi-paperclip" />
+                  File
+                </UButton>
+              </div>
+            </div>
           </div>
 
           <!-- Actions -->
@@ -201,7 +333,7 @@
               Cancel
             </UButton>
             <UButton
-              :disabled="!formState.inputContent || formState.inputContent.length < 10 || isSubmitting"
+              :disabled="!canSubmit || isSubmitting"
               :icon="Icons.acquisitions.generate"
               :loading="isSubmitting"
               @click="handleSubmit"
@@ -213,7 +345,7 @@
       </template>
     </UModal>
 
-    <!-- Detail / Result Modal -->
+    <!-- Detail Modal -->
     <UModal
       v-model:open="detailOpen"
       :ui="{ content: 'max-w-3xl' }"
@@ -246,21 +378,75 @@
             <UBadge
               :label="selectedItem.tone"
               color="neutral"
-              variant="outline"
               size="sm"
+              variant="outline"
             />
             <span>·</span>
             <span>{{ formatDate(selectedItem.createdAt) }}</span>
           </div>
 
-          <!-- Input -->
+          <!-- Input (collapsible) -->
           <div>
-            <p class="text-xs font-semibold uppercase tracking-wide text-muted mb-1">
-              Input
-            </p>
-            <p class="text-sm text-toned bg-elevated rounded-lg p-3 whitespace-pre-wrap">
-              {{ selectedItem.inputContent }}
-            </p>
+            <button
+              class="flex items-center justify-between w-full text-xs font-semibold uppercase tracking-wide text-muted mb-1 hover:text-default transition"
+              @click="inputCollapsed = !inputCollapsed"
+            >
+              <span>Input{{ selectedItem.inputBlocks ? ` (${selectedItem.inputBlocks.length} block${selectedItem.inputBlocks.length !== 1 ? 's' : ''})` : '' }}</span>
+              <UIcon :name="inputCollapsed ? 'i-mdi-chevron-down' : 'i-mdi-chevron-up'" />
+            </button>
+
+            <div
+              v-if="!inputCollapsed"
+              class="flex flex-col gap-2"
+            >
+              <!-- Structured blocks -->
+              <template v-if="selectedItem.inputBlocks?.length">
+                <div
+                  v-for="(block, i) in selectedItem.inputBlocks"
+                  :key="i"
+                  class="border border-default rounded-lg overflow-hidden text-sm"
+                >
+                  <div class="flex items-center gap-2 px-3 py-1.5 bg-elevated border-b border-default text-xs text-muted">
+                    <UIcon :name="blockIcon(block.type)" />
+                    <span class="font-medium">{{ block.label }}</span>
+                    <span
+                      v-if="block.type === 'url'"
+                      class="ml-auto truncate max-w-48 text-dimmed"
+                    >{{ block.url }}</span>
+                  </div>
+                  <div class="p-3">
+                    <template v-if="block.type === 'text'">
+                      <p class="whitespace-pre-wrap text-toned">
+                        {{ block.content }}
+                      </p>
+                    </template>
+                    <template v-else-if="block.type === 'url'">
+                      <p class="text-muted max-h-32 overflow-y-auto whitespace-pre-wrap font-mono text-xs leading-relaxed">
+                        {{ block.fetchedContent }}
+                      </p>
+                    </template>
+                    <template v-else-if="block.type === 'file'">
+                      <a
+                        :href="block.fileUrl"
+                        class="flex items-center gap-1 text-primary underline"
+                        target="_blank"
+                      >
+                        <UIcon name="i-mdi-paperclip" />
+                        {{ block.fileName }}
+                      </a>
+                    </template>
+                  </div>
+                </div>
+              </template>
+
+              <!-- Legacy plain text -->
+              <p
+                v-else
+                class="text-sm text-toned bg-elevated rounded-lg p-3 whitespace-pre-wrap"
+              >
+                {{ selectedItem.inputContent }}
+              </p>
+            </div>
           </div>
 
           <!-- Generated content -->
@@ -294,7 +480,7 @@
                 @click="copyContent"
               />
             </div>
-            <pre class="text-sm whitespace-pre-wrap font-sans bg-elevated rounded-lg p-3 max-h-[50vh] overflow-y-auto">{{ selectedItem.generatedContent }}</pre>
+            <pre class="text-sm whitespace-pre-wrap font-sans bg-elevated rounded-lg p-3 max-h-[55vh] overflow-y-auto">{{ selectedItem.generatedContent }}</pre>
           </div>
 
           <div
@@ -323,8 +509,14 @@
 <script lang="ts" setup>
 import { Icons } from '#shared/consts/icons'
 import type { Acquisition } from '#shared/schemas/acquisition'
+import type { InputBlock } from '#shared/types/acquisition-blocks'
 import DashboardHeader from '~/components/DashboardHeader.vue'
 import dayjs from 'dayjs'
+
+type FormTextBlock = { _id: number, type: 'text', label: string, content: string }
+type FormUrlBlock = { _id: number, type: 'url', label: string, url: string, fetchedContent: string, fetching: boolean, fetchError: string }
+type FormFileBlock = { _id: number, type: 'file', label: string, fileUrl: string, fileName: string, uploading: boolean }
+type FormBlock = FormTextBlock | FormUrlBlock | FormFileBlock
 
 useHead({ title: 'Acquisitions - lysen.dev' })
 
@@ -336,25 +528,24 @@ definePageMeta({
 const toast = useToast()
 
 // ---- Data ----
-const { data: acquisitions, pending, refresh } = await useFetch('/api/acquisitions', {
-  method: 'GET',
-})
+const { data: acquisitions, pending, refresh } = await useFetch('/api/acquisitions', { method: 'GET' })
 
 // ---- New generation form ----
 const newGenerationOpen = ref(false)
 const isSubmitting = ref(false)
+let _blockId = 0
 
 const formState = reactive({
   type: 'cv' as 'cv' | 'cold-email',
   tone: 'professional' as 'professional' | 'casual' | 'enthusiastic' | 'concise',
-  inputContent: '',
 })
+
+const formBlocks = ref<FormBlock[]>([])
 
 const typeOptions = [
   { value: 'cv' as const, label: 'CV / Resume', icon: Icons.acquisitions.cv },
   { value: 'cold-email' as const, label: 'Cold Email', icon: Icons.acquisitions.email },
 ]
-
 const toneOptions = [
   { value: 'professional' as const, label: 'Professional' },
   { value: 'casual' as const, label: 'Casual' },
@@ -362,14 +553,96 @@ const toneOptions = [
   { value: 'concise' as const, label: 'Concise' },
 ]
 
+const canSubmit = computed(() => {
+  if (!formBlocks.value.length) return false
+  return formBlocks.value.some((b) => {
+    if (b.type === 'text') return b.content.trim().length >= 10
+    if (b.type === 'url') return b.fetchedContent.trim().length > 0
+    if (b.type === 'file') return b.fileUrl.length > 0
+    return false
+  })
+})
+
+function blockIcon(type: string) {
+  if (type === 'text') return 'i-mdi-text'
+  if (type === 'url') return 'i-mdi-link'
+  if (type === 'file') return 'i-mdi-paperclip'
+  return 'i-mdi-block-helper'
+}
+
+function addBlock(type: 'text' | 'url' | 'file') {
+  const id = ++_blockId
+  if (type === 'text') {
+    formBlocks.value.push({ _id: id, type: 'text', label: 'Message', content: '' })
+  }
+  else if (type === 'url') {
+    formBlocks.value.push({ _id: id, type: 'url', label: 'Link', url: '', fetchedContent: '', fetching: false, fetchError: '' })
+  }
+  else {
+    formBlocks.value.push({ _id: id, type: 'file', label: 'Attachment', fileUrl: '', fileName: '', uploading: false })
+  }
+}
+
+function removeBlock(index: number) {
+  formBlocks.value.splice(index, 1)
+}
+
+async function fetchBlockUrl(index: number) {
+  const block = formBlocks.value[index]!
+  if (block.type !== 'url' || !block.url) return
+
+  block.fetching = true
+  block.fetchError = ''
+  try {
+    const res = await $fetch('/api/acquisitions/fetch-url', {
+      method: 'POST',
+      body: { url: block.url },
+    })
+    block.fetchedContent = res.content
+  }
+  catch (e) {
+    block.fetchError = (e as Record<string, Record<string, string>>)?.data?.statusMessage || 'Failed to fetch URL'
+  }
+  finally {
+    block.fetching = false
+  }
+}
+
+async function handleFileBlockUpload(index: number, file: File) {
+  const block = formBlocks.value[index]!
+  if (block.type !== 'file') return
+
+  block.uploading = true
+  const formData = new FormData()
+  formData.append('images', file)
+  try {
+    const res = await $fetch('/api/upload', { method: 'POST', body: formData })
+    const upload = res.uploads[0]
+    if (upload?.success) {
+      block.fileUrl = upload.href
+      block.fileName = file.name
+    }
+    else {
+      toast.add({ title: 'Upload failed', color: 'error', icon: Icons.ui.error })
+    }
+  }
+  catch {
+    toast.add({ title: 'Upload failed', color: 'error', icon: Icons.ui.error })
+  }
+  finally {
+    block.uploading = false
+  }
+}
+
 function openNewGenerationModal() {
   formState.type = 'cv'
   formState.tone = 'professional'
-  formState.inputContent = ''
+  formBlocks.value = []
+  addBlock('text')
   newGenerationOpen.value = true
 }
 
-// ---- WebSocket for live streaming ----
+// ---- WebSocket ----
 const activeGenerationId = ref<number | null>(null)
 const isStreaming = ref(false)
 const streamingContent = ref('')
@@ -378,72 +651,57 @@ useGenerationWs(activeGenerationId, (event) => {
   if (event.type === 'status' && event.status === 'processing') {
     isStreaming.value = true
   }
-
   if (event.type === 'chunk') {
     streamingContent.value += event.text
-    // Keep selected item content updated if it's the active one
-    if (selectedItem.value && selectedItem.value.id === activeGenerationId.value) {
+    if (selectedItem.value?.id === activeGenerationId.value) {
       selectedItem.value = { ...selectedItem.value, generatedContent: streamingContent.value }
     }
   }
-
   if (event.type === 'done') {
     isStreaming.value = false
     activeGenerationId.value = null
     streamingContent.value = ''
     refresh()
   }
-
   if (event.type === 'error') {
     isStreaming.value = false
     activeGenerationId.value = null
     streamingContent.value = ''
-    toast.add({
-      title: 'Generation failed',
-      description: event.message,
-      color: 'error',
-      icon: Icons.ui.error,
-    })
+    toast.add({ title: 'Generation failed', description: event.message, color: 'error', icon: Icons.ui.error })
     refresh()
   }
 })
 
 async function handleSubmit() {
-  if (!formState.inputContent || formState.inputContent.length < 10) return
+  if (!canSubmit.value) return
 
   isSubmitting.value = true
   try {
+    const blocks: InputBlock[] = formBlocks.value.map((b) => {
+      if (b.type === 'text') return { type: 'text', label: b.label, content: b.content }
+      if (b.type === 'url') return { type: 'url', label: b.label, url: b.url, fetchedContent: b.fetchedContent }
+      return { type: 'file', label: b.label, fileUrl: b.fileUrl, fileName: b.fileName }
+    })
+
     const result = await $fetch('/api/acquisitions', {
       method: 'POST',
-      body: {
-        type: formState.type,
-        tone: formState.tone,
-        inputContent: formState.inputContent,
-      },
+      body: { type: formState.type, tone: formState.tone, blocks },
     })
 
     newGenerationOpen.value = false
-
     if (!result.acquisition) return
 
-    // Connect WebSocket to track this generation
     activeGenerationId.value = result.acquisition.id
     streamingContent.value = ''
-
-    // Open detail view immediately
     selectedItem.value = result.acquisition
+    inputCollapsed.value = false
     detailOpen.value = true
 
     await refresh()
   }
   catch (e) {
     console.error(e)
-    toast.add({
-      title: 'Error',
-      description: 'Failed to start generation. Please try again.',
-      color: 'error',
-      icon: Icons.ui.error,
-    })
+    toast.add({ title: 'Error', description: 'Failed to start generation.', color: 'error', icon: Icons.ui.error })
   }
   finally {
     isSubmitting.value = false
@@ -454,12 +712,13 @@ async function handleSubmit() {
 const detailOpen = ref(false)
 const selectedItem = ref<Acquisition | null>(null)
 const copied = ref(false)
+const inputCollapsed = ref(false)
 
 function openDetail(item: Acquisition) {
   selectedItem.value = item
   streamingContent.value = ''
+  inputCollapsed.value = !!item.generatedContent
 
-  // If still processing, connect WS
   if (item.status === 'processing' || item.status === 'pending') {
     activeGenerationId.value = item.id
     isStreaming.value = item.status === 'processing'
@@ -477,21 +736,29 @@ async function copyContent() {
 
 // ---- Delete ----
 async function handleDelete(id: number) {
-  if (!confirm('Delete this generation? This cannot be undone.')) return
-
+  if (!confirm('Delete this generation?')) return
   try {
     await $fetch(`/api/acquisitions/${id}`, { method: 'DELETE' })
     toast.add({ title: 'Deleted', color: 'success', icon: Icons.ui.success })
     if (selectedItem.value?.id === id) detailOpen.value = false
     await refresh()
   }
-  catch (e) {
-    console.error(e)
+  catch {
     toast.add({ title: 'Error', description: 'Failed to delete.', color: 'error', icon: Icons.ui.error })
   }
 }
 
 // ---- Helpers ----
+function firstBlockPreview(item: Acquisition): string {
+  if (item.inputBlocks?.length) {
+    const first = item.inputBlocks[0]!
+    if (first.type === 'text') return first.content
+    if (first.type === 'url') return first.fetchedContent || first.url
+    if (first.type === 'file') return first.fileName
+  }
+  return item.inputContent
+}
+
 function statusColor(status: string) {
   switch (status) {
     case 'done': return 'success'

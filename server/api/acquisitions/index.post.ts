@@ -1,10 +1,17 @@
 import { z } from 'zod'
 import { acquisitionsTable } from '#shared/schemas/acquisition'
+import { buildInputContentFromBlocks } from '#shared/types/acquisition-blocks'
+
+const blockSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('text'), label: z.string(), content: z.string() }),
+  z.object({ type: z.literal('url'), label: z.string(), url: z.string(), fetchedContent: z.string() }),
+  z.object({ type: z.literal('file'), label: z.string(), fileUrl: z.string(), fileName: z.string() }),
+])
 
 const createSchema = z.object({
   type: z.enum(['cv', 'cold-email']),
   tone: z.enum(['professional', 'casual', 'enthusiastic', 'concise']).default('professional'),
-  inputContent: z.string().min(10, 'Please provide more context (at least 10 characters)'),
+  blocks: z.array(blockSchema).min(1, 'At least one block required'),
 })
 
 export default defineEventHandler(async (event) => {
@@ -17,6 +24,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Invalid request data', data: error })
   }
 
+  const inputContent = buildInputContentFromBlocks(data.blocks)
+
+  if (inputContent.trim().length < 10) {
+    throw createError({ statusCode: 400, statusMessage: 'Please provide more context in your blocks' })
+  }
+
   const db = useDatabase()
 
   const results = await db
@@ -24,7 +37,8 @@ export default defineEventHandler(async (event) => {
     .values({
       type: data.type,
       tone: data.tone,
-      inputContent: data.inputContent,
+      inputContent,
+      inputBlocks: data.blocks,
       status: 'pending',
     })
     .returning()
@@ -34,7 +48,6 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: 'Failed to create acquisition' })
   }
 
-  // Trigger generation asynchronously (non-blocking)
   generateAcquisition(acquisition.id).catch(err =>
     console.error('[generation] error for id', acquisition.id, err),
   )

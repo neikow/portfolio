@@ -51,6 +51,17 @@ export const Icons = {
     publish: 'i-mdi-eye',
     unpublish: 'i-mdi-eye-off',
   },
+  education: {
+    dashboard: 'i-mdi-school-outline',
+    icon: 'i-mdi-school',
+    empty: 'i-mdi-school-off-outline',
+    project: 'i-mdi-book-open-outline',
+  },
+  certifications: {
+    dashboard: 'i-mdi-certificate-outline',
+    icon: 'i-mdi-certificate',
+    empty: 'i-mdi-certificate-off',
+  },
   acquisitions: {
     dashboard: 'i-mdi-email-fast-outline',
     cv: 'i-mdi-file-account-outline',

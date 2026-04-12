@@ -6,4 +6,6 @@ export interface DashboardStats {
   projectsCount: number
   experiencesCount: number
   experiencesYears: number
+  educationsCount: number
+  certificationsCount: number
 }
