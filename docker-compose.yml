@@ -49,6 +49,8 @@ services:
       NUXT_OG_API_TOKEN: ${NUXT_OG_API_TOKEN}
       NUXT_OG_TEMPLATE_URL: ${NUXT_OG_TEMPLATE_URL}
 
+      NUXT_DUMP_TOKEN: ${NUXT_DUMP_TOKEN}
+
     restart: unless-stopped
     networks:
       - nginx
