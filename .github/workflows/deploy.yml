@@ -41,6 +41,8 @@ jobs:
           target: runner
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           secrets: |
             "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
 
@@ -51,6 +53,8 @@ jobs:
           target: migration
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}-migration:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     name: Redeploy via Portainer Hook
