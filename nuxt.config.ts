@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     ogApiToken: '',
     ogTemplateUrl: '',
     dumpToken: '',
+    anthropicApiKey: '',
   },
   routeRules: {
     '/': { prerender: true },

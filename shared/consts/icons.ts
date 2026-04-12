@@ -51,6 +51,14 @@ export const Icons = {
     publish: 'i-mdi-eye',
     unpublish: 'i-mdi-eye-off',
   },
+  acquisitions: {
+    dashboard: 'i-mdi-email-fast-outline',
+    cv: 'i-mdi-file-account-outline',
+    email: 'i-mdi-email-edit-outline',
+    generate: 'i-mdi-creation',
+    copy: 'i-mdi-content-copy',
+    copied: 'i-mdi-check',
+  },
   ui: {
     settings: 'i-mdi-cog-outline',
     externalLink: 'i-mdi-open-in-new',

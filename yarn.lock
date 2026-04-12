@@ -70,6 +70,13 @@
   resolved "https://registry.npmjs.org/@antfu/utils/-/utils-8.1.1.tgz"
   integrity sha512-Mex9nXf9vR6AhcXmMrlz/HVgYYZpVGJ6YlPgwl7UnaFpnshXs6EK/oa5Gpf3CzENMjkvEx2tQtntGnb7UtSTOQ==
 
+"@anthropic-ai/sdk@^0.88.0":
+  version "0.88.0"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.88.0.tgz#57a29128a854240818f0b3a173e66917ec11d004"
+  integrity sha512-QQOtB5U9ZBJQj6y1ICmDZl14LWa4JCiJRoihI+0yuZ4OjbONrakP0yLwPv4DJFb3VYCtQM31bTOpCBMs2zghPw==
+  dependencies:
+    json-schema-to-ts "^3.1.1"
+
 "@apidevtools/json-schema-ref-parser@^14.1.1":
   version "14.2.1"
   resolved "https://registry.npmjs.org/@apidevtools/json-schema-ref-parser/-/json-schema-ref-parser-14.2.1.tgz"
@@ -281,6 +288,11 @@
     "@babel/helper-plugin-utils" "^7.27.1"
     "@babel/helper-skip-transparent-expression-wrappers" "^7.27.1"
     "@babel/plugin-syntax-typescript" "^7.27.1"
+
+"@babel/runtime@^7.18.3":
+  version "7.29.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.29.2.tgz#9a6e2d05f4b6692e1801cd4fb176ad823930ed5e"
+  integrity sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==
 
 "@babel/template@^7.27.2":
   version "7.27.2"
@@ -6403,6 +6415,14 @@ json-buffer@3.0.1:
   resolved "https://registry.npmjs.org/json-buffer/-/json-buffer-3.0.1.tgz"
   integrity sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==
 
+json-schema-to-ts@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/json-schema-to-ts/-/json-schema-to-ts-3.1.1.tgz#81f3acaf5a34736492f6f5f51870ef9ece1ca853"
+  integrity sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    ts-algebra "^2.0.0"
+
 json-schema-to-typescript-lite@^15.0.0:
   version "15.0.0"
   resolved "https://registry.npmjs.org/json-schema-to-typescript-lite/-/json-schema-to-typescript-lite-15.0.0.tgz"
@@ -9505,6 +9525,11 @@ truncatise@^0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/truncatise/-/truncatise-0.0.8.tgz"
   integrity sha512-cXzueh9pzBCsLzhToB4X4gZCb3KYkrsAcBAX97JnazE74HOl3cpBJYEV7nabHeG/6/WXCU5Yujlde/WPBUwnsg==
+
+ts-algebra@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ts-algebra/-/ts-algebra-2.0.0.tgz#4e3e0953878f26518fce7f6bb115064a65388b7a"
+  integrity sha512-FPAhNPFMrkwz76P7cdjdmiShwMynZYN6SgOujD1urY4oNm80Ou9oMdmbR45LotcKOXoy7wSmHkRFE6Mxbrhefw==
 
 ts-api-utils@^2.1.0:
   version "2.1.0"
