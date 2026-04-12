@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     dbUrl: '',
     ogApiToken: '',
     ogTemplateUrl: '',
+    dumpToken: '',
   },
   routeRules: {
     '/': { prerender: true },
