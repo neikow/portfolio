@@ -8,13 +8,13 @@ export default defineEventHandler(async (event) => {
   const templates = await db.select().from(cvTemplatesTable)
 
   // Seed defaults if missing
-  const result: Record<string, string> = {
+  const result: { eu: string, us: string } = {
     eu: EU_TEMPLATE,
     us: US_TEMPLATE,
   }
 
   for (const t of templates) {
-    result[t.type] = t.html
+    if (t.type === 'eu' || t.type === 'us') result[t.type] = t.html
   }
 
   return result

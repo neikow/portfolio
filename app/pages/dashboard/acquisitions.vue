@@ -800,7 +800,7 @@ function startPolling(id: number) {
   stopPolling()
   _pollTimer = setInterval(async () => {
     try {
-      const item = await $fetch(`/api/acquisitions/${id}`) as import('#shared/schemas/acquisition').Acquisition
+      const item = await $fetch<import('#shared/schemas/acquisition').Acquisition>(`/api/acquisitions/${id}` as string)
       if (item.status === 'done' || item.status === 'error') {
         stopPolling()
         isStreaming.value = false

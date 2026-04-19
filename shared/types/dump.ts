@@ -42,6 +42,7 @@ export type SchoolProjectDump = {
   description: string
   url: string | null
   repoUrl: string | null
+  pdfUrl: string | null
   tags: string[]
 }
 

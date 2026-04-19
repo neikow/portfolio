@@ -227,7 +227,7 @@
                         accept=".pdf,application/pdf"
                         class="flex-1"
                         size="sm"
-                        @update:model-value="(f) => f && handleProjectPdfUpload(index, f)"
+                        @update:model-value="(f) => onProjectPdfFileChange(index, f)"
                       />
                       <span
                         v-if="project.pdfUrl"
@@ -706,6 +706,10 @@ function resetEducationForm() {
 
 function addSchoolProject() {
   schoolProjectsForm.value.push({ name: '', description: '', url: null, repoUrl: null, pdfUrl: null, tags: [], tagsRaw: '' })
+}
+
+function onProjectPdfFileChange(index: number, f: unknown) {
+  if (f instanceof File) handleProjectPdfUpload(index, f)
 }
 
 async function handleProjectPdfUpload(index: number, file: File) {
