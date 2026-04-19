@@ -13,6 +13,7 @@
     "db:pull": "drizzle-kit pull",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:check": "bash scripts/check_migrations.sh",
     "lint": "eslint --ext .js,.ts,.vue . --fix",
     "typecheck": "nuxt typecheck",
     "prepare": "husky"
