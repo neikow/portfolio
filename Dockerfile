@@ -19,6 +19,7 @@ ENV NUXT_TELEMETRY_DISABLED=1
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN npm install -g corepack && corepack enable yarn
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN --mount=type=secret,id=sentry_auth_token \
     export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_auth_token) && \
     yarn build

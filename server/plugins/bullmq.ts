@@ -4,6 +4,9 @@ let generationWorker: Worker | null = null
 let pdfWorker: Worker | null = null
 
 export default defineNitroPlugin((nitroApp) => {
+  if (import.meta.prerender) {
+    return
+  }
   try {
     generationWorker = new Worker('generation', async (job) => {
       const { acquisitionId } = job.data
