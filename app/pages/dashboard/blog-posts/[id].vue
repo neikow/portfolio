@@ -274,6 +274,8 @@ async function handleSave(data: FormData) {
   }
 
   const changes = diff(post, data) as Partial<FormData>
+  delete changes.published
+  delete changes.publishedAt
 
   if (Object.keys(changes).length === 0) {
     toast.add({

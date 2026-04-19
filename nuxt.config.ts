@@ -29,6 +29,8 @@ export default defineNuxtConfig({
     ogApiToken: '',
     ogTemplateUrl: '',
     dumpToken: '',
+    anthropicApiKey: '',
+    redisUrl: 'redis://localhost:6379',
   },
   routeRules: {
     '/': { prerender: true },

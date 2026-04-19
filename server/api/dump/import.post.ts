@@ -1,4 +1,6 @@
 import { blogPostsTable } from '#shared/schemas/blogPost'
+import { certificationsTable } from '#shared/schemas/certification'
+import { educationsTable } from '#shared/schemas/education'
 import { experiencesTable } from '#shared/schemas/experience'
 import { galleryImagesTable } from '#shared/schemas/galleryImage'
 import { labExperimentsTable } from '#shared/schemas/labExperiment'
@@ -9,6 +11,8 @@ type ImportResult = {
   experiences: number
   labExperiments: number
   galleryImages: number
+  educations: number
+  certifications: number
 }
 
 export default defineEventHandler(async (event): Promise<ImportResult> => {
@@ -35,6 +39,8 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     experiences: 0,
     labExperiments: 0,
     galleryImages: 0,
+    educations: 0,
+    certifications: 0,
   }
 
   if (body.blogPosts?.length) {
@@ -99,6 +105,41 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
       })))
       .returning({ id: galleryImagesTable.id })
     results.galleryImages = inserted.length
+  }
+
+  if (body.educations?.length) {
+    const inserted = await db
+      .insert(educationsTable)
+      .values(body.educations.map(e => ({
+        school: e.school,
+        degree: e.degree,
+        field: e.field,
+        description: e.description,
+        startDate: e.startDate,
+        endDate: e.endDate ?? null,
+        logoUrl: e.logoUrl,
+        websiteUrl: e.websiteUrl ?? null,
+        schoolProjects: e.schoolProjects,
+      })))
+      .returning({ id: educationsTable.id })
+    results.educations = inserted.length
+  }
+
+  if (body.certifications?.length) {
+    const inserted = await db
+      .insert(certificationsTable)
+      .values(body.certifications.map(c => ({
+        name: c.name,
+        issuer: c.issuer,
+        issuerUrl: c.issuerUrl ?? null,
+        logoUrl: c.logoUrl ?? null,
+        issuedAt: c.issuedAt,
+        expiresAt: c.expiresAt ?? null,
+        credentialUrl: c.credentialUrl ?? null,
+        description: c.description ?? null,
+      })))
+      .returning({ id: certificationsTable.id })
+    results.certifications = inserted.length
   }
 
   return results

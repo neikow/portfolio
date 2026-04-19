@@ -97,10 +97,10 @@
                   label="Company Logo"
                   name="logoUrl"
                 >
-                  <UInput
+                  <LogoUploadInput
                     v-model="experienceFormState.logoUrl"
-                    class="w-full"
-                    placeholder="https://cdn.company.com/favicon.svg"
+                    :placeholder-icon="Icons.experiences.dashboard"
+                    alt="Company logo"
                   />
                 </UFormField>
 
@@ -135,8 +135,8 @@
 
                   <UFormField
                     class="flex-1"
-                    label="Start Date"
-                    name="startDate"
+                    label="End Date"
+                    name="endDate"
                   >
                     <UPopover>
                       <div class="flex gap-1">

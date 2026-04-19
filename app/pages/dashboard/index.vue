@@ -42,6 +42,39 @@
 
       <DashboardHomeCard
         :stats="[
+          { label: 'Degrees', value: stats?.educationsCount },
+          { label: 'Certifications', value: stats?.certificationsCount },
+        ]"
+        title="Education"
+      >
+        <p class="text-center">
+          Show off your academic background!
+        </p>
+
+        <template #actions>
+          <div class="flex gap-4">
+            <UButton
+              :icon="Icons.ui.settings"
+              class="w-full"
+              color="secondary"
+              to="/dashboard/education"
+            >
+              Manage
+            </UButton>
+            <UButton
+              :icon="Icons.actions.add"
+              class="w-full"
+              color="primary"
+              to="/dashboard/education?new"
+            >
+              Add Education
+            </UButton>
+          </div>
+        </template>
+      </DashboardHomeCard>
+
+      <DashboardHomeCard
+        :stats="[
           { label: 'Experiments', value: stats?.labExperimentsCount },
         ]"
         title="Lab"
