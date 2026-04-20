@@ -65,12 +65,18 @@
         <nav aria-label="Legal">
           <ul class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted">
             <li>
-              <NuxtLink class="hover:text-primary transition-colors" to="/legal/legal-notice">
+              <NuxtLink
+                class="hover:text-primary transition-colors"
+                to="/legal/legal-notice"
+              >
                 Legal Notice
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink class="hover:text-primary transition-colors" to="/legal/privacy">
+              <NuxtLink
+                class="hover:text-primary transition-colors"
+                to="/legal/privacy"
+              >
                 Privacy Policy
               </NuxtLink>
             </li>

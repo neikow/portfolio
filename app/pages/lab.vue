@@ -34,7 +34,12 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
     <p class="text-default max-w-md">
       My interactive web-dev experiments and small projects, that can run directly in your browser.
     </p>
-    <div v-if="status === 'pending'" aria-live="polite" aria-atomic="true" class="text-center py-8">
+    <div
+      v-if="status === 'pending'"
+      aria-live="polite"
+      aria-atomic="true"
+      class="text-center py-8"
+    >
       <span>Loading…</span>
     </div>
     <div

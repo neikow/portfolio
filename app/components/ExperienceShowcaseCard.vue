@@ -71,7 +71,7 @@
               />
             </UTooltip>
             <span class="text-content ml-1 mr-1 text-[10px] text-muted font-mono">
-              {{parseTechnologyWithVersion(tech).techName}}
+              {{ parseTechnologyWithVersion(tech).techName }}
             </span>
           </li>
         </ul>

@@ -110,7 +110,10 @@ useHead({
 
     <p>
       Or just email me at
-      <a class="underline-link" href="mailto:vitaly@lysen.dev">vitaly@lysen.dev</a>
+      <a
+        class="underline-link"
+        href="mailto:vitaly@lysen.dev"
+      >vitaly@lysen.dev</a>
     </p>
   </main>
 </template>

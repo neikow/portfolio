@@ -79,7 +79,12 @@ useHead({
       <h2 class="text-2xl font-bold mb-6 text-left text-toned">
         Work Experience
       </h2>
-      <div v-if="status === 'pending'" aria-live="polite" aria-atomic="true" class="text-center py-8">
+      <div
+        v-if="status === 'pending'"
+        aria-live="polite"
+        aria-atomic="true"
+        class="text-center py-8"
+      >
         <span>Loading…</span>
       </div>
       <div

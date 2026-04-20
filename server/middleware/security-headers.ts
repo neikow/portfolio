@@ -1,16 +1,16 @@
 const CSP = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://analytics.lysen.dev",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https:",
-  "font-src 'self' data:",
-  "connect-src 'self' https://analytics.lysen.dev https://*.sentry.io wss: https:",
-  "media-src 'self' blob:",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-  "upgrade-insecure-requests",
+  'default-src \'self\'',
+  'script-src \'self\' \'unsafe-inline\' https://analytics.lysen.dev',
+  'style-src \'self\' \'unsafe-inline\'',
+  'img-src \'self\' data: blob: https:',
+  'font-src \'self\' data:',
+  'connect-src \'self\' https://analytics.lysen.dev https://*.sentry.io wss: https:',
+  'media-src \'self\' blob:',
+  'object-src \'none\'',
+  'base-uri \'self\'',
+  'form-action \'self\'',
+  'frame-ancestors \'none\'',
+  'upgrade-insecure-requests',
 ].join('; ')
 
 export default defineEventHandler((event) => {

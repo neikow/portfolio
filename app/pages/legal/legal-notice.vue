@@ -24,7 +24,11 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         <span v-if="lang === 'fr'">Mentions Légales</span>
         <span v-else>Legal Notice</span>
       </h1>
-      <UButton variant="ghost" size="sm" @click="toggleLang">
+      <UButton
+        variant="ghost"
+        size="sm"
+        @click="toggleLang"
+      >
         {{ lang === 'fr' ? 'English' : 'Français' }}
       </UButton>
     </div>
@@ -33,7 +37,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
     <template v-if="lang === 'fr'">
       <section class="space-y-6 text-sm leading-relaxed">
         <div>
-          <h2 class="font-semibold text-base mb-2">1. Éditeur du site</h2>
+          <h2 class="font-semibold text-base mb-2">
+            1. Éditeur du site
+          </h2>
           <p>Le présent site <strong>lysen.dev</strong> est édité par :</p>
           <ul class="mt-2 space-y-1 list-none pl-0">
             <li><strong>Nom :</strong> Vitaly Lysen</li>
@@ -44,7 +50,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">2. Hébergeur</h2>
+          <h2 class="font-semibold text-base mb-2">
+            2. Hébergeur
+          </h2>
           <p>Le site est hébergé par :</p>
           <ul class="mt-2 space-y-1 list-none pl-0">
             <li><strong>Société :</strong> Contabo GmbH</li>
@@ -55,12 +63,16 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">3. Directeur de la publication</h2>
+          <h2 class="font-semibold text-base mb-2">
+            3. Directeur de la publication
+          </h2>
           <p>Vitaly Lysen — vitaly@lysen.dev</p>
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">4. Propriété intellectuelle</h2>
+          <h2 class="font-semibold text-base mb-2">
+            4. Propriété intellectuelle
+          </h2>
           <p>
             L'ensemble du contenu de ce site (textes, images, photographies, code source) est protégé par le droit d'auteur.
             Toute reproduction, représentation, modification ou diffusion, totale ou partielle, sans autorisation écrite préalable de l'éditeur est interdite.
@@ -68,7 +80,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">5. Limitation de responsabilité</h2>
+          <h2 class="font-semibold text-base mb-2">
+            5. Limitation de responsabilité
+          </h2>
           <p>
             Les informations contenues sur ce site sont fournies à titre indicatif. L'éditeur s'efforce de maintenir ces informations exactes et à jour,
             mais ne peut garantir l'exactitude, l'exhaustivité ou l'actualité des informations diffusées.
@@ -77,7 +91,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">6. Loi applicable</h2>
+          <h2 class="font-semibold text-base mb-2">
+            6. Loi applicable
+          </h2>
           <p>
             Les présentes mentions légales sont régies par le droit français. Tout litige relatif à l'utilisation du site sera soumis à la compétence des tribunaux français.
           </p>
@@ -87,7 +103,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">7. Contact</h2>
+          <h2 class="font-semibold text-base mb-2">
+            7. Contact
+          </h2>
           <p>Pour toute question relative à ces mentions légales : <strong>vitaly@lysen.dev</strong></p>
         </div>
       </section>
@@ -97,7 +115,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
     <template v-else>
       <section class="space-y-6 text-sm leading-relaxed">
         <div>
-          <h2 class="font-semibold text-base mb-2">1. Publisher</h2>
+          <h2 class="font-semibold text-base mb-2">
+            1. Publisher
+          </h2>
           <p>The website <strong>lysen.dev</strong> is published by:</p>
           <ul class="mt-2 space-y-1 list-none pl-0">
             <li><strong>Name:</strong> Vitaly Lysen</li>
@@ -108,7 +128,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">2. Hosting Provider</h2>
+          <h2 class="font-semibold text-base mb-2">
+            2. Hosting Provider
+          </h2>
           <p>This website is hosted by:</p>
           <ul class="mt-2 space-y-1 list-none pl-0">
             <li><strong>Company:</strong> Contabo GmbH</li>
@@ -119,12 +141,16 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">3. Publication Director</h2>
+          <h2 class="font-semibold text-base mb-2">
+            3. Publication Director
+          </h2>
           <p>Vitaly Lysen — vitaly@lysen.dev</p>
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">4. Intellectual Property</h2>
+          <h2 class="font-semibold text-base mb-2">
+            4. Intellectual Property
+          </h2>
           <p>
             All content on this website (text, images, photographs, source code) is protected by copyright.
             Any reproduction, representation, modification or distribution, in whole or in part, without prior written permission from the publisher is prohibited.
@@ -132,7 +158,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">5. Limitation of Liability</h2>
+          <h2 class="font-semibold text-base mb-2">
+            5. Limitation of Liability
+          </h2>
           <p>
             The information on this site is provided for informational purposes only. The publisher makes every effort to keep the information accurate and up-to-date
             but cannot guarantee the accuracy, completeness or timeliness of the information published.
@@ -141,7 +169,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">6. Applicable Law</h2>
+          <h2 class="font-semibold text-base mb-2">
+            6. Applicable Law
+          </h2>
           <p>
             These legal notices are governed by French law. Any dispute relating to the use of the site will be subject to the jurisdiction of the French courts.
           </p>
@@ -151,7 +181,9 @@ useHead(computed(() => ({ htmlAttrs: { lang: lang.value } })))
         </div>
 
         <div>
-          <h2 class="font-semibold text-base mb-2">7. Contact</h2>
+          <h2 class="font-semibold text-base mb-2">
+            7. Contact
+          </h2>
           <p>For any questions regarding this legal notice: <strong>vitaly@lysen.dev</strong></p>
         </div>
       </section>

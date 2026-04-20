@@ -42,7 +42,10 @@
         </div>
       </div>
       <div class="px-4">
-        <h3 :id="`post-title-${post.id}`" class="text-xl md:text-2xl lg:text-3xl font-bold mb-1 text-balance">
+        <h3
+          :id="`post-title-${post.id}`"
+          class="text-xl md:text-2xl lg:text-3xl font-bold mb-1 text-balance"
+        >
           {{ post.title }}
         </h3>
         <div

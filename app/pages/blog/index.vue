@@ -91,7 +91,10 @@ useHead({
           :post="post"
         />
       </nav>
-      <div aria-live="polite" aria-atomic="true">
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <span v-if="!error && !posts">Loading…</span>
       </div>
     </main>
