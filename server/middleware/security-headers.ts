@@ -1,6 +1,6 @@
 const CSP = [
   'default-src \'self\'',
-  'script-src \'self\' \'unsafe-inline\' https://analytics.lysen.dev',
+  'script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' https://analytics.lysen.dev',
   'style-src \'self\' \'unsafe-inline\'',
   'img-src \'self\' data: blob: https:',
   'font-src \'self\' data:',

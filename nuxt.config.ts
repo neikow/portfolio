@@ -82,6 +82,9 @@ export default defineNuxtConfig({
       stylistic: true,
     },
   },
+  image: {
+    dir: '.',
+  },
   sentry: {
     telemetry: false,
     sourceMapsUploadOptions: {
