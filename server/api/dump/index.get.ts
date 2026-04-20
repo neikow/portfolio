@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto'
 import { blogPostsTable } from '#shared/schemas/blogPost'
 import { certificationsTable } from '#shared/schemas/certification'
 import { educationsTable } from '#shared/schemas/education'
@@ -5,6 +6,18 @@ import { experiencesTable } from '#shared/schemas/experience'
 import { galleryImagesTable } from '#shared/schemas/galleryImage'
 import { labExperimentsTable } from '#shared/schemas/labExperiment'
 import type { DataDump } from '#shared/types/dump'
+
+function safeTokenCompare(a: string, b: string): boolean {
+  try {
+    const ba = Buffer.from(a)
+    const bb = Buffer.from(b)
+    if (ba.length !== bb.length) return false
+    return timingSafeEqual(ba, bb)
+  }
+  catch {
+    return false
+  }
+}
 
 export default defineEventHandler(async (event): Promise<DataDump> => {
   const { dumpToken } = useRuntimeConfig()
@@ -14,11 +27,9 @@ export default defineEventHandler(async (event): Promise<DataDump> => {
   }
 
   const authHeader = getHeader(event, 'authorization')
-  const token = authHeader?.startsWith('Bearer ')
-    ? authHeader.slice(7)
-    : String(getQuery(event).token ?? '')
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : ''
 
-  if (!token || token !== dumpToken) {
+  if (!token || !safeTokenCompare(token, dumpToken)) {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 

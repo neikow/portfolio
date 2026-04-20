@@ -14,8 +14,10 @@ export function useGenerationWs(
 ) {
   let ws: WebSocket | null = null
 
-  function connect() {
+  async function connect() {
     if (!id.value) return
+
+    const { token } = await $fetch<{ token: string }>('/api/ws-token')
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
     const url = `${protocol}//${window.location.host}/_ws`
@@ -23,7 +25,7 @@ export function useGenerationWs(
     ws = new WebSocket(url)
 
     ws.onopen = () => {
-      ws!.send(JSON.stringify({ type: 'subscribe', id: id.value }))
+      ws!.send(JSON.stringify({ type: 'subscribe', id: id.value, token }))
     }
 
     ws.onmessage = (event) => {

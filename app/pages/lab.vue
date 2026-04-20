@@ -19,6 +19,8 @@ useSeoMeta({
   twitterImage: ogImage,
 })
 
+useHead({ link: [{ rel: 'canonical', href: `${SITE_URL}/lab` }] })
+
 const { data: experiments, status } = await useFetch('/api/lab/', {
   server: true,
 })
@@ -32,11 +34,8 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
     <p class="text-default max-w-md">
       My interactive web-dev experiments and small projects, that can run directly in your browser.
     </p>
-    <div
-      v-if="status === 'pending'"
-      class="text-center py-8"
-    >
-      Loading...
+    <div v-if="status === 'pending'" aria-live="polite" aria-atomic="true" class="text-center py-8">
+      <span>Loading…</span>
     </div>
     <div
       v-else-if="experiments && experiments.length === 0"
@@ -58,12 +57,14 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
         class="m-4 p-4 border border-default bg-default rounded-lg hover:shadow-lg transition-shadow"
       >
         <div>
-          <img
+          <NuxtImg
             v-if="experiment.pictures && experiment.pictures.length > 0"
             :alt="`Preview for ${experiment.name}`"
             :src="experiment.pictures[0]"
             class="w-full h-24 md:h-32 lg:h-48 object-cover rounded-md mb-4"
-          >
+            loading="lazy"
+            sizes="100vw md:50vw"
+          />
         </div>
 
         <h3 class="text-2xl font-bold mb-2">
@@ -88,6 +89,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
             v-if="experiment.url"
             :href="experiment.url"
             :icon="Icons.ui.externalLink"
+            rel="noopener noreferrer"
             size="xs"
             target="_blank"
           >
@@ -97,6 +99,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
             v-if="experiment.repoUrl"
             :href="experiment.repoUrl"
             :icon="Icons.socials.github"
+            rel="noopener noreferrer"
             size="xs"
             target="_blank"
           >

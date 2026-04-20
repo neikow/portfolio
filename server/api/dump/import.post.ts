@@ -1,10 +1,93 @@
+import { timingSafeEqual } from 'node:crypto'
+import { z } from 'zod'
 import { blogPostsTable } from '#shared/schemas/blogPost'
 import { certificationsTable } from '#shared/schemas/certification'
 import { educationsTable } from '#shared/schemas/education'
 import { experiencesTable } from '#shared/schemas/experience'
 import { galleryImagesTable } from '#shared/schemas/galleryImage'
 import { labExperimentsTable } from '#shared/schemas/labExperiment'
-import type { DataDump } from '#shared/types/dump'
+
+function safeTokenCompare(a: string, b: string): boolean {
+  try {
+    const ba = Buffer.from(a)
+    const bb = Buffer.from(b)
+    if (ba.length !== bb.length) return false
+    return timingSafeEqual(ba, bb)
+  }
+  catch {
+    return false
+  }
+}
+
+const schoolProjectSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  url: z.url().nullable(),
+  repoUrl: z.url().nullable(),
+  pdfUrl: z.url().nullable(),
+  tags: z.array(z.string()),
+})
+
+const dumpSchema = z.object({
+  version: z.literal(1),
+  exportedAt: z.string(),
+  blogPosts: z.array(z.object({
+    title: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    content: z.string(),
+    coverImageUrl: z.string(),
+    slug: z.string(),
+    published: z.boolean(),
+    publishedAt: z.string().nullable(),
+    createdAt: z.string(),
+  })).optional().default([]),
+  experiences: z.array(z.object({
+    name: z.string(),
+    role: z.string(),
+    description: z.string(),
+    startDate: z.string(),
+    endDate: z.string().nullable(),
+    company: z.string(),
+    companyUrl: z.string().nullable(),
+    logoUrl: z.string(),
+    technologies: z.array(z.string()),
+  })).optional().default([]),
+  labExperiments: z.array(z.object({
+    name: z.string(),
+    url: z.string().nullable(),
+    repoUrl: z.string().nullable(),
+    pictures: z.array(z.string()),
+    tags: z.array(z.string()),
+    description: z.string(),
+    createdAt: z.string(),
+  })).optional().default([]),
+  galleryImages: z.array(z.object({
+    filename: z.string(),
+    uploadedAt: z.string(),
+  })).optional().default([]),
+  educations: z.array(z.object({
+    school: z.string(),
+    degree: z.string(),
+    field: z.string(),
+    description: z.string(),
+    startDate: z.string(),
+    endDate: z.string().nullable(),
+    logoUrl: z.string(),
+    websiteUrl: z.string().nullable(),
+    schoolProjects: z.array(schoolProjectSchema),
+  })).optional().default([]),
+  certifications: z.array(z.object({
+    name: z.string(),
+    issuer: z.string(),
+    issuerUrl: z.string().nullable(),
+    logoUrl: z.string().nullable(),
+    issuedAt: z.string(),
+    expiresAt: z.string().nullable(),
+    credentialUrl: z.string().nullable(),
+    description: z.string().nullable(),
+  })).optional().default([]),
+})
 
 type ImportResult = {
   blogPosts: number
@@ -23,15 +106,19 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
   }
 
   const authHeader = getHeader(event, 'authorization')
-  const token = authHeader?.startsWith('Bearer ')
-    ? authHeader.slice(7)
-    : String(getQuery(event).token ?? '')
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : ''
 
-  if (!token || token !== dumpToken) {
+  if (!token || !safeTokenCompare(token, dumpToken)) {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
-  const body = await readBody<DataDump>(event)
+  const rawBody = await readBody(event)
+  const parsed = dumpSchema.safeParse(rawBody)
+  if (!parsed.success) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid dump format', data: parsed.error })
+  }
+
+  const body = parsed.data
   const db = useDatabase()
 
   const results: ImportResult = {
@@ -43,7 +130,7 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     certifications: 0,
   }
 
-  if (body.blogPosts?.length) {
+  if (body.blogPosts.length) {
     const inserted = await db
       .insert(blogPostsTable)
       .values(body.blogPosts.map(p => ({
@@ -62,7 +149,7 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     results.blogPosts = inserted.length
   }
 
-  if (body.experiences?.length) {
+  if (body.experiences.length) {
     const inserted = await db
       .insert(experiencesTable)
       .values(body.experiences.map(e => ({
@@ -80,7 +167,7 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     results.experiences = inserted.length
   }
 
-  if (body.labExperiments?.length) {
+  if (body.labExperiments.length) {
     const inserted = await db
       .insert(labExperimentsTable)
       .values(body.labExperiments.map(l => ({
@@ -96,7 +183,7 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     results.labExperiments = inserted.length
   }
 
-  if (body.galleryImages?.length) {
+  if (body.galleryImages.length) {
     const inserted = await db
       .insert(galleryImagesTable)
       .values(body.galleryImages.map(g => ({
@@ -107,7 +194,7 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     results.galleryImages = inserted.length
   }
 
-  if (body.educations?.length) {
+  if (body.educations.length) {
     const inserted = await db
       .insert(educationsTable)
       .values(body.educations.map(e => ({
@@ -125,7 +212,7 @@ export default defineEventHandler(async (event): Promise<ImportResult> => {
     results.educations = inserted.length
   }
 
-  if (body.certifications?.length) {
+  if (body.certifications.length) {
     const inserted = await db
       .insert(certificationsTable)
       .values(body.certifications.map(c => ({

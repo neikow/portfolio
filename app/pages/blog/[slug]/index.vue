@@ -7,6 +7,7 @@
     />
     <div
       v-else-if="!post"
+      aria-live="polite"
       class="flex justify-center py-20"
     >
       <span class="text-2xl font-bold animate-pulse">
@@ -19,17 +20,20 @@
       class="px-4"
     >
       <div class="relative mt-4">
-        <img
-          :alt="`${post.title}-blurred`"
+        <NuxtImg
           :src="post.coverImageUrl"
+          alt=""
           aria-hidden="true"
           class="blur-xl w-full max-h-96 object-cover opacity-60"
-        >
-        <img
+          loading="eager"
+        />
+        <NuxtImg
           :alt="post.title"
           :src="post.coverImageUrl"
           class="rounded-md w-[90%] max-h-96 object-cover md:w-3xl lg:w-4xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md"
-        >
+          loading="eager"
+          sizes="90vw md:672px lg:896px"
+        />
       </div>
       <div class="prose dark:prose-invert mx-auto mt-4">
         <h1 class="text-5xl font-bold mb-4 text-center break-words">
@@ -128,6 +132,7 @@ const { data: post, error } = await useFetch(`/api/blog/posts/${slug}`, {
 watchEffect(() => {
   if (post.value) {
     useHead({
+      link: [{ rel: 'canonical', href: `${SITE_URL}/blog/${post.value.slug}` }],
       script: [
         {
           type: 'application/ld+json',

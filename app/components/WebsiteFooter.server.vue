@@ -15,11 +15,12 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink
+              <a
                 class="hover:text-primary transition-colors"
-                to="https://photography.lysen.dev"
+                href="https://photography.lysen.dev"
+                rel="noopener noreferrer"
               >Photography
-              </NuxtLink>
+              </a>
             </li>
             <li>
               <NuxtLink
@@ -60,7 +61,21 @@
         </div>
       </div>
 
-      <div class="mt-8 pt-4 border-t border-default text-center">
+      <div class="mt-8 pt-4 border-t border-default text-center space-y-2">
+        <nav aria-label="Legal">
+          <ul class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted">
+            <li>
+              <NuxtLink class="hover:text-primary transition-colors" to="/legal/legal-notice">
+                Legal Notice
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink class="hover:text-primary transition-colors" to="/legal/privacy">
+                Privacy Policy
+              </NuxtLink>
+            </li>
+          </ul>
+        </nav>
         <p class="text-sm text-muted-foreground">
           &copy; {{ currentYear }} <strong>Vitaly Lysen</strong>.
           All rights reserved.

@@ -9,3 +9,17 @@ export function createRedisConnection(): Redis {
     lazyConnect: true,
   })
 }
+
+// Shared singleton for general server use (WS tokens, rate limiting)
+let _shared: Redis | null = null
+
+export function getSharedRedis(): Redis {
+  if (!_shared || _shared.status === 'end' || _shared.status === 'close') {
+    const { redisUrl } = useRuntimeConfig()
+    _shared = new Redis(redisUrl || 'redis://localhost:6379', {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+    })
+  }
+  return _shared
+}
