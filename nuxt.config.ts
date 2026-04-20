@@ -13,6 +13,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
+      link: [
+        { rel: 'preconnect', href: 'https://analytics.lysen.dev' },
+      ],
       script: [
         {
           'src': 'https://analytics.lysen.dev/script.js',
@@ -34,15 +37,18 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { prerender: true },
+    '/legal/legal-notice': { prerender: true },
+    '/legal/privacy': { prerender: true },
     '/blog': { swr: process.env.NODE_ENV === 'production' },
     '/blog/**': { swr: process.env.NODE_ENV === 'production' },
-    // @ts-expect-error robots is not recognized by nuxt for some reason
+    '/lab': { swr: process.env.NODE_ENV === 'production' },
+    '/projects': { swr: process.env.NODE_ENV === 'production' },
+    // @ts-expect-error robots is not typed in NitroRouteRules (private bundled interface)
     '/dashboard': { ssr: false, robots: false },
-    // @ts-expect-error robots is not recognized by nuxt for some reason
+    // @ts-expect-error robots is not typed in NitroRouteRules (private bundled interface)
     '/dashboard/**': { ssr: false, robots: false },
-    // @ts-expect-error robots is not recognized by nuxt for some reason
+    // @ts-expect-error robots is not typed in NitroRouteRules (private bundled interface)
     '/login': { ssr: false, robots: false },
-    '/api/**': { cors: true },
   },
   sourcemap: {
     client: 'hidden',
@@ -50,7 +56,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-01-01',
   nitro: {
     storage: {
       galleryUploads: {
@@ -85,9 +91,8 @@ export default defineNuxtConfig({
   },
   sitemap: {
     defaults: {
-      changefreq: 'daily',
+      changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date().toISOString(),
     },
     exclude: [
       '/dashboard',

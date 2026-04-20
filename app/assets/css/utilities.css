@@ -5,4 +5,8 @@
         font-variant: small-caps;
     }
 
+
+    .tech-img {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1.0));
+    }
 }

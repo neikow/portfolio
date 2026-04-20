@@ -30,6 +30,7 @@ useSeoMeta({
 })
 
 useHead({
+  link: [{ rel: 'canonical', href: `${SITE_URL}/blog` }],
   script: [
     {
       type: 'application/ld+json',
@@ -60,6 +61,9 @@ useHead({
     <PageTitle title="Blog Posts" />
 
     <main class="max-w-2xl mx-auto">
+      <h2 class="sr-only">
+        Articles
+      </h2>
       <div v-if="error">
         <ErrorState
           description="Error fetching blog posts. Please try again later."
@@ -88,10 +92,10 @@ useHead({
         />
       </nav>
       <div
-        v-else
         aria-live="polite"
+        aria-atomic="true"
       >
-        Loading...
+        <span v-if="!error && !posts">Loading…</span>
       </div>
     </main>
   </div>

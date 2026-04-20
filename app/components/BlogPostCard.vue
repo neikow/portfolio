@@ -11,12 +11,13 @@
       :to="`/blog/${post.slug}`"
     >
       <div class="w-full h-48 mb-4 relative">
-        <img
+        <NuxtImg
           :alt="post.title"
           :loading="lazy ? 'lazy' : 'eager'"
           :src="post.coverImageUrl"
           class="w-full h-48 object-cover rounded-t-lg"
-        >
+          sizes="100vw sm:50vw lg:384px"
+        />
         <div class="absolute bottom-2 right-2 flex gap-4">
           <UBadge
             :icon="Icons.blog.datePublished"
@@ -41,7 +42,10 @@
         </div>
       </div>
       <div class="px-4">
-        <h3 class="text-xl md:text-2xl lg:text-3xl font-bold mb-1 text-balance">
+        <h3
+          :id="`post-title-${post.id}`"
+          class="text-xl md:text-2xl lg:text-3xl font-bold mb-1 text-balance"
+        >
           {{ post.title }}
         </h3>
         <div

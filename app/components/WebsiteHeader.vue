@@ -26,6 +26,7 @@
           >
             <UButton
               :icon="nav.icon"
+              :rel="nav.openInNewTab ? 'noopener noreferrer' : undefined"
               :target="nav.openInNewTab ? '_blank' : undefined"
               :to="nav.href"
               :variant="nav.variantOverride || 'ghost'"
@@ -41,6 +42,7 @@
             text="Toggle dark mode"
           >
             <UButton
+              :aria-pressed="$colorMode.preference === 'dark'"
               :icon="$colorMode.preference === 'dark' ? Icons.theme.dark : Icons.theme.light"
               aria-label="Toggle dark mode"
               class="aspect-square justify-center m-2"

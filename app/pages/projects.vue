@@ -30,6 +30,8 @@ useSeoMeta({
   twitterImage: ogImage,
 })
 
+useHead({ link: [{ rel: 'canonical', href: `${SITE_URL}/projects` }] })
+
 useHead({
   script: [
     {
@@ -79,9 +81,11 @@ useHead({
       </h2>
       <div
         v-if="status === 'pending'"
+        aria-live="polite"
+        aria-atomic="true"
         class="text-center py-8"
       >
-        Loading...
+        <span>Loading…</span>
       </div>
       <div
         v-else-if="experiences && experiences.length === 0"
@@ -119,13 +123,14 @@ useHead({
           :key="edu.id"
           class="group flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-4 rounded-xl border border-default bg-default shadow-sm hover:shadow-lg transition"
         >
-          <img
+          <NuxtImg
             v-if="edu.logoUrl"
             :alt="edu.school + ' logo'"
             :src="edu.logoUrl"
             class="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-lg flex-shrink-0"
             loading="lazy"
-          >
+            sizes="64px"
+          />
           <div
             v-else
             aria-hidden="true"

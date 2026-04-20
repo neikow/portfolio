@@ -6,7 +6,7 @@ import { getOgImageUrl } from '#shared/utils/og'
 const ogImage = getOgImageUrl('home')
 
 useSeoMeta({
-  title: 'Software Enginereer | Vitaly Lysen',
+  title: 'Software Engineer | Vitaly Lysen',
   description: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
   ogTitle: 'Vitaly Lysen - Software Engineer',
   ogDescription: 'Welcome to my personal website where I share my projects, blog posts, and photography.',
@@ -20,6 +20,7 @@ useSeoMeta({
 })
 
 useHead({
+  link: [{ rel: 'canonical', href: SITE_URL }],
   script: [
     {
       type: 'application/ld+json',
@@ -108,12 +109,11 @@ useHead({
     </div>
 
     <p>
-      Or just email me at vitaly
-      <UIcon
-        class="translate-y-1 -mx-1"
-        name="i-material-symbols:alternate-email"
-      />
-      lysen.dev
+      Or just email me at
+      <a
+        class="underline-link"
+        href="mailto:vitaly@lysen.dev"
+      >vitaly@lysen.dev</a>
     </p>
   </main>
 </template>
