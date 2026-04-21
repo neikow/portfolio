@@ -20,19 +20,18 @@
       class="px-4"
     >
       <div class="relative mt-4">
-        <NuxtImg
+        <img
           :src="post.coverImageUrl"
           alt=""
           aria-hidden="true"
           class="blur-xl w-full max-h-96 object-cover opacity-60"
           loading="eager"
         />
-        <NuxtImg
+        <img
           :alt="post.title"
           :src="post.coverImageUrl"
           class="rounded-md w-[90%] max-h-96 object-cover md:w-3xl lg:w-4xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md"
           loading="eager"
-          sizes="90vw md:672px lg:896px"
         />
       </div>
       <div class="prose dark:prose-invert mx-auto mt-4">

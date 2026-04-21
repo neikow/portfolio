@@ -4,7 +4,6 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
     '@nuxt/eslint',
-    '@nuxt/image',
     '@nuxt/ui',
     'nuxt-auth-utils',
     '@sentry/nuxt/module',
@@ -81,9 +80,6 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
-  },
-  image: {
-    dir: '../uploads',
   },
   sentry: {
     telemetry: false,

@@ -3,13 +3,12 @@
     :id="generateExperienceHtmlId(experience)"
     class="group flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-4 rounded-xl border border-default bg-default shadow-sm hover:shadow-lg transition"
   >
-    <NuxtImg
+    <img
       v-if="experience.logoUrl"
       :alt="experience.company + ' logo'"
       :src="experience.logoUrl"
       class="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-lg flex-shrink-0"
       loading="lazy"
-      sizes="64px"
     />
     <div
       v-else
@@ -62,12 +61,11 @@
             class="bg-accent/10 text-accent px-1 py-0.5 rounded-lg overflow-hidden text-sm bg-base flex items-center border border-default"
           >
             <UTooltip :text="parseTechnologyWithVersion(tech).techName">
-              <NuxtImg
+              <img
                 :alt="tech"
                 :src="getTechnologyWithVersionIconUrl(tech)"
                 class="w-6 h-6 p-1 rounded-md tech-img"
                 loading="lazy"
-                sizes="24px"
               />
             </UTooltip>
             <span class="text-content ml-1 mr-1 text-[10px] text-muted font-mono">

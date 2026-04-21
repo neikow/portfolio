@@ -62,13 +62,12 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
         class="m-4 p-4 border border-default bg-default rounded-lg hover:shadow-lg transition-shadow"
       >
         <div>
-          <NuxtImg
+          <img
             v-if="experiment.pictures && experiment.pictures.length > 0"
             :alt="`Preview for ${experiment.name}`"
             :src="experiment.pictures[0]"
             class="w-full h-24 md:h-32 lg:h-48 object-cover rounded-md mb-4"
             loading="lazy"
-            sizes="100vw md:50vw"
           />
         </div>
 

@@ -11,12 +11,11 @@
       :to="`/blog/${post.slug}`"
     >
       <div class="w-full h-48 mb-4 relative">
-        <NuxtImg
+        <img
           :alt="post.title"
           :loading="lazy ? 'lazy' : 'eager'"
           :src="post.coverImageUrl"
           class="w-full h-48 object-cover rounded-t-lg"
-          sizes="100vw sm:50vw lg:384px"
         />
         <div class="absolute bottom-2 right-2 flex gap-4">
           <UBadge
