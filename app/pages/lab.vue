@@ -68,7 +68,7 @@ const { data: experiments, status } = await useFetch('/api/lab/', {
             :src="experiment.pictures[0]"
             class="w-full h-24 md:h-32 lg:h-48 object-cover rounded-md mb-4"
             loading="lazy"
-          />
+          >
         </div>
 
         <h3 class="text-2xl font-bold mb-2">

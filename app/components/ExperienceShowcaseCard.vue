@@ -9,7 +9,7 @@
       :src="experience.logoUrl"
       class="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-lg flex-shrink-0"
       loading="lazy"
-    />
+    >
     <div
       v-else
       aria-hidden="true"
@@ -66,7 +66,7 @@
                 :src="getTechnologyWithVersionIconUrl(tech)"
                 class="w-6 h-6 p-1 rounded-md tech-img"
                 loading="lazy"
-              />
+              >
             </UTooltip>
             <span class="text-content ml-1 mr-1 text-[10px] text-muted font-mono">
               {{ parseTechnologyWithVersion(tech).techName }}

@@ -26,13 +26,13 @@
           aria-hidden="true"
           class="blur-xl w-full max-h-96 object-cover opacity-60"
           loading="eager"
-        />
+        >
         <img
           :alt="post.title"
           :src="post.coverImageUrl"
           class="rounded-md w-[90%] max-h-96 object-cover md:w-3xl lg:w-4xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md"
           loading="eager"
-        />
+        >
       </div>
       <div class="prose dark:prose-invert mx-auto mt-4">
         <h1 class="text-5xl font-bold mb-4 text-center break-words">

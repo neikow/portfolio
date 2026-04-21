@@ -129,7 +129,7 @@ useHead({
             :src="edu.logoUrl"
             class="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-lg flex-shrink-0"
             loading="lazy"
-          />
+          >
           <div
             v-else
             aria-hidden="true"

@@ -16,7 +16,7 @@
           :loading="lazy ? 'lazy' : 'eager'"
           :src="post.coverImageUrl"
           class="w-full h-48 object-cover rounded-t-lg"
-        />
+        >
         <div class="absolute bottom-2 right-2 flex gap-4">
           <UBadge
             :icon="Icons.blog.datePublished"
