@@ -40,11 +40,11 @@
       </header>
       <div class="text-sm text-dimmed flex items-center gap-1">
         <time :datetime="experience.startDate">
-          {{ formatDate(experience.startDate) }}
+          {{ formatDate(experience.startDate, 'year-month') }}
         </time>
         <span>-</span>
         <time :datetime="experience.endDate || new Date().toISOString()">
-          {{ experience.endDate ? formatDate(experience.endDate) : 'Present' }}
+          {{ experience.endDate ? formatDate(experience.endDate, 'year-month') : 'Present' }}
         </time>
       </div>
       <p class="mt-2 text-default text-base text-center sm:text-justify leading-relaxed">

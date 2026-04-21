@@ -14,13 +14,15 @@ export function isSameDay(
 
 export function formatDate(
   date: Date | string,
-  format: 'long' | 'short' = 'long',
+  format: 'long' | 'short' | 'year-month' = 'long',
 ): string {
   const d = new Date(date)
   const options: Intl.DateTimeFormatOptions
     = format === 'long'
       ? { year: 'numeric', month: 'long', day: 'numeric' }
-      : { year: '2-digit', month: '2-digit', day: '2-digit' }
+      : format === 'year-month'
+        ? { year: 'numeric', month: 'long' }
+        : { year: '2-digit', month: '2-digit', day: '2-digit' }
 
   return d.toLocaleDateString(undefined, options)
 }
