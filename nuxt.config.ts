@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
     '@nuxt/eslint',
-
+    '@nuxt/image',
     '@nuxt/ui',
     'nuxt-auth-utils',
     '@sentry/nuxt/module',
