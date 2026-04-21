@@ -76,10 +76,12 @@ watch(uploadedFile, async (file) => {
     }
     else {
       toast.add({ title: 'Upload failed', color: 'error', icon: Icons.ui.error })
+      console.error('Upload failed', res)
     }
   }
-  catch {
+  catch (error) {
     toast.add({ title: 'Upload failed', color: 'error', icon: Icons.ui.error })
+    console.error(error)
   }
   finally {
     uploading.value = false
